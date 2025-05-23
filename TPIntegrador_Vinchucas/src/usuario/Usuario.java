@@ -31,4 +31,13 @@ public abstract class Usuario {
 	public NivelConocimiento getNivelConocimiento() {
 		return this.nivelConocimiento;
 	}
+	
+	protected void setNivelConocimiento(NivelConocimiento nivel) {
+		this.nivelConocimiento = nivel;
+	}
+	
+	//metodo hook para recategorizar a los usuarios generales desde sistema?
+//	protected void cambiarNivelConocimiento() {
+//		
+//	}
 }
