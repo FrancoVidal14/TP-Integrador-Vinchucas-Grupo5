@@ -5,18 +5,19 @@ import org.junit.jupiter.api.Test;
 import Vinchucas.CalculadorDistancia;
 import Vinchucas.CalculoDistancia;
 import Vinchucas.Ubicacion;
+import Vinchucas.ZonaDeCobertura;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-
-public class CalculoDistanciaTest {
-	private CalculadorDistancia calculador = new CalculoDistancia();
+public class ZonaCoberturaTest {
 
     private Ubicacion estadioIndependiente;
     private Ubicacion estadioBoca;
     private Ubicacion estadioLiverpool;
     private Ubicacion estadioManchester;
     private Ubicacion estadioMilan;
+
+    private CalculadorDistancia calculador;
 
     @BeforeEach
     public void setup() {
@@ -29,18 +30,25 @@ public class CalculoDistanciaTest {
         calculador = new CalculoDistancia();
     }
 
-    @Test
-    public void testDistanciaDeIndependienteABoca() {
-        double distancia = calculador.calcular(estadioIndependiente, estadioBoca);
-        assertTrue(distancia < 8 );
+    @Test 
+    public void testZonasSeSolapanIndependienteYBocaEn5KMCadaUna(){
+        ZonaDeCobertura zonaIndep = new ZonaDeCobertura("Libertadores de America",estadioIndependiente,5, calculador);
+        ZonaDeCobertura zonaBoca = new ZonaDeCobertura("La bombonera",estadioBoca, 5, calculador);
+
+        assertTrue(zonaIndep.seSolapaConLaZona(zonaBoca));
+
     }
 
     @Test
-    public void testDistanciaEntreMismasUbicacionesEsCero() {
-        double distancia = calculador.calcular(estadioIndependiente, estadioIndependiente);
-        assertTrue(distancia == 0.01 );
+    public void testBomboneraDentroDeZonaIndependienteDe8Km(){
+        ZonaDeCobertura zonaIndep = new ZonaDeCobertura("Libertadores de America",estadioIndependiente,8, calculador);
+        assertTrue(zonaIndep.contiene(estadioBoca));
     }
 
-
+    @Test
+    public void testEstadioLiverpoolNoEstaDentroDeZonaManchester1KM(){
+        ZonaDeCobertura zonaManchester = new ZonaDeCobertura("Old Trafford", estadioManchester, 1, calculador);
+        assertFalse(zonaManchester.contiene(estadioLiverpool));
+    }
 
 }

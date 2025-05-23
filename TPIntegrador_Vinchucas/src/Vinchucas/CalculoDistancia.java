@@ -2,7 +2,7 @@ package Vinchucas;
 
 public class CalculoDistancia implements CalculadorDistancia {
 
-    private static final double RADIO_TIERRA_KM = 6371.0;
+    private static final double radioTierraKm = 6371.0;
 
     @Override
     public double calcular(Ubicacion origen, Ubicacion destino) {
@@ -20,6 +20,6 @@ public class CalculoDistancia implements CalculadorDistancia {
 
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
-        return RADIO_TIERRA_KM * c;
+        return radioTierraKm * c;
     }
 }
