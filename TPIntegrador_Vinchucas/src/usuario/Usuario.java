@@ -18,13 +18,15 @@ public abstract class Usuario {
 	}
 	
 	//suponemos que siempre que se envie una muestra, es en el momento exacto. Como un boton "enviar" por lo que la fecha es la que capta en ese momento
-	public void enviarMuestra(Ubicacion ubicacionOrigen, Opinion opinionUsuario, AplicacionWeb sistema) {
-		Muestra muestra = new Muestra(LocalDateTime.now(), ubicacionOrigen, this, opinionUsuario);
+	public void enviarMuestra(Ubicacion ubicacionOrigen, Resultado resultado, AplicacionWeb sistema) {
+		Opinion opinion = new Opinion(this, resultado);
+		Muestra muestra = new Muestra(LocalDateTime.now(), ubicacionOrigen, this, opinion);
 		sistema.recibirMuestra(muestra);
 		opiniones.add(opinionUsuario);
 	}
 	
-	public void opinar(Muestra muestra, Opinion opinionUsuario) {
+	public void opinar(Muestra muestra, Resultado resultado) {
+		Opinion opinion = new Opinion(this, resultado);
 		muestra.procesarOpinion(opinionUsuario);
 	}
 	
