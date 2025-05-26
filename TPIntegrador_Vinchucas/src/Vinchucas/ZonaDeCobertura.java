@@ -1,5 +1,10 @@
 package Vinchucas;
 
+import java.util.List;
+
+import muestra.Muestra;
+
+
 public class ZonaDeCobertura {
     private String nombre;
     
@@ -38,9 +43,9 @@ public boolean seSolapaConLaZona(ZonaDeCobertura zona){
 
 // ↓↓↓↓ QUIZAS PARA SACAR DE ACA ↓↓↓↓ POR PRINCIPIO DE RESPONSABILIDAD UNICA
 
-// public List<Muestra> muestrasDentroDe(){
-    //TO-DO: foreach a las muestras aplicando contiene a cada muestra.ubicacion si cumple entra a lo que devuelve, FILTER 
-// }
+//public List<Muestra> muestrasDentroDe(){
+    	//return appWeb.muestras().filter(m -> this.contiene(m.ubicacion).toList());
+//}
 
 // public List<ZonaDeCobertura> zonasQueLaSolapan(){
     // SIMILAR A LA FUNCION DE ARRIBA PERO APLICADO A UNA LISTA DE MUESTRAS Y FILTRANDO CON seSolapaConLaZona, FILTER

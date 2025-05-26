@@ -1,5 +1,5 @@
 package Vinchucas;
 
 public enum TipoDeOrganizacion {
-	Salud, Educatica, Cultural, Asistencia;
+	Salud, Educativa, Cultural, Asistencia;
 }
