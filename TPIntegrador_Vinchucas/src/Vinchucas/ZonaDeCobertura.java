@@ -43,11 +43,11 @@ public boolean seSolapaConLaZona(ZonaDeCobertura zona){
 
 // ↓↓↓↓ QUIZAS PARA SACAR DE ACA ↓↓↓↓ POR PRINCIPIO DE RESPONSABILIDAD UNICA
 
-//public List<Muestra> muestrasDentroDe(){
-    	//return appWeb.muestras().filter(m -> this.contiene(m.ubicacion).toList());
-//}
+public List<Muestra> muestrasDentroDe(){
+    	return appWeb.muestras().filter(m -> this.contiene(m.ubicacion)).toList();
+}
 
-// public List<ZonaDeCobertura> zonasQueLaSolapan(){
-    // SIMILAR A LA FUNCION DE ARRIBA PERO APLICADO A UNA LISTA DE MUESTRAS Y FILTRANDO CON seSolapaConLaZona, FILTER
-// }
+public List<ZonaDeCobertura> zonasQueLaSolapan(){
+		return appWeb.zonasDeCobertura().filter(z -> this.seSolapaConLaZona(z)).toList();
+}
 }
