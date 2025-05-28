@@ -19,4 +19,8 @@ public class Muestra {
 		this.muestraEvaluada = new EvaluacionMuestra();
 		this.muestraEvaluada.evaluarOpinion(opinionUsuarioEnviador);
 	}
+	
+	public Ubicacion getUbicacionOrigen(){
+		return this.ubicacionOrigen;
+	}
 }

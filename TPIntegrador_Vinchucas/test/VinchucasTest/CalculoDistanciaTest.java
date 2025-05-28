@@ -32,15 +32,14 @@ public class CalculoDistanciaTest {
     @Test
     public void testDistanciaDeIndependienteABoca() {
         double distancia = calculador.calcular(estadioIndependiente, estadioBoca);
-        assertTrue(distancia < 8 );
+        assertTrue(distancia > 8 && distancia < 8.3 );
     }
 
     @Test
     public void testDistanciaEntreMismasUbicacionesEsCero() {
         double distancia = calculador.calcular(estadioIndependiente, estadioIndependiente);
-        assertTrue(distancia == 0.01 );
+        assertTrue(distancia == 0.00);
     }
-
 
 
 }
