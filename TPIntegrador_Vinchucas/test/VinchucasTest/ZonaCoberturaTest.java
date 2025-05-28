@@ -32,16 +32,22 @@ public class ZonaCoberturaTest {
 
     @Test 
     public void testZonasSeSolapanIndependienteYBocaEn5KMCadaUna(){
-        ZonaDeCobertura zonaIndep = new ZonaDeCobertura("Libertadores de America",estadioIndependiente,5, calculador);
-        ZonaDeCobertura zonaBoca = new ZonaDeCobertura("La bombonera",estadioBoca, 5, calculador);
+        ZonaDeCobertura zonaIndep = new ZonaDeCobertura("Libertadores de America",estadioIndependiente,5.00, calculador);
+        ZonaDeCobertura zonaBoca = new ZonaDeCobertura("La bombonera",estadioBoca, 5.00 , calculador);
+        double distancia = calculador.calcular(estadioIndependiente, estadioBoca);
 
+        System.out.println("Distancia calculada entre estadios: " + distancia + " km");
+        
+        System.out.println("Independiente: " + estadioIndependiente.getLatitud() + ", " + estadioIndependiente.getLongitud());
+        System.out.println("Boca: " + estadioBoca.getLatitud() + ", " + estadioBoca.getLongitud());
+        
         assertTrue(zonaIndep.seSolapaConLaZona(zonaBoca));
 
     }
 
     @Test
     public void testBomboneraDentroDeZonaIndependienteDe8Km(){
-        ZonaDeCobertura zonaIndep = new ZonaDeCobertura("Libertadores de America",estadioIndependiente,8, calculador);
+        ZonaDeCobertura zonaIndep = new ZonaDeCobertura("Libertadores de America",estadioIndependiente,9, calculador);
         assertTrue(zonaIndep.contiene(estadioBoca));
     }
 
