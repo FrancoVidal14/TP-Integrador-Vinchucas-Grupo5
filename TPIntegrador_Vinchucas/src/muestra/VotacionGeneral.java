@@ -1,8 +1,5 @@
 package muestra;
 
-import java.util.List;
-
-import usuario.NivelConocimiento;
 import usuario.Opinion;
 
 public class VotacionGeneral extends EstadoEvaluacionMuestra {
