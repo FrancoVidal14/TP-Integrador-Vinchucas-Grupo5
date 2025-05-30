@@ -7,7 +7,6 @@ import muestra.Muestra;
 
 public class ZonaDeCobertura {
     private String nombre;
-    
     private Ubicacion epicentro;
     private double radioKm;
     private CalculadorDistancia calculadorDist;
