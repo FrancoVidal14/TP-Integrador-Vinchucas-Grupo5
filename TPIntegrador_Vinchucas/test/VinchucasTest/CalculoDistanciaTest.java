@@ -20,11 +20,11 @@ public class CalculoDistanciaTest {
 
     @BeforeEach
     public void setup() {
-        estadioIndependiente = new Ubicacion(-34.6708, -58.3622); // Libertadores de América
-        estadioBoca = new Ubicacion(-34.6304, -58.4375);          // La Bombonera
-        estadioLiverpool = new Ubicacion(53.4308, -2.9609);     // Anfield
+        estadioIndependiente = new Ubicacion(-34.6703, -58.3710);  // Libertadores de América
+        estadioBoca = new Ubicacion(-34.6356, -58.3643);          // La Bombonera
+        estadioLiverpool = new Ubicacion(53.4308, -2.9609);      // Anfield
         estadioManchester = new Ubicacion(53.4635, -2.2923);    // Old Trafford
-        estadioMilan = new Ubicacion(45.4785, 9.1222);        // San Siro
+        estadioMilan = new Ubicacion(45.4785, 9.1222);         // San Siro
 
         calculador = new CalculoDistancia();
     }
@@ -32,7 +32,7 @@ public class CalculoDistanciaTest {
     @Test
     public void testDistanciaDeIndependienteABoca() {
         double distancia = calculador.calcular(estadioIndependiente, estadioBoca);
-        assertTrue(distancia > 8 && distancia < 8.3 );
+        assertTrue(distancia > 3.8 && distancia < 4.2);
     }
 
     @Test

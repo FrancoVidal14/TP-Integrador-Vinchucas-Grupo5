@@ -7,6 +7,7 @@ import usuario.Usuario;
 import muestra.Muestra;
 
 public class AplicacionWeb {
+
 	private List<ZonaDeCobertura> zonasDeCobertura = new ArrayList<>();
 	private List<Usuario> usuarios = new ArrayList<>();
 	private List<Muestra> muestras = new ArrayList<>();
@@ -38,6 +39,4 @@ public class AplicacionWeb {
 	public List<Muestra> filtrarMuestras(Criterio criterio){
 		;
 	}
-
-	
 }
