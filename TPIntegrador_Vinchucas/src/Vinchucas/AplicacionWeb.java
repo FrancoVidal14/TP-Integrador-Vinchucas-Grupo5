@@ -43,9 +43,14 @@ public class AplicacionWeb {
 		//recategoriza a los usuarios GENERALES segun:
 		//"son personas que durante los últimos 30 días desde la fecha actual han realizado más de 10 envíos y más de 20 revisiones"
 	}
-	
-	//perdemos eficiencia pero evitamos que el usuario tenga una lista de opiniones (lo que resulta mas comodo para recategorizar) complicando la logica a la hora de verificar la opinion y agregarsela si es aceptada.
+  
+  	//perdemos eficiencia pero evitamos que el usuario tenga una lista de opiniones (lo que resulta mas comodo para recategorizar) complicando la logica a la hora de verificar la opinion y agregarsela si es aceptada.
 //	public List<Opinion> getOpinionesDe(Usuario usuario) {
 //	    
 //	}
+	
+	public List<Muestra> muestrasAMenosDe(Muestra muestra, double km){
+		CalculadorDistancia calculador = new CalculoDistancia();
+    	return muestras.stream().filter(m -> calculador.calcular(muestra.getUbicacionOrigen(), m.getUbicacionOrigen()) < km).toList();
+	}
 }
