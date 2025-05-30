@@ -1,33 +1,11 @@
 package usuario;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-
-import Vinchucas.AplicacionWeb;
-import Vinchucas.Ubicacion;
-import muestra.Muestra;
-
 public abstract class Usuario {
-	
-	private List<Opinion> opiniones;
+	private int dni;
 	private NivelConocimiento nivelConocimiento;
 	
-	public Usuario() {
-		this.opiniones = new ArrayList<>();
-	}
-	
-	//suponemos que siempre que se envie una muestra, es en el momento exacto. Como un boton "enviar" por lo que la fecha es la que capta en ese momento
-	public void enviarMuestra(Ubicacion ubicacionOrigen, Resultado resultado, AplicacionWeb sistema) {
-		Opinion opinion = new Opinion(this, resultado);
-		Muestra muestra = new Muestra(LocalDateTime.now(), ubicacionOrigen, this, opinion);
-		sistema.recibirMuestra(muestra);
-		opiniones.add(opinionUsuario);
-	}
-	
-	public void opinar(Muestra muestra, Resultado resultado) {
-		Opinion opinion = new Opinion(this, resultado);
-		muestra.procesarOpinion(opinionUsuario);
+	public int getDni() {
+		return this.dni;
 	}
 	
 	public NivelConocimiento getNivelConocimiento() {
