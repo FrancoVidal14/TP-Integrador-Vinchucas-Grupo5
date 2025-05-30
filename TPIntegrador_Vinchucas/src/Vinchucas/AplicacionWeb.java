@@ -39,4 +39,9 @@ public class AplicacionWeb {
 	public List<Muestra> filtrarMuestras(Criterio criterio){
 		;
 	}
+	
+	public List<Muestra> muestrasAMenosDe(Muestra muestra, double km){
+		CalculadorDistancia calculador = new CalculoDistancia();
+    	return muestras.stream().filter(m -> calculador.calcular(muestra.getUbicacionOrigen(), m.getUbicacionOrigen()) < km).toList();
+	}
 }
