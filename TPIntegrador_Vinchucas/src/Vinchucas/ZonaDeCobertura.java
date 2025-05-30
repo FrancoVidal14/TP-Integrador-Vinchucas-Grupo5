@@ -43,10 +43,6 @@ public boolean seSolapaConLaZona(ZonaDeCobertura zona){
 
 // ↓↓↓↓ QUIZAS PARA SACAR DE ACA ↓↓↓↓ POR PRINCIPIO DE RESPONSABILIDAD UNICA
 
-public List<Muestra> muestrasDentroDe(AplicacionWeb appWeb){
-    	return appWeb.getMuestras().stream().filter(m -> this.contiene(m.getUbicacionOrigen())).toList();
-}
-
 public List<ZonaDeCobertura> zonasQueLaSolapan(AplicacionWeb appWeb){
 		return appWeb.getZonasDeCobertura().stream().filter(z -> this.seSolapaConLaZona(z)).toList();
 }

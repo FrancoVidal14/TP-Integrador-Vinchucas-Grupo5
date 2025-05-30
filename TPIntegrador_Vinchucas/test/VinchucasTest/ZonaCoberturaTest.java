@@ -21,11 +21,11 @@ public class ZonaCoberturaTest {
 
     @BeforeEach
     public void setup() {
-        estadioIndependiente = new Ubicacion(-34.6708, -58.3622); // Libertadores de América
-        estadioBoca = new Ubicacion(-34.6304, -58.4375);          // La Bombonera
-        estadioLiverpool = new Ubicacion(53.4308, -2.9609);     // Anfield
-        estadioManchester = new Ubicacion(53.4635, -2.2923);    // Old Trafford
-        estadioMilan = new Ubicacion(45.4785, 9.1222);        // San Siro
+        estadioIndependiente = new Ubicacion(-34.6703, -58.3710);    // Libertadores de América
+        estadioBoca = new Ubicacion(-34.6356, -58.3643);            // La Bombonera
+        estadioLiverpool = new Ubicacion(53.4308, -2.9609);        // Anfield
+        estadioManchester = new Ubicacion(53.4635, -2.2923);      // Old Trafford
+        estadioMilan = new Ubicacion(45.4785, 9.1222);           // San Siro
 
         calculador = new CalculoDistancia();
     }

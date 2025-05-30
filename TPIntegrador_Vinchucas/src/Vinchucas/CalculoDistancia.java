@@ -2,7 +2,7 @@ package Vinchucas;
 
 public class CalculoDistancia implements CalculadorDistancia {
 
-    private static final double radioTierraKm = 6371.0;
+    private static final double radioTierraKm = 6371;
 
     @Override
     public double calcular(Ubicacion origen, Ubicacion destino) {
@@ -14,9 +14,10 @@ public class CalculoDistancia implements CalculadorDistancia {
         double deltaLat = lat2 - lat1;
         double deltaLon = lon2 - lon1;
 
-        double a = Math.pow(Math.sin(deltaLat / 2), 2) +
-                   Math.cos(lat1) * Math.cos(lat2) *
-                   Math.pow(Math.sin(deltaLon / 2), 2);
+        double a = Math.sin(deltaLat / 2) * Math.sin(deltaLat / 2) +
+                Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2)) *
+                Math.sin(deltaLon / 2) * Math.sin(deltaLon / 2);
+
 
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
