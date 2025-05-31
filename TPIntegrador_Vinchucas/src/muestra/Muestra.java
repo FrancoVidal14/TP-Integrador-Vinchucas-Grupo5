@@ -1,7 +1,7 @@
 package muestra;
 
 import java.time.LocalDateTime;
-
+import java.util.List;
 
 import Vinchucas.AplicacionWeb;
 import Vinchucas.CalculadorDistancia;
@@ -48,6 +48,6 @@ public class Muestra {
 	
 
 	public List<ZonaDeCobertura> zonasDeCoberturaOcupadas(AplicacionWeb appWeb){
-    	return appWeb.getZonasDeCobertura().stream().filter(z -> z.contiene(this.getUbicacionOrigen())).toList();
+    	return appWeb.getZonasDeCobertura().stream().filter(z -> z.contiene(this.getUbicacion())).toList();
   }
 }
