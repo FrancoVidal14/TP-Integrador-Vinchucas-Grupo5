@@ -12,8 +12,9 @@ import usuario.Usuario;
 
 public class AplicacionWeb {
 	private List<Muestra> muestras;
-	private List<Usuario> usuarios;
-	private List<ZonaDeCobertura> zonasDeCobertura;
+	private List<Usuario> usuarios = new ArrayList<>();
+
+	private List<ZonaDeCobertura> zonasDeCobertura = new ArrayList<>();
 	
 	public AplicacionWeb() {
 		this.muestras = new ArrayList<>();
