@@ -2,8 +2,6 @@ package Vinchucas;
 
 import java.util.List;
 
-import muestra.Muestra;
-
 
 public class ZonaDeCobertura {
     private String nombre;

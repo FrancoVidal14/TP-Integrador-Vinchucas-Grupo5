@@ -4,8 +4,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import Vinchucas.AplicacionWeb;
-import Vinchucas.CalculadorDistancia;
-import Vinchucas.CalculoDistancia;
 import Vinchucas.ZonaDeCobertura;
 import Vinchucas.Ubicacion;
 import usuario.Opinion;
