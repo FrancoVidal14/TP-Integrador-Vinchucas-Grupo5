@@ -13,6 +13,7 @@ import usuario.Usuario;
 public class AplicacionWeb {
 	private List<Muestra> muestras;
 	private List<Usuario> usuarios;
+	private List<ZonaDeCobertura> zonasDeCobertura;
 	
 	public AplicacionWeb() {
 		this.muestras = new ArrayList<>();
@@ -51,6 +52,10 @@ public class AplicacionWeb {
 	
 	public List<Muestra> muestrasAMenosDe(Muestra muestra, double km){
 		CalculadorDistancia calculador = new CalculoDistancia();
-    	return muestras.stream().filter(m -> calculador.calcular(muestra.getUbicacionOrigen(), m.getUbicacionOrigen()) < km).toList();
+    	return muestras.stream().filter(m -> calculador.calcular(muestra.getUbicacion(), m.getUbicacion()) < km).toList();
+	}
+
+	public List<ZonaDeCobertura> getZonasDeCobertura() {
+		return zonasDeCobertura;
 	}
 }
