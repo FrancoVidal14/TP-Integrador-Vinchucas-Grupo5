@@ -1,5 +1,6 @@
 package muestra;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,5 +30,12 @@ public class EvaluacionMuestra {
 
 	protected void setEstado(EstadoEvaluacionMuestra estado) {
 		this.estadoEvaluacion = estado;
+	}
+	
+	public LocalDateTime getFechaUltimaVotacion() {
+		if(getOpiniones().isEmpty()) {
+			throw new IllegalArgumentException("No hay opiniones sobre esta muestra");
+		}
+		return getOpiniones().getLast().getFecha();
 	}
 }
