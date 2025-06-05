@@ -44,8 +44,11 @@ public class Muestra {
 		return this.ubicacionOrigen;
 	}
 	
-
 	public List<ZonaDeCobertura> zonasDeCoberturaOcupadas(AplicacionWeb appWeb){
     	return appWeb.getZonasDeCobertura().stream().filter(z -> z.contiene(this.getUbicacion())).toList();
-  }
+	}
+	
+	public LocalDateTime buscarFechaUltimaVotacion() {
+		return evaluacionMuestra.getFechaUltimaVotacion();
+	}
 }
