@@ -1,3 +1,5 @@
+package VinchucasTest;
+
 import org.junit.jupiter.api.Test;
 
 import Vinchucas.Organizacion;
