@@ -14,18 +14,17 @@ public abstract class EstadoEvaluacionMuestra {
 		this.cumpleReglasBase(muestra, opinion, evMuestra.getOpiniones());
 	};
 	
-	private void cumpleReglasBase(Muestra muestra, Opinion opinion, List<Opinion> opinionesMuestra) throws Exception {
-		if (this.usuarioEnviadorOpinaOtraVez(muestra, opinion)) throw new Exception("El usuario que envio la muestra no puede volver a opinar sobre ella");
+	private void cumpleReglasBase(Muestra muestra, Opinion opinion, List<Opinion> opinionesMuestra) throws Exception {;
+		if (this.usuarioOpinaOtraVez(opinion, opinionesMuestra) && this.esUsuarioEnviador(muestra, opinion)) throw new Exception("El usuario que envio la muestra no puede volver a opinar sobre ella");
 		if (this.usuarioOpinaOtraVez(opinion, opinionesMuestra)) throw new Exception("El usuario no puede volver a opinar sobre esta muestra");
 	}
 	
-	private boolean usuarioEnviadorOpinaOtraVez(Muestra muestra, Opinion opinion){
-		return muestra.getUsuario().getDni() ==  opinion.getUsuario().getDni();
+	private boolean usuarioOpinaOtraVez (Opinion opinion, List<Opinion> opinionesMuestra){
+		return opinionesMuestra.stream().anyMatch(opi -> opi.getUsuario().equals(opinion.getUsuario()));
 	}
 	
-	private boolean usuarioOpinaOtraVez (Opinion opinion, List<Opinion> opinionesMuestra){
-		List<Usuario> usuariosOpinaron = opinionesMuestra.stream().map(opi -> opi.getUsuario()).toList();
-		return usuariosOpinaron.stream().anyMatch(user -> user.getDni() == opinion.getUsuario().getDni());
+	private boolean esUsuarioEnviador(Muestra muestra, Opinion opinion) {
+		return muestra.getUsuario().equals(opinion.getUsuario());
 	}
 	
 	protected boolean opinoExperto(Opinion opinion) {

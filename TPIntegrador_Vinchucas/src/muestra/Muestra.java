@@ -13,35 +13,34 @@ public class Muestra {
 	private LocalDateTime fechaCreacion;
 	private Ubicacion ubicacionOrigen;
 	private Usuario usuarioEnviador;
-	private EvaluacionMuestra evaluacionMuestra;
+	private EvaluacionMuestra evaluacionMuestra = new EvaluacionMuestra();;
 	
 	
-	public Muestra(LocalDateTime fechaCreacion, Ubicacion ubicacionOrigen, Usuario usuarioEnviador, Opinion opinionUsuarioEnviador) {
+	public Muestra(LocalDateTime fechaCreacion, Ubicacion ubicacionOrigen, Usuario usuarioEnviador, Opinion opinionUsuarioEnviador) throws Exception {
 		this.fechaCreacion = fechaCreacion;
 		this.ubicacionOrigen = ubicacionOrigen;
 		this.usuarioEnviador = usuarioEnviador;
-		this.evaluacionMuestra = new EvaluacionMuestra();
-		try {
-			this.evaluacionMuestra.procesarOpinion(this, opinionUsuarioEnviador);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	public Usuario getUsuario() {
-		return usuarioEnviador;
+		this.evaluacionMuestra.procesarOpinion(this, opinionUsuarioEnviador);
 	}
 
 	public LocalDateTime getFecha() {
 		return fechaCreacion;
 	}
 	
-	public void procesarOpinion(Opinion opinion) throws Exception {
-		this.evaluacionMuestra.procesarOpinion(this, opinion);
-	}
-	
 	public Ubicacion getUbicacion() {
 		return this.ubicacionOrigen;
+	}
+	
+	public Usuario getUsuario() {
+		return usuarioEnviador;
+	}
+	
+	public List<Opinion> getOpiniones(){
+		return this.evaluacionMuestra.getOpiniones();
+	}
+	
+	public void procesarOpinion(Opinion opinion) throws Exception {
+		this.evaluacionMuestra.procesarOpinion(this, opinion);
 	}
 	
 	public List<ZonaDeCobertura> zonasDeCoberturaOcupadas(AplicacionWeb appWeb){

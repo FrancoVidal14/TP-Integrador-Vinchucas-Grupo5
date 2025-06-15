@@ -8,13 +8,8 @@ import usuario.Opinion;
 
 public class EvaluacionMuestra {
 	
-	private EstadoEvaluacionMuestra estadoEvaluacion;
-	private List<Opinion> opiniones;
-	
-	public EvaluacionMuestra() {
-		this.opiniones = new ArrayList<>();
-		this.estadoEvaluacion = new VotacionGeneral();
-	}
+	private EstadoEvaluacionMuestra estadoEvaluacion = new VotacionGeneral();
+	private List<Opinion> opiniones = new ArrayList<>();
 	
 	public void procesarOpinion(Muestra muestra, Opinion opinion) throws Exception {
 		this.estadoEvaluacion.procesarOpinion(this, muestra, opinion);
@@ -33,9 +28,7 @@ public class EvaluacionMuestra {
 	}
 	
 	public LocalDateTime getFechaUltimaVotacion() {
-		if(getOpiniones().isEmpty()) {
-			throw new IllegalArgumentException("No hay opiniones sobre esta muestra");
-		}
+		//TEST: si esta vacia lanza excepcion
 		return getOpiniones().getLast().getFecha();
 	}
 }

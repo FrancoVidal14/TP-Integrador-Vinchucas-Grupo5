@@ -1,12 +1,7 @@
 package usuario;
 
 public abstract class Usuario {
-	private int dni;
 	private NivelConocimiento nivelConocimiento;
-	
-	public int getDni() {
-		return this.dni;
-	}
 	
 	public NivelConocimiento getNivelConocimiento() {
 		return this.nivelConocimiento;
