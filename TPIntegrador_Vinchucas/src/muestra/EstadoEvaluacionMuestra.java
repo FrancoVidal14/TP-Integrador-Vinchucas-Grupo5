@@ -28,6 +28,6 @@ public abstract class EstadoEvaluacionMuestra {
 	}
 	
 	protected boolean opinoExperto(Opinion opinion) {
-		return opinion.getUsuario().getNivelConocimiento().equals(NivelConocimiento.EXPERTO);
+		return opinion.esDeExperto();
 	}
 }
