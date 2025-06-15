@@ -3,12 +3,15 @@ package usuario;
 public class UsuarioGeneral extends Usuario {
 
 	public UsuarioGeneral() {
-		super.setNivelConocimiento(NivelConocimiento.BASICO);
+		this.estado = new EstadoBasico();
 	}
 	
-//	@Override
-//	protected void cambiarNivelConocimiento() {
-//		NivelConocimiento nivelActual = super.getNivelConocimiento();
-//		super.setNivelConocimiento(nivelActual.cambiarNivel(nivelActual));
-//	}
+	@Override
+	protected void cambiarNivelConocimiento() {
+		this.estado.cambiarEstado(this);
+	}
+	
+	protected void setEstado(EstadoUsuario estado) {
+		this.estado = estado;
+	}
 }

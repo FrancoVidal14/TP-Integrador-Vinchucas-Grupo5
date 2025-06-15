@@ -19,18 +19,24 @@ public class Organizacion implements NotificacionesPorMuestras{
 		return ubicacion;
 	}
 
-	public void setUbicacion(Ubicacion ubicacion) {
-		this.ubicacion = ubicacion;
-	}
+    public void setUbicacion(Ubicacion ubicacion) {
+        if (ubicacion == null) {
+            throw new IllegalArgumentException("La ubicación no puede ser nula");
+        }
+        this.ubicacion = ubicacion;
+    }
 
 	public int getCantEmpleados() {
 		return cantEmpleados;
 	}
 
 	public void setCantEmpleados(int cantEmpleados) {
-		this.cantEmpleados = cantEmpleados;
+	    if (cantEmpleados < 0) {
+	        throw new IllegalArgumentException("La cantidad de empleados no puede ser negativa");
+	    }
+	    this.cantEmpleados = cantEmpleados;
 	}
-
+	
 	public TipoDeOrganizacion getTipo() {
 		return tipo;
 	}
