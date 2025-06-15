@@ -59,4 +59,22 @@ public class AplicacionWeb {
 	public List<ZonaDeCobertura> getZonasDeCobertura() {
 		return zonasDeCobertura;
 	}
+	
+	public List<Muestra> getMuestras() {
+		return muestras;
+	}
+	
+	public void enviarMuestrasAZona() {
+		for(ZonaDeCobertura z : getZonasDeCobertura()) {
+			for(Muestra m : getMuestras()) {
+				// deberia enviarle las muestras de cada zona a la zona correspondiente para que las organizaciones observen.
+				// El problema esta en cuando una muestra ocupa dos zonas, como envio a las dos?
+				// if m.getzona == z -> z.agregarMuestra(m)
+			}
+		}
+	}
+	
+	public void enviarValidacionesDeMuestras() {
+		// deberia enviarle la informacion de que se valido una muestra en la zona, al manejador de la zona misma para enviarle esa info a la organizaciones
+	}
 }
