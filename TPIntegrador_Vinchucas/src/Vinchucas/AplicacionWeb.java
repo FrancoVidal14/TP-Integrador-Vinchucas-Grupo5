@@ -7,16 +7,19 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import FiltrosDeBusqueda.Criterio;
+import FiltrosDeBusqueda.FiltroDeBusqueda;
 import muestra.Muestra;
 import usuario.Opinion;
 import usuario.Resultado;
 import usuario.Usuario;
 
-public class AplicacionWeb {
+public class AplicacionWeb implements RegistroDeValidaciones{
 	private List<Muestra> muestras;
 	private List<Usuario> usuarios;
 	private List<ZonaDeCobertura> zonasDeCobertura;
 	private Map<Integer, List<Opinion>> opinionesUsuarios;
+	private FiltroDeBusqueda filtro;
 	
 	public AplicacionWeb() {
 		this.muestras = new ArrayList<>();
@@ -26,11 +29,12 @@ public class AplicacionWeb {
 	}	
 	
 	//Decido que la aplicacion web reciba la informacion cruda y genere los objetos claves para mantener la integridad deseada
-	public void recibirMuestra(Ubicacion ubicacion, Usuario usuario, Resultado resultado) {
+	public void recibirMuestra(Ubicacion ubicacion, Usuario usuario, Resultado resultado) throws Exception {
 		Opinion opinion = new Opinion(usuario, resultado);
 		Muestra muestra = new Muestra(LocalDateTime.now(), ubicacion, usuario, opinion);
 		this.muestras.add(muestra);
 		this.usuarios.add(usuario);
+		enviarMuestraAZonas(muestra);
 	}
 	
 	
@@ -97,17 +101,28 @@ public class AplicacionWeb {
 		return muestras;
 	}
 	
-	public void enviarMuestrasAZona() {
+	public void enviarMuestraAZonas(Muestra muestra) {
 		for(ZonaDeCobertura z : getZonasDeCobertura()) {
-			for(Muestra m : getMuestras()) {
-				// deberia enviarle las muestras de cada zona a la zona correspondiente para que las organizaciones observen.
-				// El problema esta en cuando una muestra ocupa dos zonas, como envio a las dos?
-				// if m.getzona == z -> z.agregarMuestra(m)
+			if(z.contiene(muestra.getUbicacion())) {
+				z.registrarMuestra(muestra);
+			}
+		}
+	}
+
+	@Override
+	public void recibirMuestraValidada(Muestra m) {
+		for(ZonaDeCobertura z : getZonasDeCobertura()) {
+			if(z.contiene(m.getUbicacion())) {
+				z.registrarValidacionDeMuestra(m);
 			}
 		}
 	}
 	
-	public void enviarValidacionesDeMuestras() {
-		// deberia enviarle la informacion de que se valido una muestra en la zona, al manejador de la zona misma para enviarle esa info a la organizaciones
+	public FiltroDeBusqueda getFiltro() {
+		return this.filtro;
+	}
+	
+	public List<Muestra> filtrarMuestras(Criterio criterio) {
+		 return filtro.filtrarMuestras(muestras, criterio);
 	}
 }

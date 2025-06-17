@@ -16,4 +16,9 @@ public class VotacionGeneral extends EstadoEvaluacionMuestra {
 		evMuestra.setEstado(new VotacionExperto());
 	}
 
+	@Override
+	public void enviarRegistroSiEsVerificada(Muestra muestra) {
+		// TODO Auto-generated method stub
+		
+	}
 }

@@ -30,4 +30,7 @@ public abstract class EstadoEvaluacionMuestra {
 	protected boolean opinoExperto(Opinion opinion) {
 		return opinion.esDeExperto();
 	}
+
+	public abstract void enviarRegistroSiEsVerificada(Muestra muestra);
+	
 }

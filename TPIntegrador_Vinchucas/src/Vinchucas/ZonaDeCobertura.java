@@ -11,8 +11,7 @@ public class ZonaDeCobertura {
     private Ubicacion epicentro;
     private double radioKm;
     private CalculadorDistancia calculadorDist;
-    private ManejadorDeEventos manejador;
-    private List<Muestra> muestras;
+    private ManejadorDeNotificaciones manejador;
     
     public String getNombre() {
         return nombre;
@@ -26,7 +25,7 @@ public class ZonaDeCobertura {
     	return this.radioKm;
     }
 
-    public ZonaDeCobertura(String nombre, Ubicacion epicentro, double radioKm, CalculadorDistancia calculador, ManejadorDeEventos manejador) {
+    public ZonaDeCobertura(String nombre, Ubicacion epicentro, double radioKm, CalculadorDistancia calculador, ManejadorDeNotificaciones manejador) {
     	this.nombre = nombre;
     	this.epicentro = epicentro;
     	this.radioKm = radioKm;
@@ -50,10 +49,10 @@ public class ZonaDeCobertura {
     }
     
     public void registrarMuestra(Muestra m) {
-    	manejador.recibirInformacionDeMuestraRegistrada(m);
+    	manejador.recibirInformacionDeMuestraRegistrada(m, this);
     }
     
     public void registrarValidacionDeMuestra(Muestra m) {
-    	manejador.recibirInformacionDeMuestraValidada(m);
+    	manejador.recibirInformacionDeMuestraValidada(m, this);
     }
 }

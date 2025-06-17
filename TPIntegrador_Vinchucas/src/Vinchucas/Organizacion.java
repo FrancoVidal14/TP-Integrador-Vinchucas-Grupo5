@@ -6,13 +6,15 @@ public class Organizacion implements NotificacionesPorMuestras{
 	private Ubicacion ubicacion;
 	private TipoDeOrganizacion tipo;
 	private int cantEmpleados;
-	private FuncionalidadExterna func;
+	private FuncionalidadExterna funcionalidadRegistro;
+	private FuncionalidadExterna funcionalidadValidacion;
 	
-	public Organizacion(Ubicacion ubicacion, TipoDeOrganizacion tipo, int cantEmpleados, FuncionalidadExterna fun) {
+	public Organizacion(Ubicacion ubicacion, TipoDeOrganizacion tipo, int cantEmpleados, FuncionalidadExterna fun1, FuncionalidadExterna fun2) {
 		this.setUbicacion(ubicacion);
 		this.setTipo(tipo);
 		this.setCantEmpleados(cantEmpleados);
-		this.func = fun;
+		this.setFuncionalidadRegistro(fun1);
+		this.setFuncionalidadValidacion(fun2);
 	}
 
 	public Ubicacion getUbicacion() {
@@ -44,20 +46,30 @@ public class Organizacion implements NotificacionesPorMuestras{
 	public void setTipo(TipoDeOrganizacion tipo) {
 		this.tipo = tipo;
 	}
-	
-	public FuncionalidadExterna getFuncionalidad() {
-		return func;
+
+	@Override
+	public void recibirNotificacionDeRegistroDe(Muestra m, ZonaDeCobertura zona) {
+		getFuncionalidadRegistro().nuevoEvento(this, zona, m);
 	}
 
 	@Override
-	public void recibirNotificacionDeRegistroDe(Muestra m) {
-		//func.nuevoEvento(this, m.zonasDeCoberturaOcupadas(null), m);
-		// me chilla porque la zona de cobertura de la muestra me trae una lista.
+	public void recibirNotificacionDeValidacionDe(Muestra m, ZonaDeCobertura z) {
+		getFuncionalidadValidacion().nuevoEvento(this, z, m);
 	}
 
-	@Override
-	public void recibirNotificacionDeValidacionDe(Muestra m) {
-		//func.nuevoEvento(this, m.zonaDeCobertura, m;
-		// lo mismo.
+	public FuncionalidadExterna getFuncionalidadRegistro() {
+		return funcionalidadRegistro;
+	}
+
+	public void setFuncionalidadRegistro(FuncionalidadExterna funcionalidadRegistro) {
+		this.funcionalidadRegistro = funcionalidadRegistro;
+	}
+
+	public FuncionalidadExterna getFuncionalidadValidacion() {
+		return funcionalidadValidacion;
+	}
+
+	public void setFuncionalidadValidacion(FuncionalidadExterna funcionalidadValidacion) {
+		this.funcionalidadValidacion = funcionalidadValidacion;
 	}
 }

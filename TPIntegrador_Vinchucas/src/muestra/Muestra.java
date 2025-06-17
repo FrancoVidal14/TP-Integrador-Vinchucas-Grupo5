@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import Vinchucas.AplicacionWeb;
+import Vinchucas.RegistroDeValidaciones;
 import Vinchucas.ZonaDeCobertura;
 import Vinchucas.Ubicacion;
 import usuario.Opinion;
@@ -14,7 +15,6 @@ public class Muestra {
 	private Ubicacion ubicacionOrigen;
 	private Usuario usuarioEnviador;
 	private EvaluacionMuestra evaluacionMuestra = new EvaluacionMuestra();;
-	
 	
 	public Muestra(LocalDateTime fechaCreacion, Ubicacion ubicacionOrigen, Usuario usuarioEnviador, Opinion opinionUsuarioEnviador) throws Exception {
 		this.fechaCreacion = fechaCreacion;
@@ -49,5 +49,9 @@ public class Muestra {
 	
 	public LocalDateTime buscarFechaUltimaVotacion() {
 		return evaluacionMuestra.getFechaUltimaVotacion();
+	}
+	
+	public void enviarRegistroAAplicacion() {
+		this.evaluacionMuestra.enviarRegistro(this);
 	}
 }
