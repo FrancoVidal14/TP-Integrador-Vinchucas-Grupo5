@@ -1,14 +1,20 @@
 package Vinchucas;
 
-public class Organizacion {
+import muestra.Muestra;
+
+public class Organizacion implements NotificacionesPorMuestras{
 	private Ubicacion ubicacion;
 	private TipoDeOrganizacion tipo;
 	private int cantEmpleados;
+	private FuncionalidadExterna funcionalidadRegistro;
+	private FuncionalidadExterna funcionalidadValidacion;
 	
-	public Organizacion(Ubicacion ubicacion, TipoDeOrganizacion tipo, int cantEmpleados) {
-        this.setUbicacion(ubicacion);
-        this.setTipo(tipo);           
-        this.setCantEmpleados(cantEmpleados);
+	public Organizacion(Ubicacion ubicacion, TipoDeOrganizacion tipo, int cantEmpleados, FuncionalidadExterna fun1, FuncionalidadExterna fun2) {
+		this.setUbicacion(ubicacion);
+		this.setTipo(tipo);
+		this.setCantEmpleados(cantEmpleados);
+		this.setFuncionalidadRegistro(fun1);
+		this.setFuncionalidadValidacion(fun2);
 	}
 
 	public Ubicacion getUbicacion() {
@@ -37,10 +43,33 @@ public class Organizacion {
 		return tipo;
 	}
 
-    public void setTipo(TipoDeOrganizacion tipo) {
-        if (tipo == null) {
-            throw new IllegalArgumentException("El tipo de organización no puede ser nulo");
-        }
-        this.tipo = tipo;
-}
+	public void setTipo(TipoDeOrganizacion tipo) {
+		this.tipo = tipo;
+	}
+
+	@Override
+	public void recibirNotificacionDeRegistroDe(Muestra m, ZonaDeCobertura zona) {
+		getFuncionalidadRegistro().nuevoEvento(this, zona, m);
+	}
+
+	@Override
+	public void recibirNotificacionDeValidacionDe(Muestra m, ZonaDeCobertura z) {
+		getFuncionalidadValidacion().nuevoEvento(this, z, m);
+	}
+
+	public FuncionalidadExterna getFuncionalidadRegistro() {
+		return funcionalidadRegistro;
+	}
+
+	public void setFuncionalidadRegistro(FuncionalidadExterna funcionalidadRegistro) {
+		this.funcionalidadRegistro = funcionalidadRegistro;
+	}
+
+	public FuncionalidadExterna getFuncionalidadValidacion() {
+		return funcionalidadValidacion;
+	}
+
+	public void setFuncionalidadValidacion(FuncionalidadExterna funcionalidadValidacion) {
+		this.funcionalidadValidacion = funcionalidadValidacion;
+	}
 }

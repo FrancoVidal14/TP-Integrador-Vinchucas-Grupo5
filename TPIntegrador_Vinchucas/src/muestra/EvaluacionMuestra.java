@@ -31,4 +31,8 @@ public class EvaluacionMuestra {
 		//TEST: si esta vacia lanza excepcion
 		return getOpiniones().getLast().getFecha();
 	}
+
+	public void enviarRegistro(Muestra muestra) {
+		this.estadoEvaluacion.enviarRegistroSiEsVerificada(muestra);
+	}
 }
