@@ -1,17 +1,18 @@
 package FiltrosDeBusqueda;
 
+import muestra.EstadoEvaluacionMuestra;
 import muestra.Muestra;
 
 public class CriterioNivelDeVerificacion implements Criterio{
 	
-	private TipoVerificacion tipo;
+	private EstadoEvaluacionMuestra estado;
 	
-	public CriterioNivelDeVerificacion(TipoVerificacion tipo) {
-		this.tipo = tipo;
+	public CriterioNivelDeVerificacion(EstadoEvaluacionMuestra estado) {
+		this.estado = estado;
 	}
 	
 	@Override
 	public boolean cumpleMuestra(Muestra m) {
-		return m.getNivelVerificacion().equals(tipo);
+		return m.getEvaluacion().getEstado().equals(estado);
 	}	
 }

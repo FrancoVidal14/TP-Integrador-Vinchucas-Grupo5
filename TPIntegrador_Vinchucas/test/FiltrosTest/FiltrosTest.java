@@ -15,6 +15,7 @@ import FiltrosDeBusqueda.CriterioAND;
 import Vinchucas.AplicacionWeb;
 import Vinchucas.Ubicacion;
 import muestra.Muestra;
+import muestra.MuestraVerificada;
 import usuario.Opinion;
 import usuario.Resultado;
 import usuario.UsuarioValidado;
@@ -106,7 +107,7 @@ class FiltrosTest {
 		
 		criterioFecha = new CriterioFechaCreacion(fecha1);
 		criterioUltVotacion = new CriterioFechaUltimaVotacion(fecha2);
-		//criterioNivelVerif = new CriterioNivelDeVerificacion(TipoVerificacion);
+		criterioNivelVerif = new CriterioNivelDeVerificacion(new MuestraVerificada());
 		criterioAnd = new CriterioAND(criterioFecha, criterioUltVotacion);
 		criterioOr = new CriterioOR(criterioFecha, criterioNivelVerif);
 		
@@ -119,17 +120,26 @@ class FiltrosTest {
 	
 	@Test
 	void testCriterioFechaCreacion() {
+		LocalDateTime fechaEsperada = fecha3;
 		//El tema es que cuando la aplicacion recibe una muestra se crea la muestra con la fecha de ahora.
 	}
 	
 	@Test
 	void testCriterioFechaUltimaVotacion() {
+		LocalDateTime fechaEsperada = fecha2;
 		
 	}
 	
 	@Test
 	void testCriterioNivelVerificacion() {
+		MuestraVerificada estadoEsperado = new MuestraVerificada();
 		
+	}
+	
+	@Test
+	void testCriterioTipoDeInsecto() {
+		Resultado resultadoEsperado = Resultado.CHINCHE_FOLIADA;
+		//falta el getResultado en muestra
 	}
 	
 	@Test
