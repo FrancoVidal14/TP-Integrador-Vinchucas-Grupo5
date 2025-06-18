@@ -35,4 +35,8 @@ public class EvaluacionMuestra {
 	public void enviarRegistro(Muestra muestra) {
 		this.estadoEvaluacion.enviarRegistroSiEsVerificada(muestra);
 	}
+	
+	public EstadoEvaluacionMuestra getEstado() {
+		return this.estadoEvaluacion;
+	}
 }

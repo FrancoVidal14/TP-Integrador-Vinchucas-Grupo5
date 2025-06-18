@@ -8,6 +8,7 @@ import Vinchucas.RegistroDeValidaciones;
 import Vinchucas.ZonaDeCobertura;
 import Vinchucas.Ubicacion;
 import usuario.Opinion;
+import usuario.Resultado;
 import usuario.Usuario;
 
 public class Muestra {
@@ -53,5 +54,13 @@ public class Muestra {
 	
 	public void enviarRegistroAAplicacion() {
 		this.evaluacionMuestra.enviarRegistro(this);
+	}
+	
+	public EvaluacionMuestra getEvaluacion() {
+		return this.evaluacionMuestra;
+	}
+	
+	public Resultado getResultadoActual() {
+		return
 	}
 }
