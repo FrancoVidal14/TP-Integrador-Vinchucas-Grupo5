@@ -2,6 +2,7 @@ package VinchucasTest;
 
 import org.junit.jupiter.api.Test;
 
+import Vinchucas.FuncionalidadExterna;
 import Vinchucas.Organizacion;
 import Vinchucas.TipoDeOrganizacion;
 import Vinchucas.Ubicacion;
@@ -15,12 +16,13 @@ class OrganizacionTest {
     private Ubicacion ubicacion;
     private TipoDeOrganizacion tipo;
     private Organizacion organizacion;
+    private FuncionalidadExterna funcionalidad;
 
     @BeforeEach
     void setUp() {
         ubicacion = new Ubicacion(-34.6037, -58.3816);
         tipo = TipoDeOrganizacion.Salud;
-        organizacion = new Organizacion(ubicacion, tipo, 50);
+        organizacion = new Organizacion(ubicacion, tipo, 50, funcionalidad, funcionalidad);
     }
 
     @Test
