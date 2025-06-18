@@ -7,7 +7,7 @@ public abstract class Usuario {
 		return this.estado.esExperto();
 	}
 	
-	//metodo hook para recategorizar a los usuarios generales desde sistema?
+	//metodo hook para recategorizar a los usuarios generales desde sistema
 	protected void cambiarNivelConocimiento() {
 		
 	}

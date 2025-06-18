@@ -2,9 +2,7 @@ package muestra;
 
 import java.util.List;
 
-import usuario.NivelConocimiento;
 import usuario.Opinion;
-import usuario.Usuario;
 
 public abstract class EstadoEvaluacionMuestra {
 	

@@ -39,6 +39,10 @@ public class Muestra {
 		return this.evaluacionMuestra.getOpiniones();
 	}
 	
+	public List<Opinion> getOpinionesDe(Usuario usuario){
+		return this.getOpiniones().stream().filter(opinion -> opinion.getUsuario().equals(usuario)).toList();
+	}
+	
 	public void procesarOpinion(Opinion opinion) throws Exception {
 		this.evaluacionMuestra.procesarOpinion(this, opinion);
 	}

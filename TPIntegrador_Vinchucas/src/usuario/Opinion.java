@@ -3,12 +3,12 @@ package usuario;
 import java.time.LocalDateTime;
 
 public class Opinion {
-	private LocalDateTime fecha = LocalDateTime.now(); //se entiende que se guarda la fecha cuando se manda la opinion
+	private LocalDateTime fecha;
 	private Resultado resultado;
 	private Usuario usuario;
 	private boolean esDeExperto;
 	
-	public Opinion(Usuario usuario, Resultado resultado) {
+	public Opinion(LocalDateTime fecha, Usuario usuario, Resultado resultado) {
 		this.usuario = usuario;
 		this.resultado = resultado;
 		this.esDeExperto = usuario.esExperto();
