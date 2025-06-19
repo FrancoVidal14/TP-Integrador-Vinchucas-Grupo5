@@ -22,7 +22,8 @@ public class Muestra{
 		this.usuarioEnviador = usuarioEnviador;
 		this.evaluacionMuestra.procesarOpinion(this, opinionUsuarioEnviador);
 	}
-
+	
+	//getters y equals
 	public LocalDateTime getFecha() {
 		return fechaCreacion;
 	}
@@ -39,14 +40,12 @@ public class Muestra{
 		return this.usuarioEnviador.equals(usuario);
 	}
 	
-	public List<Opinion> getOpiniones(){
-		return this.evaluacionMuestra.getOpiniones();
+	public boolean generadaEnUltimos(int ultimosDias) {
+		LocalDateTime fechaComienzoValidez = LocalDateTime.now().minusDays(ultimosDias);
+		return this.fechaCreacion.isAfter(fechaComienzoValidez);
 	}
 	
-	public List<Opinion> getOpinionesDe(Usuario usuario){
-		return this.getOpiniones().stream().filter(opinion -> opinion.esUsuarioOpinador(usuario)).toList();
-	}
-	
+	//Evaluacion de muestra
 	public void procesarOpinion(Opinion opinion) throws Exception {
 		this.evaluacionMuestra.procesarOpinion(this, opinion);
 	}
@@ -55,8 +54,12 @@ public class Muestra{
 		return this.evaluacionMuestra.getResultadoActual();
 	}
 	
-	public List<ZonaDeCobertura> zonasDeCoberturaOcupadas(AplicacionWeb appWeb){
-    	return appWeb.getZonasDeCobertura().stream().filter(z -> z.contiene(this.getUbicacion())).toList();
+	public List<Opinion> getOpiniones(){
+		return this.evaluacionMuestra.getOpiniones();
+	}
+	
+	public List<Opinion> getOpinionesDe(Usuario usuario){
+		return this.getOpiniones().stream().filter(opinion -> opinion.esUsuarioOpinador(usuario)).toList();
 	}
 	
 	public LocalDateTime buscarFechaUltimaVotacion() {
@@ -67,8 +70,10 @@ public class Muestra{
 		return this.getOpinionesDe(usuario).stream().anyMatch(o -> o.esUsuarioOpinador(usuario) && o.generadaEnUltimos(cantDiasConsiderados));
 	}
 	
-	public boolean generadaEnUltimos(int ultimosDias) {
-		return this.fechaCreacion.isAfter(LocalDateTime.now().minusDays(ultimosDias));
+	//Zonas de cobertura de la muestra
+	//falta test
+	public List<ZonaDeCobertura> zonasDeCoberturaOcupadas(AplicacionWeb appWeb){
+    	return appWeb.getZonasDeCobertura().stream().filter(z -> z.contiene(this.getUbicacion())).toList();
 	}
 	
 	public EvaluacionMuestra getEvaluacion() {
