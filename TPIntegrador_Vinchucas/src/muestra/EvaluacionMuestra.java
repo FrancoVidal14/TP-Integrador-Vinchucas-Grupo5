@@ -34,7 +34,7 @@ public class EvaluacionMuestra{
 	
 	public LocalDateTime getFechaUltimaVotacion() {
 		//TEST: si esta vacia lanza excepcion
-		return getOpiniones().getLast().getFecha();
+		return (getOpiniones().getLast()).getFecha();
 	}
 
 	public Resultado getResultadoActual() {
@@ -66,5 +66,9 @@ public class EvaluacionMuestra{
 	
 	public EstadoEvaluacionMuestra getEstado() {
 		return this.estadoEvaluacion;
+	}
+	
+	public boolean esVerificada() {
+		return this.estadoEvaluacion.esVerificado();
 	}
 }

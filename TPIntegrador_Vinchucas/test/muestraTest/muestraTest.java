@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 
 import Vinchucas.Ubicacion;
 import muestra.Muestra;
+import muestra.VotacionGeneral;
 import usuario.Opinion;
 import usuario.Resultado;
 import usuario.Usuario;
@@ -33,7 +34,7 @@ class muestraTest {
 		dami = new UsuarioGeneral();
 		joaco = new UsuarioValidado();
 		fran = new UsuarioValidado();
-		opinionInicial = new Opinion(dami, Resultado.CHINCHE_FOLIADA);
+		opinionInicial = new Opinion(fechaMuestra, dami, Resultado.CHINCHE_FOLIADA);
 		muestra = new Muestra(fechaMuestra, unq, dami, opinionInicial);
 	}
 

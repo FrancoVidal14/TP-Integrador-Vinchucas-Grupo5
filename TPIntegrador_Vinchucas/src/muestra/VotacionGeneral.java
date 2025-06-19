@@ -16,4 +16,9 @@ public class VotacionGeneral extends EstadoEvaluacionMuestra {
 		//TODO: resolver problema aqui con registro
 		evMuestra.setEstado(new VotacionExperto());
 	}
+
+	@Override
+	protected boolean esVerificado() {
+		return false;
+	}
 }
