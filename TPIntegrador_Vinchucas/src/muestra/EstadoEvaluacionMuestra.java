@@ -18,17 +18,11 @@ public abstract class EstadoEvaluacionMuestra {
 	}
 	
 	private boolean usuarioOpinaOtraVez (Opinion opinion, List<Opinion> opinionesMuestra){
-		return opinionesMuestra.stream().anyMatch(opi -> opi.getUsuario().equals(opinion.getUsuario()));
+		return opinionesMuestra.stream().anyMatch(opi -> opi.esUsuarioOpinador(opinion.getUsuario()));
 	}
 	
 	private boolean esUsuarioEnviador(Muestra muestra, Opinion opinion) {
-		return muestra.getUsuario().equals(opinion.getUsuario());
+		return muestra.esUsuarioEnviador(opinion.getUsuario());
 	}
-	
-	protected boolean opinoExperto(Opinion opinion) {
-		return opinion.esDeExperto();
-	}
-
-	public abstract void enviarRegistroSiEsVerificada(Muestra muestra);
 	
 }

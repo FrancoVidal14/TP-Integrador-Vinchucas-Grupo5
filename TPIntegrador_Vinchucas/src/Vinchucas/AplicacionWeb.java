@@ -9,16 +9,17 @@ import muestra.Muestra;
 import usuario.Opinion;
 import usuario.Usuario;
 
-public class AplicacionWeb implements RegistroDeValidaciones{
+public class AplicacionWeb{
 	private List<Muestra> muestras;
 	private List<Usuario> usuarios;
 	private List<ZonaDeCobertura> zonasDeCobertura;
 	private FiltroDeBusqueda filtro;
 	
-	public AplicacionWeb() {
+	public AplicacionWeb(FiltroDeBusqueda filtro) {
 		this.muestras = new ArrayList<>();
 		this.usuarios = new ArrayList<>();
 		this.zonasDeCobertura = new ArrayList<>();
+		this.filtro = filtro;
 	}	
 	
 	//Cambiamos idea en base a lo charlado con el profe Diego Cano y entendemos que la integridad ya estaria garantizada.
@@ -33,9 +34,31 @@ public class AplicacionWeb implements RegistroDeValidaciones{
 		muestra.procesarOpinion(opinion);
 	}
 	
-	public void recategorizar() {
-		//recategoriza a los usuarios GENERALES segun:
-		//"son personas que durante los últimos 30 días desde la fecha actual han realizado más de 10 envíos y más de 20 revisiones"
+	//proximamente una clase regategorizador
+	public void recategorizar(int cantEnviosEsperados, int cantRevisionesEsperadas, int cantDiasConsiderados) {
+		for(Usuario usuario : getUsuarios()) {
+			usuario.recategorizarSiCorresponde(this, cantEnviosEsperados, cantRevisionesEsperadas, cantDiasConsiderados);
+		}
+	}
+	
+	public boolean usuarioCumpleReglasPromocion(Usuario usuario, int cantEnviosEsperados, int cantRevisionesEsperadas, int cantDiasConsiderados) {
+		return this.usuarioEnvioMasDeMuestrasEn(usuario, cantEnviosEsperados, cantDiasConsiderados) && this.usuarioConcretoMasDeRevisionesEn(usuario, cantRevisionesEsperadas, cantDiasConsiderados);
+	}
+	
+	private boolean usuarioConcretoMasDeRevisionesEn(Usuario usuario, int cantRevisionesEsperadas, int cantDiasConsiderados) {
+		return this.revisionesCorrectasDeEn(usuario, cantDiasConsiderados).size() > cantRevisionesEsperadas;
+	}
+
+	private List<Muestra> revisionesCorrectasDeEn(Usuario usuario, int cantDiasConsiderados) {
+		return this.muestras.stream().filter(m -> m.usuarioHizoRevisionExitosa(usuario, cantDiasConsiderados)).toList();
+	}
+
+	private boolean usuarioEnvioMasDeMuestrasEn(Usuario usuario, int cantEnviosEsperados ,int cantDiasConsiderados) {
+		return this.muestrasEnviadasUsuarioEnUltimosDias(usuario, cantDiasConsiderados).size() > cantEnviosEsperados;
+	}
+	
+	private List<Muestra> muestrasEnviadasUsuarioEnUltimosDias(Usuario usuario, int ultimosDias){
+		return this.muestras.stream().filter(m ->  m.esUsuarioEnviador(usuario) && m.esEnviadaEnUltimos(ultimosDias)).toList();
 	}
   
 	//perdemos eficiencia pero evitamos que el usuario tenga una lista de opiniones (lo que resulta mas comodo para recategorizar) complicando la logica a la hora de verificar la opinion y agregarsela si es aceptada.
@@ -58,19 +81,14 @@ public class AplicacionWeb implements RegistroDeValidaciones{
 		return muestras;
 	}
 	
+	public List<Usuario> getUsuarios(){
+		return this.usuarios;
+	}
+	
 	public void enviarMuestraAZonas(Muestra muestra) {
 		for(ZonaDeCobertura z : getZonasDeCobertura()) {
 			if(z.contiene(muestra.getUbicacion())) {
 				z.registrarMuestra(muestra);
-			}
-		}
-	}
-
-	@Override
-	public void recibirMuestraValidada(Muestra m) {
-		for(ZonaDeCobertura z : getZonasDeCobertura()) {
-			if(z.contiene(m.getUbicacion())) {
-				z.registrarValidacionDeMuestra(m);
 			}
 		}
 	}

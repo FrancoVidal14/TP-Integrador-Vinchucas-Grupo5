@@ -9,6 +9,7 @@ public class Opinion {
 	private boolean esDeExperto;
 	
 	public Opinion(LocalDateTime fecha, Usuario usuario, Resultado resultado) {
+		this.fecha = fecha;
 		this.usuario = usuario;
 		this.resultado = resultado;
 		this.esDeExperto = usuario.esExperto();
@@ -26,7 +27,19 @@ public class Opinion {
 		return this.fecha;
 	}
 	
-	public boolean esDeExperto() {
+	public boolean fueEmitidaPorExperto() {
 		return esDeExperto;
+	}
+	
+	public boolean esUsuarioOpinador(Usuario usuario) {
+		return this.usuario.equals(usuario);
+	}
+	
+	public boolean esMismoResultado(Resultado resultado) {
+		return this.resultado.equals(resultado);
+	}
+	
+	public boolean esEnviadaEnUltimos(int ultimosDias) {
+		return this.fecha.isAfter(LocalDateTime.now().minusDays(ultimosDias));
 	}
 }
