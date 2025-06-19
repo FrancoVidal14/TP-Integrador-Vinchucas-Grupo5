@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 
 import Vinchucas.Ubicacion;
 import muestra.Muestra;
+import muestra.VotacionGeneral;
 import usuario.Opinion;
 import usuario.Resultado;
 import usuario.Usuario;
