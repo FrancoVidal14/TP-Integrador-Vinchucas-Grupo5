@@ -25,4 +25,5 @@ public abstract class EstadoEvaluacionMuestra {
 		return muestra.esUsuarioEnviador(opinion.getUsuario());
 	}
 	
+	protected abstract boolean esVerificado();
 }

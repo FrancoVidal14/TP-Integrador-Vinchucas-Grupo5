@@ -13,7 +13,6 @@ public class CriterioTipoDeInsecto implements Criterio {
 	
 	@Override
 	public boolean cumpleMuestra(Muestra m) {
-		return m.;
+		return m.resultadoActual().equals(this.resultado);
 	}
-
 }

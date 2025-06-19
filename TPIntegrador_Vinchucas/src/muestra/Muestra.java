@@ -77,11 +77,11 @@ public class Muestra implements IEnvios{
 		return this.evaluacionMuestra;
 	}
 	
-	public Resultado getResultadoActual() {
-		return
-	}
-	
 	public EstadoEvaluacionMuestra getEstadoActual() {
 		return getEvaluacion().getEstado();
+	}
+	
+	public boolean esMuestraVerificada() {
+		return this.evaluacionMuestra.esVerificada();
 	}
 }

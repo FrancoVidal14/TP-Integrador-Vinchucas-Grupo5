@@ -10,12 +10,12 @@ import org.junit.jupiter.api.Test;
 import FiltrosDeBusqueda.CriterioAND;
 import FiltrosDeBusqueda.CriterioFechaCreacion;
 import FiltrosDeBusqueda.CriterioFechaUltimaVotacion;
-import FiltrosDeBusqueda.CriterioNivelDeVerificacion;
+import FiltrosDeBusqueda.CriterioPorMuestraVerificada;
 import FiltrosDeBusqueda.CriterioOR;
+import FiltrosDeBusqueda.CriterioPorMuestraEnVotacion;
 import FiltrosDeBusqueda.CriterioTipoDeInsecto;
 import Vinchucas.Ubicacion;
 import muestra.Muestra;
-import muestra.MuestraVerificada;
 import usuario.Opinion;
 import usuario.Resultado;
 import usuario.UsuarioGeneral;
@@ -25,14 +25,13 @@ class CriterioTest {
 	
 	private Muestra m1;
 	private Muestra m2;
-	private Muestra m3;
 	private Muestra m4;
-	private Muestra m5;
 	
 	private CriterioFechaCreacion criterioFecha;
 	private CriterioFechaUltimaVotacion criterioUltVotacion;
-	private CriterioNivelDeVerificacion criterioNivelVerif;
+	private CriterioPorMuestraVerificada criterioMuestraVerif;
 	private CriterioTipoDeInsecto criterioInsecto;
+	private CriterioPorMuestraEnVotacion criterioVotacion;
 	private CriterioAND criterioAnd;
 	private CriterioOR criterioOr;
 	
@@ -44,9 +43,7 @@ class CriterioTest {
 	
 	private Ubicacion ubi1;
 	private Ubicacion ubi2;
-	private Ubicacion ubi3;
 	private Ubicacion ubi4;
-	private Ubicacion ubi5;
 	
 	private UsuarioValidado us1;
 	private UsuarioGeneral us2;
@@ -57,13 +54,10 @@ class CriterioTest {
 	private Opinion op1;
 	private Opinion op2;
 	private Opinion op3;
-	private Opinion op4;
 	private Opinion op5;
 	
-	private Resultado res1;
 	private Resultado res2;
 	private Resultado res3;
-	private Resultado res4;
 	private Resultado res5;
 	
 	@BeforeEach
@@ -77,10 +71,11 @@ class CriterioTest {
 		
 		criterioFecha = new CriterioFechaCreacion(fecha1);
 		criterioUltVotacion = new CriterioFechaUltimaVotacion(fecha5);
-		criterioNivelVerif = new CriterioNivelDeVerificacion(new MuestraVerificada());
+		criterioMuestraVerif = new CriterioPorMuestraVerificada();
 		criterioInsecto = new CriterioTipoDeInsecto(Resultado.CHINCHE_FOLIADA);
+		criterioVotacion = new CriterioPorMuestraEnVotacion();
 		criterioAnd = new CriterioAND(criterioFecha, criterioUltVotacion);
-		criterioOr = new CriterioOR(criterioFecha, criterioNivelVerif);
+		criterioOr = new CriterioOR(criterioFecha, criterioMuestraVerif);
 		
 		us1 = new UsuarioValidado();
 		us2 = new UsuarioGeneral();
@@ -88,23 +83,18 @@ class CriterioTest {
 		us4 = new UsuarioValidado();
 		us5 = new UsuarioValidado();
 		
-		res1 = Resultado.CHINCHE_FOLIADA;
 		res2 = Resultado.CHINCHE_FOLIADA;
 		res3 = Resultado.IMAGEN_POCO_CLARA;
-		res4 = Resultado.NO_DEFINIDO;
 		res5 = Resultado.PHTIA_CHINCE;
 		
-		op1 = new Opinion(us1, res1);
-		op2 = new Opinion(us2, res2);
-		op3 = new Opinion(us3, res3);
-		op4 = new Opinion(us4, res3);
-		op5 = new Opinion(us5, res5);
+		op1 = new Opinion(fecha2, us1, res3);
+		op2 = new Opinion(fecha3, us2, res2);
+		op3 = new Opinion(fecha1, us3, res3);
+		op5 = new Opinion(fecha5, us5, res5);
 		
 		m1 = new Muestra(fecha1, ubi1, us1, op2);
 		m2 = new Muestra(fecha2, ubi2, us2, op3);
-		m3 = new Muestra(fecha3, ubi3, us3, op4);
-		m4 = new Muestra(fecha4, ubi4, us4, op5);
-		m5 = new Muestra(fecha5, ubi5, us5, op1);
+		m4 = new Muestra(fecha4, ubi4, us4, op2);
 		
 	}	
 
@@ -120,55 +110,66 @@ class CriterioTest {
 	
 	@Test
 	void testCumpleCriterioMuestraFechaUltimaVotacion() throws Exception {
+		m4.procesarOpinion(op5);
+		assertTrue(criterioUltVotacion.cumpleMuestra(m4));
+	}
+	
+	@Test
+	void testNoCumpleCriterioMuestraFechaUltimaVotacion() throws Exception {
 		m4.procesarOpinion(op1);
-		assertTrue(criterioUltVotacion.cumpleMuestra(m4));//falta hacer
+		assertFalse(criterioUltVotacion.cumpleMuestra(m4));
 	}
 	
 	@Test
-	void testNoCumpleCriterioMuestraFechaUltimaVotacion() {
-		assertFalse(criterioUltVotacion.cumpleMuestra(m3)); //falta
+	void testCumpleCriterioMuestraVerificada() throws Exception {
+		m2.procesarOpinion(op1);
+		assertTrue(criterioMuestraVerif.cumpleMuestra(m2));
 	}
 	
 	@Test
-	void testCumpleCriterioMuestraNivelVerificacion() throws Exception {
-		m2.procesarOpinion(op4); 
-		assertTrue(criterioNivelVerif.cumpleMuestra(m2)); //falta hacer
-	}
-	
-	@Test
-	void testNoCumpleCriterioMuestraNivelVerificacion() {
-		assertFalse(criterioNivelVerif.cumpleMuestra(m2)); //falta hacer
+	void testNoCumpleCriterioMuestraVerificada() {
+		assertFalse(criterioMuestraVerif.cumpleMuestra(m2));
 	}
 	
 	@Test
 	void testCumpleCriterioTipoDeInsecto() {
-		Resultado resultadoEsperado = Resultado.CHINCHE_FOLIADA;
-		//falta el getResultado en muestra
+		assertTrue(criterioInsecto.cumpleMuestra(m1));
 	}
 	
 	@Test
 	void testNoCumpleCriterioTipoDeInsecto() {
-		Resultado resultadoEsperado = Resultado.CHINCHE_FOLIADA;
-		//falta el getResultado en muestra
+		assertFalse(criterioInsecto.cumpleMuestra(m2));
 	}
 	
 	@Test
-	void testCumpleCriterioAND() {
-		assertTrue(criterioAnd.cumpleMuestra(m1)); //falta
+	void testCumpleCriterioPorMuestraEnVotacion() {
+		assertTrue(criterioVotacion.cumpleMuestra(m1));
+	}
+	
+	@Test 
+	void testNoCumpleCriterioPorMuestraVotacion() throws Exception {
+		m2.procesarOpinion(op1);
+		assertFalse(criterioVotacion.cumpleMuestra(m2));
 	}
 	
 	@Test
-	void testCumpleCriterioOR() {
-		assertTrue(criterioAnd.cumpleMuestra(m1)); //falta
+	void testCumpleCriterioAND() throws Exception {
+		m1.procesarOpinion(op5);
+		assertTrue(criterioAnd.cumpleMuestra(m1));
+	}
+	
+	@Test
+	void testCumpleCriterioOR() throws Exception {
+		assertTrue(criterioOr.cumpleMuestra(m1));
 	}
 	
 	@Test
 	void testNoCumpleCriterioAND() {
-		assertTrue(criterioOr.cumpleMuestra(m1)); //falta
+		assertFalse(criterioAnd.cumpleMuestra(m1));
 	}
 	
 	@Test
 	void testNoCumpleCriterioOR() {
-		assertTrue(criterioOr.cumpleMuestra(m1)); //falta
+		assertFalse(criterioOr.cumpleMuestra(m2));
 	}
 }
