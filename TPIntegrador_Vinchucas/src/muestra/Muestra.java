@@ -72,4 +72,16 @@ public class Muestra implements IEnvios{
 	public boolean esEnviadaEnUltimos(int ultimosDias) {
 		return this.fechaCreacion.isAfter(LocalDateTime.now().minusDays(ultimosDias));
 	}
+	
+	public EvaluacionMuestra getEvaluacion() {
+		return this.evaluacionMuestra;
+	}
+	
+	public Resultado getResultadoActual() {
+		return
+	}
+	
+	public EstadoEvaluacionMuestra getEstadoActual() {
+		return getEvaluacion().getEstado();
+	}
 }
