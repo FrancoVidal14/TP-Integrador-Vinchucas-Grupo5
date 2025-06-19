@@ -8,17 +8,12 @@ public class VotacionGeneral extends EstadoEvaluacionMuestra {
 	public void procesarOpinion(EvaluacionMuestra evMuestra, Muestra muestra, Opinion opinion) throws Exception {
 		super.procesarOpinion(evMuestra, muestra, opinion);
 		evMuestra.agregarOpinion(opinion);
-		if (super.opinoExperto(opinion)) this.cambiarEstado(evMuestra);
+		if (opinion.fueEmitidaPorExperto()) this.cambiarEstado(evMuestra);
 	}
 	
 	@Override
 	protected void cambiarEstado(EvaluacionMuestra evMuestra) {
+		//TODO: resolver problema aqui con registro
 		evMuestra.setEstado(new VotacionExperto());
-	}
-
-	@Override
-	public void enviarRegistroSiEsVerificada(Muestra muestra) {
-		// TODO Auto-generated method stub
-		
 	}
 }

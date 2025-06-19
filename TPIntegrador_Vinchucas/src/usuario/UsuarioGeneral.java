@@ -1,5 +1,7 @@
 package usuario;
 
+import Vinchucas.AplicacionWeb;
+
 public class UsuarioGeneral extends Usuario {
 
 	public UsuarioGeneral() {
@@ -7,11 +9,15 @@ public class UsuarioGeneral extends Usuario {
 	}
 	
 	@Override
-	protected void cambiarNivelConocimiento() {
-		this.estado.cambiarEstado(this);
+	public void recategorizarSiCorresponde(AplicacionWeb aplicacionWeb, int cantEnviosEsperados, int cantRevisionesEsperadas, int cantDiasConsiderados)  {
+		this.estado.recategorizarSiCorresponde(aplicacionWeb, this, cantEnviosEsperados, cantRevisionesEsperadas, cantDiasConsiderados);
 	}
 	
 	protected void setEstado(EstadoUsuario estado) {
 		this.estado = estado;
+	}
+	
+	public void decidirSiSoyExperto() {
+		
 	}
 }

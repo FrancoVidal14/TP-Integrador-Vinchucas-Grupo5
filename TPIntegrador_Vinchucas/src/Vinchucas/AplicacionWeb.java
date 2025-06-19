@@ -1,91 +1,71 @@
 package Vinchucas;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 
 import FiltrosDeBusqueda.Criterio;
 import FiltrosDeBusqueda.FiltroDeBusqueda;
 import muestra.Muestra;
 import usuario.Opinion;
-import usuario.Resultado;
 import usuario.Usuario;
 
-public class AplicacionWeb implements RegistroDeValidaciones{
+public class AplicacionWeb{
 	private List<Muestra> muestras;
 	private List<Usuario> usuarios;
 	private List<ZonaDeCobertura> zonasDeCobertura;
-	private Map<Integer, List<Opinion>> opinionesUsuarios;
 	private FiltroDeBusqueda filtro;
 	
-	public AplicacionWeb() {
+	public AplicacionWeb(FiltroDeBusqueda filtro) {
 		this.muestras = new ArrayList<>();
 		this.usuarios = new ArrayList<>();
 		this.zonasDeCobertura = new ArrayList<>();
-		this.opinionesUsuarios = new HashMap<>();
+		this.filtro = filtro;
 	}	
 	
-	//Decido que la aplicacion web reciba la informacion cruda y genere los objetos claves para mantener la integridad deseada
-	public void recibirMuestra(Ubicacion ubicacion, Usuario usuario, Resultado resultado) throws Exception {
-		Opinion opinion = new Opinion(usuario, resultado);
-		Muestra muestra = new Muestra(LocalDateTime.now(), ubicacion, usuario, opinion);
+	//Cambiamos idea en base a lo charlado con el profe Diego Cano y entendemos que la integridad ya estaria garantizada.
+	public void recibirMuestra(Muestra muestra, Usuario usuario, Opinion opinionUsuario) throws Exception {
 		this.muestras.add(muestra);
 		this.usuarios.add(usuario);
+		this.recibirOpinion(muestra, opinionUsuario); 
 		enviarMuestraAZonas(muestra);
 	}
 	
-	
-	public void recibirOpinion(Muestra muestra, Usuario usuario, Resultado resultado) throws Exception {
-	    try {
-	        Muestra muestraSistema = buscarMuestra(muestra);
-	        Opinion opinionUsuario = new Opinion(usuario, resultado);
-	        
-	        procesarOpinion(muestraSistema, opinionUsuario);
-	        registrarOpinion(usuario, opinionUsuario);
-
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	    }
+	public void recibirOpinion(Muestra muestra, Opinion opinion) throws Exception {
+		muestra.procesarOpinion(opinion);
 	}
 	
-	private void registrarOpinion(Usuario usuario, Opinion opinionUsuario) {
-		List<Opinion> opinionesUsuario = this.opinionesUsuarios.get(usuario.getDni());
-
-		if (opinionesUsuario == null) {
-		    opinionesUsuario = new ArrayList<>();
-		    this.opinionesUsuarios.put(usuario.getDni(), opinionesUsuario);
+	//proximamente una clase regategorizador
+	public void recategorizar(int cantEnviosEsperados, int cantRevisionesEsperadas, int cantDiasConsiderados) {
+		for(Usuario usuario : getUsuarios()) {
+			usuario.recategorizarSiCorresponde(this, cantEnviosEsperados, cantRevisionesEsperadas, cantDiasConsiderados);
 		}
-
-		opinionesUsuario.add(opinionUsuario);
-	}
-
-	private Muestra buscarMuestra(Muestra muestra) throws Exception {
-		Optional<Muestra> muestraBuscada = this.muestras.stream().filter(m -> m.equals(muestra)).findFirst();
-		if (muestraBuscada.isEmpty()) throw new Exception ("No existe la muestra en el sistema");
-		else return muestraBuscada.get();
 	}
 	
-	private void procesarOpinion(Muestra muestraSistema, Opinion opinion) throws Exception {
-		muestraSistema.procesarOpinion(opinion);
+	public boolean usuarioCumpleReglasPromocion(Usuario usuario, int cantEnviosEsperados, int cantRevisionesEsperadas, int cantDiasConsiderados) {
+		return this.usuarioEnvioMasDeMuestrasEn(usuario, cantEnviosEsperados, cantDiasConsiderados) && this.usuarioConcretoMasDeRevisionesEn(usuario, cantRevisionesEsperadas, cantDiasConsiderados);
 	}
 	
-	public void recategorizar() {
-		//recategoriza a los usuarios GENERALES segun:
-		//"son personas que durante los últimos 30 días desde la fecha actual han realizado más de 10 envíos y más de 20 revisiones"
+	private boolean usuarioConcretoMasDeRevisionesEn(Usuario usuario, int cantRevisionesEsperadas, int cantDiasConsiderados) {
+		return this.revisionesCorrectasDeEn(usuario, cantDiasConsiderados).size() > cantRevisionesEsperadas;
+	}
+
+	private List<Muestra> revisionesCorrectasDeEn(Usuario usuario, int cantDiasConsiderados) {
+		return this.muestras.stream().filter(m -> m.usuarioHizoRevisionExitosa(usuario, cantDiasConsiderados)).toList();
+	}
+
+	private boolean usuarioEnvioMasDeMuestrasEn(Usuario usuario, int cantEnviosEsperados ,int cantDiasConsiderados) {
+		return this.muestrasEnviadasUsuarioEnUltimosDias(usuario, cantDiasConsiderados).size() > cantEnviosEsperados;
+	}
+	
+	private List<Muestra> muestrasEnviadasUsuarioEnUltimosDias(Usuario usuario, int ultimosDias){
+		return this.muestras.stream().filter(m ->  m.esUsuarioEnviador(usuario) && m.esEnviadaEnUltimos(ultimosDias)).toList();
 	}
   
 	//perdemos eficiencia pero evitamos que el usuario tenga una lista de opiniones (lo que resulta mas comodo para recategorizar) complicando la logica a la hora de verificar la opinion y agregarsela si es aceptada.
 	public List<Opinion> getOpinionesDe(Usuario usuario) {
-		//validar usuario en el sistema??
-		List<Opinion> opiniones = this.opinionesUsuarios.get(usuario.getDni());
-	    if (opiniones == null) {
-	    	//throw new Exception ("El usuario todavia no dio su opinion");
-	    	return opiniones = new ArrayList<>();
-	    }
-	    return opiniones;
+		return this.muestras.stream()
+							.flatMap(m -> m.getOpinionesDe(usuario).stream())
+							.toList();
 	}
 	
 	public List<Muestra> muestrasAMenosDe(Muestra muestra, double km){
@@ -101,19 +81,14 @@ public class AplicacionWeb implements RegistroDeValidaciones{
 		return muestras;
 	}
 	
+	public List<Usuario> getUsuarios(){
+		return this.usuarios;
+	}
+	
 	public void enviarMuestraAZonas(Muestra muestra) {
 		for(ZonaDeCobertura z : getZonasDeCobertura()) {
 			if(z.contiene(muestra.getUbicacion())) {
 				z.registrarMuestra(muestra);
-			}
-		}
-	}
-
-	@Override
-	public void recibirMuestraValidada(Muestra m) {
-		for(ZonaDeCobertura z : getZonasDeCobertura()) {
-			if(z.contiene(m.getUbicacion())) {
-				z.registrarValidacionDeMuestra(m);
 			}
 		}
 	}

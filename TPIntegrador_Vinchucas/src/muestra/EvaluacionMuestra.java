@@ -5,8 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import usuario.Opinion;
+import usuario.Resultado;
 
-public class EvaluacionMuestra {
+public class EvaluacionMuestra{
 	
 	private EstadoEvaluacionMuestra estadoEvaluacion = new VotacionGeneral();
 	private List<Opinion> opiniones = new ArrayList<>();
@@ -17,6 +18,10 @@ public class EvaluacionMuestra {
 	
 	public List<Opinion> getOpiniones(){
 		return this.opiniones;
+	}
+	
+	public List<Opinion> getOpinionesExpertos(){
+		return this.opiniones.stream().filter(o -> o.fueEmitidaPorExperto()).toList();
 	}
 	
 	protected void agregarOpinion(Opinion opinion) {
@@ -32,8 +37,31 @@ public class EvaluacionMuestra {
 		return getOpiniones().getLast().getFecha();
 	}
 
-	public void enviarRegistro(Muestra muestra) {
-		this.estadoEvaluacion.enviarRegistroSiEsVerificada(muestra);
+	public Resultado getResultadoActual() {
+	    Resultado resultadoMasFrecuente = null;
+	    int maxApariciones = 0;
+	    boolean empate = false;
+	    
+	    //itero sobre los resultados posibles para ver la cantidad de apariciones
+	    for (Resultado resultadoCandidato : Resultado.values()) {
+	        int aparicionesCandidato = 0;
+	        for (Opinion op : this.opiniones) {
+	            if (op.esMismoResultado(resultadoCandidato)) {
+	            	aparicionesCandidato++;
+	            }
+	        }
+
+	        if (aparicionesCandidato > maxApariciones) {
+	        	maxApariciones = aparicionesCandidato;
+	            resultadoMasFrecuente = resultadoCandidato;
+	            empate = false;
+	        } else if (aparicionesCandidato == maxApariciones) {
+	            empate = true;
+	        }
+	    }
+	    
+	    //siempre hay al menos 1 opinion que es la del usuario enviador y por ende no hace falta corroborar si aparicionesCandidato es > 0
+	    return empate ? Resultado.NO_DEFINIDO : resultadoMasFrecuente;
 	}
 	
 	public EstadoEvaluacionMuestra getEstado() {
