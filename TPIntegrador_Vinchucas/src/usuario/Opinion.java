@@ -2,7 +2,9 @@ package usuario;
 
 import java.time.LocalDateTime;
 
-public class Opinion {
+import Vinchucas.IEnvios;
+
+public class Opinion implements IEnvios{
 	private LocalDateTime fecha;
 	private Resultado resultado;
 	private Usuario usuario;
@@ -39,6 +41,7 @@ public class Opinion {
 		return this.resultado.equals(resultado);
 	}
 	
+	@Override
 	public boolean esEnviadaEnUltimos(int ultimosDias) {
 		return this.fecha.isAfter(LocalDateTime.now().minusDays(ultimosDias));
 	}

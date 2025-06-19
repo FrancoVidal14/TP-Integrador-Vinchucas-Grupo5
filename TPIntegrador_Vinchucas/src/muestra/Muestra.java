@@ -4,13 +4,14 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import Vinchucas.AplicacionWeb;
+import Vinchucas.IEnvios;
 import Vinchucas.ZonaDeCobertura;
 import Vinchucas.Ubicacion;
 import usuario.Opinion;
 import usuario.Resultado;
 import usuario.Usuario;
 
-public class Muestra{
+public class Muestra implements IEnvios{
 	private LocalDateTime fechaCreacion;
 	private Ubicacion ubicacionOrigen;
 	private Usuario usuarioEnviador;
@@ -63,11 +64,12 @@ public class Muestra{
 		return evaluacionMuestra.getFechaUltimaVotacion();
 	}
 
-	public boolean esEnviadaEnUltimos(int ultimosDias) {
-		return this.fechaCreacion.isAfter(LocalDateTime.now().minusDays(ultimosDias));
-	}
-
 	public boolean usuarioHizoRevisionExitosa(Usuario usuario, int cantDiasConsiderados) {
 		return this.getOpinionesDe(usuario).stream().anyMatch(o -> o.esUsuarioOpinador(usuario) && o.esEnviadaEnUltimos(cantDiasConsiderados));
+	}
+	
+	@Override
+	public boolean esEnviadaEnUltimos(int ultimosDias) {
+		return this.fechaCreacion.isAfter(LocalDateTime.now().minusDays(ultimosDias));
 	}
 }
