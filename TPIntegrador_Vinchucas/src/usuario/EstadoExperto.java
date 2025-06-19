@@ -1,6 +1,6 @@
 package usuario;
 
-import Vinchucas.AplicacionWeb;
+import Vinchucas.Recategorizador;
 
 public class EstadoExperto implements EstadoUsuario {
 
@@ -14,9 +14,9 @@ public class EstadoExperto implements EstadoUsuario {
 		usuario.setEstado(new EstadoBasico());
 	}
 	
-	public void recategorizarSiCorresponde(AplicacionWeb aplicacionWeb, Usuario usuario,
+	public void recategorizarSiCorresponde(Recategorizador recategorizador, Usuario usuario,
 			int cantEnviosEsperados, int cantRevisionesEsperadas, int cantDiasConsiderados) {
-		if (!aplicacionWeb.usuarioCumpleReglasPromocion(usuario, cantEnviosEsperados, cantRevisionesEsperadas, cantDiasConsiderados)) {
+		if (!recategorizador.cumpleCondiciones(usuario, cantEnviosEsperados, cantRevisionesEsperadas, cantDiasConsiderados)) {
 			this.cambiarEstado(usuario);
 		}
 	}
