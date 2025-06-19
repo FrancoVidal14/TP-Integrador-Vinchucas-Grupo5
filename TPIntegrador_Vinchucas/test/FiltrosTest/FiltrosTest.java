@@ -11,6 +11,7 @@ import FiltrosDeBusqueda.CriterioFechaCreacion;
 import FiltrosDeBusqueda.CriterioFechaUltimaVotacion;
 import FiltrosDeBusqueda.CriterioNivelDeVerificacion;
 import FiltrosDeBusqueda.CriterioOR;
+import FiltrosDeBusqueda.CriterioTipoDeInsecto;
 import FiltrosDeBusqueda.CriterioAND;
 import Vinchucas.AplicacionWeb;
 import Vinchucas.Ubicacion;
@@ -32,6 +33,7 @@ class FiltrosTest {
 	private CriterioFechaCreacion criterioFecha;
 	private CriterioFechaUltimaVotacion criterioUltVotacion;
 	private CriterioNivelDeVerificacion criterioNivelVerif;
+	private CriterioTipoDeInsecto criterioInsecto;
 	private CriterioAND criterioAnd;
 	private CriterioOR criterioOr;
 	
@@ -82,7 +84,7 @@ class FiltrosTest {
 		
 		op1 = new Opinion(us1, res1);
 		op2 = new Opinion(us2, res2);
-		op3 = new Opinion(us3, res3);
+		op3 = new Opinion(us3, res4);
 		op4 = new Opinion(us4, res4);
 		op5 = new Opinion(us5, res5);
 		
@@ -108,6 +110,7 @@ class FiltrosTest {
 		criterioFecha = new CriterioFechaCreacion(fecha1);
 		criterioUltVotacion = new CriterioFechaUltimaVotacion(fecha2);
 		criterioNivelVerif = new CriterioNivelDeVerificacion(new MuestraVerificada());
+		criterioInsecto = new CriterioTipoDeInsecto(Resultado.CHINCHE_FOLIADA);
 		criterioAnd = new CriterioAND(criterioFecha, criterioUltVotacion);
 		criterioOr = new CriterioOR(criterioFecha, criterioNivelVerif);
 		
@@ -119,36 +122,36 @@ class FiltrosTest {
 	}
 	
 	@Test
-	void testCriterioFechaCreacion() {
+	void testFiltroPorCriterioFechaCreacion() {
 		LocalDateTime fechaEsperada = fecha3;
 		//El tema es que cuando la aplicacion recibe una muestra se crea la muestra con la fecha de ahora.
 	}
 	
 	@Test
-	void testCriterioFechaUltimaVotacion() {
+	void testFiltroPorCriterioFechaUltimaVotacion() {
 		LocalDateTime fechaEsperada = fecha2;
-		
+		//falta algo de dami
 	}
 	
 	@Test
-	void testCriterioNivelVerificacion() {
+	void testFiltroCriterioNivelVerificacion() {
 		MuestraVerificada estadoEsperado = new MuestraVerificada();
 		
 	}
 	
 	@Test
-	void testCriterioTipoDeInsecto() {
+	void testFiltroCriterioTipoDeInsecto() {
 		Resultado resultadoEsperado = Resultado.CHINCHE_FOLIADA;
 		//falta el getResultado en muestra
 	}
 	
 	@Test
-	void testCriterioAND() {
+	void testFiltroPorCriterioAND() {
 		
 	}
 	
 	@Test
-	void testCriterioOR() {
+	void testFiltroPorCriterioOR() {
 		
 	}
 }

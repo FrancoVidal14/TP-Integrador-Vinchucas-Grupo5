@@ -63,4 +63,8 @@ public class Muestra {
 	public Resultado getResultadoActual() {
 		return
 	}
+	
+	public EstadoEvaluacionMuestra getEstadoActual() {
+		return getEvaluacion().getEstado();
+	}
 }

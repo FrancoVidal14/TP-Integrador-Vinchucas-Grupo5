@@ -13,6 +13,6 @@ public class CriterioNivelDeVerificacion implements Criterio{
 	
 	@Override
 	public boolean cumpleMuestra(Muestra m) {
-		return m.getEvaluacion().getEstado().equals(estado);
+		return m.getEstadoActual().equals(estado);
 	}	
 }
