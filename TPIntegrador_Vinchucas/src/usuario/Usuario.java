@@ -1,6 +1,6 @@
 package usuario;
 
-import Vinchucas.AplicacionWeb;
+import Vinchucas.Recategorizador;
 
 public abstract class Usuario {
 	protected EstadoUsuario estado;
@@ -15,7 +15,7 @@ public abstract class Usuario {
 	}
 	
 	//metodo hook para recategorizar a los usuarios generales desde sistema
-	public void recategorizarSiCorresponde(AplicacionWeb aplicacionWeb,  int cantEnviosEsperados, int cantRevisionesEsperadas, int cantDiasConsiderados) {
+	public void recategorizarSiCorresponde(Recategorizador recategorizador,  int cantEnviosEsperados, int cantRevisionesEsperadas, int cantDiasConsiderados) {
 		
 	}
 }

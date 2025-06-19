@@ -1,6 +1,6 @@
 package usuario;
 
-import Vinchucas.AplicacionWeb;
+import Vinchucas.Recategorizador;
 
 public class UsuarioGeneral extends Usuario {
 
@@ -9,8 +9,8 @@ public class UsuarioGeneral extends Usuario {
 	}
 	
 	@Override
-	public void recategorizarSiCorresponde(AplicacionWeb aplicacionWeb, int cantEnviosEsperados, int cantRevisionesEsperadas, int cantDiasConsiderados)  {
-		this.estado.recategorizarSiCorresponde(aplicacionWeb, this, cantEnviosEsperados, cantRevisionesEsperadas, cantDiasConsiderados);
+	public void recategorizarSiCorresponde(Recategorizador recategorizador, int cantEnviosEsperados, int cantRevisionesEsperadas, int cantDiasConsiderados)  {
+		this.estado.recategorizarSiCorresponde(recategorizador, this, cantEnviosEsperados, cantRevisionesEsperadas, cantDiasConsiderados);
 	}
 	
 	protected void setEstado(EstadoUsuario estado) {

@@ -1,6 +1,6 @@
 package usuario;
 
-import Vinchucas.AplicacionWeb;
+import Vinchucas.Recategorizador;
 
 public class EstadoBasico implements EstadoUsuario {
 
@@ -15,9 +15,9 @@ public class EstadoBasico implements EstadoUsuario {
 	}
 
 	@Override
-	public void recategorizarSiCorresponde(AplicacionWeb aplicacionWeb, Usuario usuario,
+	public void recategorizarSiCorresponde(Recategorizador recategorizador, Usuario usuario,
 			int cantEnviosEsperados, int cantRevisionesEsperadas, int cantDiasConsiderados) {
-		if (aplicacionWeb.usuarioCumpleReglasPromocion(usuario, cantEnviosEsperados, cantRevisionesEsperadas, cantDiasConsiderados)) {
+		if (recategorizador.cumpleCondiciones(usuario, cantEnviosEsperados, cantRevisionesEsperadas, cantDiasConsiderados)) {
 			this.cambiarEstado(usuario);
 		}
 	}
