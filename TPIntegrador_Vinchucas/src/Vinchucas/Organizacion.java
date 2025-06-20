@@ -2,7 +2,7 @@ package Vinchucas;
 
 import muestra.Muestra;
 
-public class Organizacion implements NotificacionesPorMuestras{
+public class Organizacion implements NotificadosPorMuestras{
 	private Ubicacion ubicacion;
 	private TipoDeOrganizacion tipo;
 	private int cantEmpleados;
