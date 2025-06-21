@@ -9,7 +9,7 @@ import muestra.Muestra;
 import usuario.Opinion;
 import usuario.Usuario;
 
-public class AplicacionWeb implements IDatosUsuario{
+public class AplicacionWeb implements IDatosUsuario, RegistroDeValidaciones{
 	private List<Muestra> muestras = new ArrayList<>();
 	private List<Usuario> usuarios = new ArrayList<>();
 	private List<ZonaDeCobertura> zonasDeCobertura;
@@ -74,6 +74,15 @@ public class AplicacionWeb implements IDatosUsuario{
 		for(ZonaDeCobertura z : getZonasDeCobertura()) {
 			if(z.contiene(muestra.getUbicacion())) {
 				z.registrarMuestra(muestra);
+			}
+		}
+	}
+	
+	@Override
+	public void recibirMuestraValidada(Muestra m) {
+		for(ZonaDeCobertura z : getZonasDeCobertura()) {
+			if(z.contiene(m.getUbicacion())) {
+				z.registrarValidacionDeMuestra(m);
 			}
 		}
 	}
