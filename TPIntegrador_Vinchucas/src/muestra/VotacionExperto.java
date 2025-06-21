@@ -29,4 +29,9 @@ public class VotacionExperto extends EstadoEvaluacionMuestra {
 	protected void cambiarEstado(EvaluacionMuestra evMuestra) {
 		evMuestra.setEstado(new MuestraVerificada());
 	}
+
+	@Override
+	protected boolean esVerificado() {
+		return false;
+	}
 }

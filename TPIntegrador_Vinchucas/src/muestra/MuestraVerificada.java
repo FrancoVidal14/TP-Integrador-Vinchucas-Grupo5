@@ -13,4 +13,9 @@ public class MuestraVerificada extends EstadoEvaluacionMuestra {
 	protected void cambiarEstado(EvaluacionMuestra evMuestra) {
 		// TODO Auto-generated method stub
 	}
+
+	@Override
+	protected boolean esVerificado() {
+		return true;
+	}
 }

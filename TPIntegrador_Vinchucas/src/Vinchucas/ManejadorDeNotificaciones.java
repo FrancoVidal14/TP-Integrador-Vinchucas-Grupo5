@@ -8,33 +8,33 @@ import java.util.ArrayList;
 
 public class ManejadorDeNotificaciones {
 	
-	private List<NotificacionesPorMuestras> observadores = new ArrayList<>();
+	private List<NotificadosPorMuestras> notificados = new ArrayList<>();
 	
-	public void registrarOrganizacionEnZonas(NotificacionesPorMuestras o) {
-		getObservadores().add(o);
+	public void registrarOrganizacionEnZonas(NotificadosPorMuestras n) {
+		getNotificados().add(n);
 	}
 	
-	public void sacarDelRegistroEnZonas(NotificacionesPorMuestras o) {
-		getObservadores().remove(o);
+	public void sacarDelRegistroEnZonas(NotificadosPorMuestras n) {
+		getNotificados().remove(n);
 	}
 
-	public List<NotificacionesPorMuestras> getObservadores() {
-		return observadores;
+	public List<NotificadosPorMuestras> getNotificados() {
+		return this.notificados;
 	}
 
-	public void setObservadores(List<NotificacionesPorMuestras> observadores) {
-		this.observadores = observadores;
+	public void setNotificados(List<NotificadosPorMuestras> observadores) {
+		this.notificados = observadores;
 	}
 	
 	public void recibirInformacionDeMuestraRegistrada(Muestra muestra, ZonaDeCobertura zona) {
-		for(NotificacionesPorMuestras o : observadores) {
-			o.recibirNotificacionDeRegistroDe(muestra, zona);
+		for(NotificadosPorMuestras n : this.notificados) {
+			n.recibirNotificacionDeRegistroDe(muestra, zona);
 		}
 	}
 	
 	public void recibirInformacionDeMuestraValidada(Muestra muestra, ZonaDeCobertura zona) {
-		for(NotificacionesPorMuestras o : observadores) {
-			o.recibirNotificacionDeValidacionDe(muestra, zona);
+		for(NotificadosPorMuestras n : this.notificados) {
+			n.recibirNotificacionDeValidacionDe(muestra, zona);
 		}	
 	}
 }
