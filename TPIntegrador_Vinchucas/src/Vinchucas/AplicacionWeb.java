@@ -14,7 +14,7 @@ public class AplicacionWeb implements IDatosUsuario, RegistroDeValidaciones {
 	private List<Usuario> usuarios = new ArrayList<>();
 	private List<ZonaDeCobertura> zonasDeCobertura;
 	private FiltroDeBusqueda filtro;
-	private Recategorizador recategorizador = new Recategorizador(this);
+	private Recategorizador recategorizador = new Recategorizador(this); 
 
 	// Constructor
 	public AplicacionWeb(FiltroDeBusqueda filtro) {
@@ -65,12 +65,9 @@ public class AplicacionWeb implements IDatosUsuario, RegistroDeValidaciones {
 	public void recibirMuestra(Muestra muestra, Usuario usuario, Opinion opinionUsuario) throws Exception {
 		this.muestras.add(muestra);
 		this.usuarios.add(usuario);
-		this.recibirOpinion(muestra, opinionUsuario); 
+		muestra.setReceptor(this);
+		muestra.procesarOpinion(opinionUsuario);
 		enviarMuestraAZonas(muestra);
-	}
-
-	public void recibirOpinion(Muestra muestra, Opinion opinion) throws Exception {
-		muestra.procesarOpinion(opinion);
 	}
 
 	@Override

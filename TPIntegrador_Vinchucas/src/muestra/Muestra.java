@@ -4,17 +4,19 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import Vinchucas.AplicacionWeb;
+import Vinchucas.RegistroDeValidaciones;
 import Vinchucas.ZonaDeCobertura;
 import Vinchucas.Ubicacion;
 import usuario.Opinion;
 import usuario.Resultado;
 import usuario.Usuario;
 
-public class Muestra{
+public class Muestra {
 	private LocalDateTime fechaCreacion;
 	private Ubicacion ubicacionOrigen;
 	private Usuario usuarioEnviador;
 	private EvaluacionMuestra evaluacionMuestra = new EvaluacionMuestra();
+	private RegistroDeValidaciones receptor;
 	
 	public Muestra(LocalDateTime fechaCreacion, Ubicacion ubicacionOrigen, Usuario usuarioEnviador, Opinion opinionUsuarioEnviador) throws Exception {
 		this.fechaCreacion = fechaCreacion;
@@ -45,6 +47,10 @@ public class Muestra{
 		return this.fechaCreacion.isAfter(fechaComienzoValidez);
 	}
 	
+	public void setReceptor(RegistroDeValidaciones receptor) {
+		this.receptor = receptor;
+	}
+	
 	//Evaluacion de muestra
 	public void procesarOpinion(Opinion opinion) throws Exception {
 		this.evaluacionMuestra.procesarOpinion(this, opinion);
@@ -70,6 +76,14 @@ public class Muestra{
 		return this.getOpinionesDe(usuario).stream().anyMatch(o -> o.esUsuarioOpinador(usuario) && o.generadaEnUltimos(cantDiasConsiderados));
 	}
 	
+	public boolean esMuestraVerificada() {
+		return this.evaluacionMuestra.esVerificada();
+	}
+	
+	protected void enviarMuestraVerificada() {
+		this.receptor.recibirMuestraValidada(this);
+	}
+	
 	//Zonas de cobertura de la muestra
 	//falta test
 	public List<ZonaDeCobertura> zonasDeCoberturaOcupadas(AplicacionWeb appWeb){
@@ -82,9 +96,5 @@ public class Muestra{
 	
 	public EstadoEvaluacionMuestra getEstadoActual() {
 		return getEvaluacion().getEstado();
-	}
-	
-	public boolean esMuestraVerificada() {
-		return this.evaluacionMuestra.esVerificada();
 	}
 }
