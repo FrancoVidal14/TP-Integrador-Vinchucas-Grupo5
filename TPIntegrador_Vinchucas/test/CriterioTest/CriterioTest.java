@@ -17,8 +17,7 @@ import filtroBusqueda.CriterioTipoDeInsecto;
 import muestra.Muestra;
 import usuario.Opinion;
 import usuario.Resultado;
-import usuario.UsuarioGeneral;
-import usuario.UsuarioValidado;
+import usuario.Usuario;
 import zonaCobertura.Ubicacion;
 
 class CriterioTest {
@@ -45,11 +44,11 @@ class CriterioTest {
 	private Ubicacion ubi2;
 	private Ubicacion ubi4;
 	
-	private UsuarioValidado us1;
-	private UsuarioGeneral us2;
-	private UsuarioValidado us3;
-	private UsuarioValidado us4;
-	private UsuarioValidado us5;
+	private Usuario us1;
+	private Usuario us2;
+	private Usuario us3;
+	private Usuario us4;
+	private Usuario us5;
 	
 	private Opinion op1;
 	private Opinion op2;
@@ -77,11 +76,11 @@ class CriterioTest {
 		criterioAnd = new CriterioAND(criterioFecha, criterioUltVotacion);
 		criterioOr = new CriterioOR(criterioFecha, criterioMuestraVerif);
 		
-		us1 = new UsuarioValidado();
-		us2 = new UsuarioGeneral();
-		us3 = new UsuarioValidado();
-		us4 = new UsuarioValidado();
-		us5 = new UsuarioValidado();
+		us1 = new Usuario();
+		us2 = new Usuario();
+		us3 = new Usuario();
+		us4 = new Usuario();
+		us5 = new Usuario();
 		
 		res2 = Resultado.CHINCHE_FOLIADA;
 		res3 = Resultado.IMAGEN_POCO_CLARA;

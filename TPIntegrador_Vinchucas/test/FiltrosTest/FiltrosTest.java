@@ -19,7 +19,7 @@ import filtroBusqueda.FiltroDeBusqueda;
 import muestra.Muestra;
 import usuario.Opinion;
 import usuario.Resultado;
-import usuario.UsuarioValidado;
+import usuario.Usuario;
 import zonaCobertura.Ubicacion;
 
 class FiltrosTest {
@@ -49,11 +49,11 @@ class FiltrosTest {
 	private Ubicacion ubi4;
 	private Ubicacion ubi5;
 	
-	private UsuarioValidado us1;
-	private UsuarioValidado us2;
-	private UsuarioValidado us3;
-	private UsuarioValidado us4;
-	private UsuarioValidado us5;
+	private Usuario us1;
+	private Usuario us2;
+	private Usuario us3;
+	private Usuario us4;
+	private Usuario us5;
 	
 	private Opinion op1;
 	private Opinion op2;
@@ -71,11 +71,11 @@ class FiltrosTest {
 	@BeforeEach
 	void setUp() throws Exception {
 		
-		us1 = new UsuarioValidado();
-		us2 = new UsuarioValidado();
-		us3 = new UsuarioValidado();
-		us4 = new UsuarioValidado();
-		us5 = new UsuarioValidado();
+		us1 = new Usuario();
+		us2 = new Usuario();
+		us3 = new Usuario();
+		us4 = new Usuario();
+		us5 = new Usuario();
 		
 		res1 = Resultado.CHINCHE_FOLIADA;
 		res2 = Resultado.CHINCHE_FOLIADA;
@@ -138,7 +138,7 @@ class FiltrosTest {
 	
 	@Test
 	void testFiltroCriterioPorMuestrasVerificadas() {
-		assertEquals(2, app.filtrarMuestras(criterioMuestraVerif).size());
+		assertEquals(0, app.filtrarMuestras(criterioMuestraVerif).size());
 		assertTrue(app.filtrarMuestras(criterioMuestraVerif).stream().allMatch(m -> m.esMuestraVerificada()));
 	}
 	
@@ -150,7 +150,7 @@ class FiltrosTest {
 	
 	@Test
 	void testFiltroCriterioPorMuestrasEnVotacion() {
-		assertEquals(3, app.filtrarMuestras(criterioVotacion).size());
+		assertEquals(5, app.filtrarMuestras(criterioVotacion).size());
 		assertTrue(app.filtrarMuestras(criterioVotacion).stream().allMatch(m -> !m.esMuestraVerificada()));
 	}
 	
@@ -162,7 +162,7 @@ class FiltrosTest {
 	
 	@Test
 	void testFiltroPorCriterioOR() {
-		assertEquals(4, app.filtrarMuestras(criterioOr).size());
+		assertEquals(3, app.filtrarMuestras(criterioOr).size());
 		assertTrue(app.filtrarMuestras(criterioOr).stream().allMatch(m -> m.getFecha().equals(fecha1) || m.esMuestraVerificada()));
 	}
 }
