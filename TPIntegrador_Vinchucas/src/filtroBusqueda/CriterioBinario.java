@@ -1,4 +1,4 @@
-package FiltrosDeBusqueda;
+package filtroBusqueda;
 
 public abstract class CriterioBinario implements Criterio{
 	

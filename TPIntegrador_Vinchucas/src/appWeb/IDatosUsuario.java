@@ -1,4 +1,4 @@
-package Vinchucas;
+package appWeb;
 
 import java.util.List;
 

@@ -1,13 +1,18 @@
-package Vinchucas;
+package appWeb;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import FiltrosDeBusqueda.Criterio;
-import FiltrosDeBusqueda.FiltroDeBusqueda;
+import filtroBusqueda.Criterio;
+import filtroBusqueda.FiltroDeBusqueda;
 import muestra.Muestra;
+import muestra.RegistroDeValidaciones;
 import usuario.Opinion;
 import usuario.Usuario;
+import zonaCobertura.CalculadorDistancia;
+import zonaCobertura.CalculoDistancia;
+import zonaCobertura.IDatosZonaCobertura;
+import zonaCobertura.ZonaDeCobertura;
 
 public class AplicacionWeb implements IDatosUsuario, IDatosZonaCobertura, RegistroDeValidaciones {
 	private List<Muestra> muestras = new ArrayList<>();

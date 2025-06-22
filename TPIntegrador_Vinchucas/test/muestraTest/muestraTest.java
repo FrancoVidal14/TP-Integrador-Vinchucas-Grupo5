@@ -8,7 +8,6 @@ import java.time.LocalDateTime;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import Vinchucas.Ubicacion;
 import muestra.Muestra;
 import muestra.VotacionGeneral;
 import usuario.Opinion;
@@ -16,6 +15,7 @@ import usuario.Resultado;
 import usuario.Usuario;
 import usuario.UsuarioGeneral;
 import usuario.UsuarioValidado;
+import zonaCobertura.Ubicacion;
 
 class muestraTest {
 	

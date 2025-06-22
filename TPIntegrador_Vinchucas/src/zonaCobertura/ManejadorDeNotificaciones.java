@@ -1,4 +1,4 @@
-package Vinchucas;
+package zonaCobertura;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package Vinchucas;
+package zonaCobertura;
 
 import muestra.Muestra;
 

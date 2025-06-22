@@ -3,13 +3,10 @@ package muestra;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import Vinchucas.IDatosZonaCobertura;
-import Vinchucas.RegistroDeValidaciones;
-import Vinchucas.ZonaDeCobertura;
-import Vinchucas.Ubicacion;
 import usuario.Opinion;
 import usuario.Resultado;
 import usuario.Usuario;
+import zonaCobertura.Ubicacion;
 
 public class Muestra {
 	private LocalDateTime fechaCreacion;
@@ -44,14 +41,6 @@ public class Muestra {
 	
 	public List<Opinion> getOpinionesDe(Usuario usuario){
 		return this.getOpiniones().stream().filter(opinion -> opinion.esUsuarioOpinador(usuario)).toList();
-	}
-	
-	public EvaluacionMuestra getEvaluacion() {
-		return this.evaluacionMuestra;
-	}
-	
-	public EstadoEvaluacionMuestra getEstadoActual() {
-		return getEvaluacion().getEstado();
 	}
 	
 	public boolean esUsuarioEnviador(Usuario usuario) {
@@ -90,11 +79,5 @@ public class Muestra {
 	
 	protected void enviarMuestraVerificada() {
 		this.receptor.recibirMuestraValidada(this);
-	}
-	
-	//Zonas de cobertura de la muestra
-	//falta test
-	public List<ZonaDeCobertura> zonasDeCoberturaOcupadas(IDatosZonaCobertura datosZona){
-    	return datosZona.getZonasDeCobertura().stream().filter(z -> z.contiene(this.getUbicacion())).toList();
 	}
 }

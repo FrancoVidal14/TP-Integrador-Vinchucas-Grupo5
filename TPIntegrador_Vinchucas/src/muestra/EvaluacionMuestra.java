@@ -64,10 +64,6 @@ public class EvaluacionMuestra{
 	    return empate ? Resultado.NO_DEFINIDO : resultadoMasFrecuente;
 	}
 	
-	public EstadoEvaluacionMuestra getEstado() {
-		return this.estadoEvaluacion;
-	}
-	
 	public boolean esVerificada() {
 		return this.estadoEvaluacion.esVerificado();
 	}

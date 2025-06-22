@@ -1,7 +1,6 @@
-package Vinchucas;
+package zonaCobertura;
 
 import java.util.List;
-import java.util.ArrayList;
 
 import muestra.Muestra;
 
@@ -42,10 +41,8 @@ public class ZonaDeCobertura {
     	return distancia <= (this.radioKm + zona.getRadio());
     }
 
-// ↓↓↓↓ QUIZAS PARA SACAR DE ACA ↓↓↓↓ POR PRINCIPIO DE RESPONSABILIDAD UNICA
-
-    public List<ZonaDeCobertura> zonasQueLaSolapan(AplicacionWeb appWeb){
-		return appWeb.getZonasDeCobertura().stream().filter(z -> this.seSolapaConLaZona(z)).toList();
+    public List<ZonaDeCobertura> zonasQueLaSolapan(IDatosZonaCobertura datosZona){
+		return datosZona.getZonasDeCobertura().stream().filter(z -> this.seSolapaConLaZona(z)).toList();
     }
     
     public void registrarMuestra(Muestra m) {

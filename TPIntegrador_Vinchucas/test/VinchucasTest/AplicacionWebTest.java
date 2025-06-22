@@ -10,15 +10,14 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import FiltrosDeBusqueda.FiltroDeBusqueda;
-import Vinchucas.AplicacionWeb;
-import Vinchucas.CalculadorDistancia;
-import Vinchucas.CalculoDistancia;
-import Vinchucas.Ubicacion;
+import appWeb.AplicacionWeb;
+import filtroBusqueda.FiltroDeBusqueda;
 import muestra.Muestra;
 import usuario.Usuario;
+import zonaCobertura.CalculadorDistancia;
+import zonaCobertura.CalculoDistancia;
+import zonaCobertura.Ubicacion;
 import usuario.Opinion;
-import usuario.Resultado;
 
 class AplicacionWebTest {
 

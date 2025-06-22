@@ -1,10 +1,11 @@
 package VinchucasTest;
 
 import org.junit.jupiter.api.Test;
-import Vinchucas.FuncionalidadExterna;
-import Vinchucas.Organizacion;
-import Vinchucas.TipoDeOrganizacion;
-import Vinchucas.Ubicacion;
+
+import organizacion.FuncionalidadExterna;
+import organizacion.Organizacion;
+import organizacion.TipoDeOrganizacion;
+import zonaCobertura.Ubicacion;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;

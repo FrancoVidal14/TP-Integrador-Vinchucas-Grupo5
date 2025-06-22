@@ -1,6 +1,9 @@
-package Vinchucas;
+package organizacion;
 
 import muestra.Muestra;
+import zonaCobertura.NotificadosPorMuestras;
+import zonaCobertura.Ubicacion;
+import zonaCobertura.ZonaDeCobertura;
 
 public class Organizacion implements NotificadosPorMuestras {
 	private Ubicacion ubicacion;
