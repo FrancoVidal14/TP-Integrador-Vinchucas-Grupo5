@@ -17,6 +17,7 @@ import filtroBusqueda.CriterioPorMuestraVerificada;
 import filtroBusqueda.CriterioTipoDeInsecto;
 import filtroBusqueda.FiltroDeBusqueda;
 import muestra.Muestra;
+import muestra.RegistroDeValidaciones;
 import usuario.Opinion;
 import usuario.Resultado;
 import usuario.Usuario;
@@ -68,6 +69,8 @@ class FiltrosTest {
 	
 	private FiltroDeBusqueda filtro;
 	
+	private RegistroDeValidaciones registro;
+	
 	@BeforeEach
 	void setUp() throws Exception {
 		
@@ -103,11 +106,11 @@ class FiltrosTest {
 		
 		app = new AplicacionWeb(filtro);
 		
-		m1 = new Muestra(fecha1, ubi1, us1, op2);
-		m2 = new Muestra(fecha1, ubi2, us2, op3);
-		m3 = new Muestra(fecha1, ubi3, us3, op1);
-		m4 = new Muestra(fecha4, ubi4, us4, op5);
-		m5 = new Muestra(fecha5, ubi5, us5, op1);
+		m1 = new Muestra(fecha1, ubi1, us1, op2, registro);
+		m2 = new Muestra(fecha1, ubi2, us2, op3, registro);
+		m3 = new Muestra(fecha1, ubi3, us3, op1, registro);
+		m4 = new Muestra(fecha4, ubi4, us4, op5, registro);
+		m5 = new Muestra(fecha5, ubi5, us5, op1, registro);
 		
 		criterioFecha = new CriterioFechaCreacion(fecha1);
 		criterioUltVotacion = new CriterioFechaUltimaVotacion(fecha5);

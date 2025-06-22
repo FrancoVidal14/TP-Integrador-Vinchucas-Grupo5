@@ -1,7 +1,7 @@
 package NotificadosPorMuestrasTest;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.*;
 
 import java.time.LocalDateTime;
 
@@ -11,10 +11,14 @@ import org.junit.jupiter.api.Test;
 import appWeb.AplicacionWeb;
 import filtroBusqueda.FiltroDeBusqueda;
 import muestra.Muestra;
+import muestra.RegistroDeValidaciones;
+import organizacion.Organizacion;
 import usuario.Opinion;
 import usuario.Resultado;
 import usuario.Usuario;
+import zonaCobertura.ManejadorDeNotificaciones;
 import zonaCobertura.Ubicacion;
+import zonaCobertura.ZonaDeCobertura;
 
 class NotificadosPorMuestraTest {
 	
@@ -60,6 +64,18 @@ class NotificadosPorMuestraTest {
 	
 	private FiltroDeBusqueda filtro;
 	
+	private RegistroDeValidaciones registro;
+	
+	private ZonaDeCobertura zona1;
+	private ZonaDeCobertura zona2;
+	private ZonaDeCobertura zona3;
+	
+	private ManejadorDeNotificaciones manejador;
+	
+	private Organizacion org1;
+	private Organizacion org2;
+	private Organizacion org3;
+	
 	@BeforeEach
 	void setUp() throws Exception {
 		
@@ -95,11 +111,23 @@ class NotificadosPorMuestraTest {
 		
 		app = new AplicacionWeb(filtro);
 		
-		m1 = new Muestra(fecha1, ubi1, us1, op2);
-		m2 = new Muestra(fecha1, ubi2, us2, op3);
-		m3 = new Muestra(fecha1, ubi3, us3, op1);
-		m4 = new Muestra(fecha4, ubi4, us4, op5);
-		m5 = new Muestra(fecha5, ubi5, us5, op1);
+		m1 = mock(Muestra.class);
+		m2 = mock(Muestra.class);
+		m3 = mock(Muestra.class);
+		m4 = mock(Muestra.class);
+		m5 = mock(Muestra.class); 
+		
+		zona1 = mock(ZonaDeCobertura.class);
+		zona2 = mock(ZonaDeCobertura.class);
+		zona3 = mock(ZonaDeCobertura.class);
+		
+		manejador = mock(ManejadorDeNotificaciones.class);
+		
+		org1 = mock(Organizacion.class);
+		org2 = mock(Organizacion.class);
+		org3 = mock(Organizacion.class);
+		
+		
 		
 		app.recibirMuestra(m1, us1, op3);
 		app.recibirMuestra(m2, us2, op4);
@@ -110,7 +138,7 @@ class NotificadosPorMuestraTest {
 	}
 	
 	@Test
-	void test() {
+	void testRegistroDeMuestras() {
 		
 	}
 
