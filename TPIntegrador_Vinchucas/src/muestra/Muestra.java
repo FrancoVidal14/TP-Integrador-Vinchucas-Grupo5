@@ -3,18 +3,20 @@ package muestra;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import Vinchucas.AplicacionWeb;
+import Vinchucas.IDatosZonaCobertura;
+import Vinchucas.RegistroDeValidaciones;
 import Vinchucas.ZonaDeCobertura;
 import Vinchucas.Ubicacion;
 import usuario.Opinion;
 import usuario.Resultado;
 import usuario.Usuario;
 
-public class Muestra{
+public class Muestra {
 	private LocalDateTime fechaCreacion;
 	private Ubicacion ubicacionOrigen;
 	private Usuario usuarioEnviador;
 	private EvaluacionMuestra evaluacionMuestra = new EvaluacionMuestra();
+	private RegistroDeValidaciones receptor;
 	
 	public Muestra(LocalDateTime fechaCreacion, Ubicacion ubicacionOrigen, Usuario usuarioEnviador, Opinion opinionUsuarioEnviador) throws Exception {
 		this.fechaCreacion = fechaCreacion;
@@ -22,7 +24,8 @@ public class Muestra{
 		this.usuarioEnviador = usuarioEnviador;
 		this.evaluacionMuestra.procesarOpinion(this, opinionUsuarioEnviador);
 	}
-
+	
+	//getters y equals
 	public LocalDateTime getFecha() {
 		return fechaCreacion;
 	}
@@ -35,40 +38,12 @@ public class Muestra{
 		return usuarioEnviador;
 	}
 	
-	public boolean esUsuarioEnviador(Usuario usuario) {
-		return this.usuarioEnviador.equals(usuario);
-	}
-	
 	public List<Opinion> getOpiniones(){
 		return this.evaluacionMuestra.getOpiniones();
 	}
 	
 	public List<Opinion> getOpinionesDe(Usuario usuario){
 		return this.getOpiniones().stream().filter(opinion -> opinion.esUsuarioOpinador(usuario)).toList();
-	}
-	
-	public void procesarOpinion(Opinion opinion) throws Exception {
-		this.evaluacionMuestra.procesarOpinion(this, opinion);
-	}
-	
-	public Resultado resultadoActual() {
-		return this.evaluacionMuestra.getResultadoActual();
-	}
-	
-	public List<ZonaDeCobertura> zonasDeCoberturaOcupadas(AplicacionWeb appWeb){
-    	return appWeb.getZonasDeCobertura().stream().filter(z -> z.contiene(this.getUbicacion())).toList();
-	}
-	
-	public LocalDateTime buscarFechaUltimaVotacion() {
-		return evaluacionMuestra.getFechaUltimaVotacion();
-	}
-
-	public boolean usuarioHizoRevisionExitosa(Usuario usuario, int cantDiasConsiderados) {
-		return this.getOpinionesDe(usuario).stream().anyMatch(o -> o.esUsuarioOpinador(usuario) && o.generadaEnUltimos(cantDiasConsiderados));
-	}
-	
-	public boolean generadaEnUltimos(int ultimosDias) {
-		return this.fechaCreacion.isAfter(LocalDateTime.now().minusDays(ultimosDias));
 	}
 	
 	public EvaluacionMuestra getEvaluacion() {
@@ -79,7 +54,47 @@ public class Muestra{
 		return getEvaluacion().getEstado();
 	}
 	
+	public boolean esUsuarioEnviador(Usuario usuario) {
+		return this.usuarioEnviador.equals(usuario);
+	}
+	
+	public boolean generadaEnUltimos(int ultimosDias) {
+		LocalDateTime fechaComienzoValidez = LocalDateTime.now().minusDays(ultimosDias);
+		return this.fechaCreacion.isAfter(fechaComienzoValidez);
+	}
+	
+	public void setReceptor(RegistroDeValidaciones receptor) {
+		this.receptor = receptor;
+	}
+	
+	//Evaluacion de muestra
+	public void procesarOpinion(Opinion opinion) throws Exception {
+		this.evaluacionMuestra.procesarOpinion(this, opinion);
+	}
+	
+	public Resultado resultadoActual() {
+		return this.evaluacionMuestra.getResultadoActual();
+	}
+	
+	public LocalDateTime buscarFechaUltimaVotacion() {
+		return evaluacionMuestra.getFechaUltimaVotacion();
+	}
+
+	public boolean usuarioHizoRevisionExitosa(Usuario usuario, int cantDiasConsiderados) {
+		return this.getOpinionesDe(usuario).stream().anyMatch(o -> o.esUsuarioOpinador(usuario) && o.generadaEnUltimos(cantDiasConsiderados));
+	}
+	
 	public boolean esMuestraVerificada() {
 		return this.evaluacionMuestra.esVerificada();
+	}
+	
+	protected void enviarMuestraVerificada() {
+		this.receptor.recibirMuestraValidada(this);
+	}
+	
+	//Zonas de cobertura de la muestra
+	//falta test
+	public List<ZonaDeCobertura> zonasDeCoberturaOcupadas(IDatosZonaCobertura datosZona){
+    	return datosZona.getZonasDeCobertura().stream().filter(z -> z.contiene(this.getUbicacion())).toList();
 	}
 }

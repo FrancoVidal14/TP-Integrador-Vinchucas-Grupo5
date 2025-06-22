@@ -40,6 +40,7 @@ public class Opinion{
 	}
 	
 	public boolean generadaEnUltimos(int ultimosDias) {
-		return this.fecha.isAfter(LocalDateTime.now().minusDays(ultimosDias));
+		LocalDateTime fechaComienzoValidez = LocalDateTime.now().minusDays(ultimosDias);
+		return this.fecha.isAfter(fechaComienzoValidez);
 	}
 }

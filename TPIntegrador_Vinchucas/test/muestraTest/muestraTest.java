@@ -29,7 +29,7 @@ class muestraTest {
 
 	@BeforeEach
 	void setUp() throws Exception {
-		fechaMuestra = LocalDateTime.of(2025, 6, 19, 12, 23);
+		fechaMuestra = LocalDateTime.now().minusDays(7);
 		unq = new Ubicacion(-34.7063, -58.2778);
 		dami = new UsuarioGeneral();
 		joaco = new UsuarioValidado();
@@ -54,8 +54,41 @@ class muestraTest {
 	}
 	
 	@Test
+	void esUsuarioEnviadorValidoTest() {
+		assertTrue(muestra.esUsuarioEnviador(dami));
+	}
+	
+	@Test
+	void generadaEnUltimosValidoTest() {
+		//nunca me toma exactamente el mismo dia porque el now es un quilombo pero deberia tomarlo con fechas reales
+		int ultimosDias = 8;
+		assertTrue(muestra.generadaEnUltimos(ultimosDias));
+	}
+	
+	@Test
 	void opinionInicialProcesadaTest() {
 	    assertEquals(1, muestra.getOpiniones().size());
 	    assertEquals(dami, muestra.getOpiniones().get(0).getUsuario());
+	}
+	
+	@Test
+	void resultadoActualValido() {
+		assertEquals(Resultado.CHINCHE_FOLIADA, muestra.resultadoActual());
+	}
+	
+	@Test
+	void getOpinionesDeValido() {
+		assertEquals(1, muestra.getOpinionesDe(dami).size());
+	}
+	
+	@Test
+	void buscarFechaUltimaVotacionValido() {
+		assertEquals(fechaMuestra, muestra.buscarFechaUltimaVotacion());
+	}
+	
+	@Test
+	void usuarioHizoRevisionExitosaValido() {
+		int ultimosDias = 8;
+		assertTrue(muestra.usuarioHizoRevisionExitosa(dami, ultimosDias));
 	}
 }

@@ -9,12 +9,12 @@ import muestra.Muestra;
 import usuario.Opinion;
 import usuario.Usuario;
 
-public class AplicacionWeb implements IDatosUsuario, RegistroDeValidaciones {
+public class AplicacionWeb implements IDatosUsuario, IDatosZonaCobertura, RegistroDeValidaciones {
 	private List<Muestra> muestras = new ArrayList<>();
 	private List<Usuario> usuarios = new ArrayList<>();
 	private List<ZonaDeCobertura> zonasDeCobertura;
 	private FiltroDeBusqueda filtro;
-	private Recategorizador recategorizador = new Recategorizador(this);
+	private Recategorizador recategorizador = new Recategorizador(this); 
 
 	// Constructor
 	public AplicacionWeb(FiltroDeBusqueda filtro) {
@@ -30,7 +30,8 @@ public class AplicacionWeb implements IDatosUsuario, RegistroDeValidaciones {
 	public List<Usuario> getUsuarios() {
 		return this.usuarios;
 	}
-
+	
+	@Override
 	public List<ZonaDeCobertura> getZonasDeCobertura() {
 		return zonasDeCobertura;
 	}
@@ -46,13 +47,6 @@ public class AplicacionWeb implements IDatosUsuario, RegistroDeValidaciones {
 			.toList();
 	}
 
-	@Override
-	public List<Opinion> getOpinionesDe(Usuario usuario) {
-		return this.muestras.stream()
-			.flatMap(m -> m.getOpinionesDe(usuario).stream())
-			.toList();
-	}
-
 	// Registro y recepción
 	public void registrarUsuario(Usuario u) {
 		this.usuarios.add(u);
@@ -65,21 +59,9 @@ public class AplicacionWeb implements IDatosUsuario, RegistroDeValidaciones {
 	public void recibirMuestra(Muestra muestra, Usuario usuario, Opinion opinionUsuario) throws Exception {
 		this.muestras.add(muestra);
 		this.usuarios.add(usuario);
-		this.recibirOpinion(muestra, opinionUsuario); 
+		muestra.setReceptor(this);
+		muestra.procesarOpinion(opinionUsuario);
 		enviarMuestraAZonas(muestra);
-	}
-
-	public void recibirOpinion(Muestra muestra, Opinion opinion) throws Exception {
-		muestra.procesarOpinion(opinion);
-	}
-
-	@Override
-	public void recibirMuestraValidada(Muestra m) {
-		for (ZonaDeCobertura z : getZonasDeCobertura()) {
-			if (z.contiene(m.getUbicacion())) {
-				z.registrarValidacionDeMuestra(m);
-			}
-		}
 	}
 
 	// Funcionalidades
@@ -99,11 +81,21 @@ public class AplicacionWeb implements IDatosUsuario, RegistroDeValidaciones {
 	public void recategorizar(int cantEnviosEsperados, int cantRevisionesEsperadas, int cantDiasConsiderados) {
 		this.recategorizador.recategorizarUsuarios(cantEnviosEsperados, cantRevisionesEsperadas, cantDiasConsiderados);
 	}
-
+	
+	//notificar a zonas sobre muestras para observer
 	public void enviarMuestraAZonas(Muestra muestra) {
 		for (ZonaDeCobertura z : getZonasDeCobertura()) {
 			if (z.contiene(muestra.getUbicacion())) {
 				z.registrarMuestra(muestra);
+			}
+		}
+	}
+	
+	@Override
+	public void recibirMuestraValidada(Muestra m) {
+		for (ZonaDeCobertura z : getZonasDeCobertura()) {
+			if (z.contiene(m.getUbicacion())) {
+				z.registrarValidacionDeMuestra(m);
 			}
 		}
 	}
