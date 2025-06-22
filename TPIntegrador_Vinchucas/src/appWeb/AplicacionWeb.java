@@ -17,13 +17,12 @@ import zonaCobertura.ZonaDeCobertura;
 public class AplicacionWeb implements IDatosUsuario, IDatosZonaCobertura, RegistroDeValidaciones {
 	private List<Muestra> muestras = new ArrayList<>();
 	private List<Usuario> usuarios = new ArrayList<>();
-	private List<ZonaDeCobertura> zonasDeCobertura;
+	private List<ZonaDeCobertura> zonasDeCobertura= new ArrayList<>();
 	private FiltroDeBusqueda filtro;
 	private Recategorizador recategorizador = new Recategorizador(this); 
 
 	// Constructor
 	public AplicacionWeb(FiltroDeBusqueda filtro) {
-		this.zonasDeCobertura = new ArrayList<>();
 		this.filtro = filtro;
 	}
 
