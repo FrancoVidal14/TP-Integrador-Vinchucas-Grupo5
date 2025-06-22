@@ -1,4 +1,4 @@
-package FiltrosDeBusqueda;
+package filtroBusqueda;
 
 import muestra.Muestra;
 import usuario.Resultado;

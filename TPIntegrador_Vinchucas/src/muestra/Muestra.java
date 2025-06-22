@@ -3,11 +3,10 @@ package muestra;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import Vinchucas.RegistroDeValidaciones;
-import Vinchucas.Ubicacion;
 import usuario.Opinion;
 import usuario.Resultado;
 import usuario.Usuario;
+import zonaCobertura.Ubicacion;
 
 public class Muestra {
 	private LocalDateTime fechaCreacion;

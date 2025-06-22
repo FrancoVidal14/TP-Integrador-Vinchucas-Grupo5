@@ -2,9 +2,9 @@ package VinchucasTest;
 
 import org.junit.jupiter.api.Test;
 
-import Vinchucas.Organizacion;
-import Vinchucas.TipoDeOrganizacion;
-import Vinchucas.Ubicacion;
+import organizacion.Organizacion;
+import organizacion.TipoDeOrganizacion;
+import zonaCobertura.Ubicacion;
 
 import static org.junit.jupiter.api.Assertions.*;
 

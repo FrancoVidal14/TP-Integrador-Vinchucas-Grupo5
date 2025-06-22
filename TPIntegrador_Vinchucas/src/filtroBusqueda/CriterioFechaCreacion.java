@@ -1,4 +1,4 @@
-package FiltrosDeBusqueda;
+package filtroBusqueda;
 
 import java.time.LocalDateTime;
 

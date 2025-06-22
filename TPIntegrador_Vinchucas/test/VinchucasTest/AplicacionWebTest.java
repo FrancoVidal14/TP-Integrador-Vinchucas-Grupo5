@@ -8,12 +8,12 @@ import java.time.LocalDateTime;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import Vinchucas.AplicacionWeb;
-import Vinchucas.CalculadorDistancia;
-import Vinchucas.CalculoDistancia;
-import Vinchucas.Ubicacion;
+import appWeb.AplicacionWeb;
 import muestra.Muestra;
 import usuario.Usuario;
+import zonaCobertura.CalculadorDistancia;
+import zonaCobertura.CalculoDistancia;
+import zonaCobertura.Ubicacion;
 import usuario.Opinion;
 import usuario.Resultado;
 

@@ -4,9 +4,10 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import Vinchucas.Ubicacion;
-import Vinchucas.CalculadorDistancia;
-import Vinchucas.CalculoDistancia;
+
+import zonaCobertura.CalculadorDistancia;
+import zonaCobertura.CalculoDistancia;
+import zonaCobertura.Ubicacion;
 
 public class UbicacionTest {
 

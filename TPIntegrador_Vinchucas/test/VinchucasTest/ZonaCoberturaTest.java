@@ -2,11 +2,11 @@ package VinchucasTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import Vinchucas.AplicacionWeb;
-import Vinchucas.CalculadorDistancia;
-import Vinchucas.CalculoDistancia;
-import Vinchucas.Ubicacion;
-import Vinchucas.ZonaDeCobertura;
+import appWeb.AplicacionWeb;
+import zonaCobertura.CalculadorDistancia;
+import zonaCobertura.CalculoDistancia;
+import zonaCobertura.Ubicacion;
+import zonaCobertura.ZonaDeCobertura;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;

@@ -7,13 +7,13 @@ import java.time.LocalDateTime;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import FiltrosDeBusqueda.FiltroDeBusqueda;
-import Vinchucas.AplicacionWeb;
-import Vinchucas.Ubicacion;
+import appWeb.AplicacionWeb;
+import filtroBusqueda.FiltroDeBusqueda;
 import muestra.Muestra;
 import usuario.Opinion;
 import usuario.Resultado;
 import usuario.UsuarioValidado;
+import zonaCobertura.Ubicacion;
 
 class NotificadosPorMuestraTest {
 	

@@ -7,19 +7,19 @@ import java.time.LocalDateTime;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import FiltrosDeBusqueda.CriterioAND;
-import FiltrosDeBusqueda.CriterioFechaCreacion;
-import FiltrosDeBusqueda.CriterioFechaUltimaVotacion;
-import FiltrosDeBusqueda.CriterioPorMuestraVerificada;
-import FiltrosDeBusqueda.CriterioOR;
-import FiltrosDeBusqueda.CriterioPorMuestraEnVotacion;
-import FiltrosDeBusqueda.CriterioTipoDeInsecto;
-import Vinchucas.Ubicacion;
+import filtroBusqueda.CriterioAND;
+import filtroBusqueda.CriterioFechaCreacion;
+import filtroBusqueda.CriterioFechaUltimaVotacion;
+import filtroBusqueda.CriterioOR;
+import filtroBusqueda.CriterioPorMuestraEnVotacion;
+import filtroBusqueda.CriterioPorMuestraVerificada;
+import filtroBusqueda.CriterioTipoDeInsecto;
 import muestra.Muestra;
 import usuario.Opinion;
 import usuario.Resultado;
 import usuario.UsuarioGeneral;
 import usuario.UsuarioValidado;
+import zonaCobertura.Ubicacion;
 
 class CriterioTest {
 	

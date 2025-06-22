@@ -1,6 +1,6 @@
 package usuario;
 
-import Vinchucas.Recategorizador;
+import appWeb.Recategorizador;
 
 public abstract class NivelConocimiento {
 	
