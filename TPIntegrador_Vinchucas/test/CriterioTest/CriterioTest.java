@@ -1,7 +1,7 @@
 package CriterioTest;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.*;
 
 import java.time.LocalDateTime;
 
@@ -16,6 +16,8 @@ import filtroBusqueda.CriterioPorMuestraEnVotacion;
 import filtroBusqueda.CriterioPorMuestraVerificada;
 import filtroBusqueda.CriterioTipoDeInsecto;
 import muestra.Muestra;
+import muestra.RegistroDeValidaciones;
+import usuario.NivelExpertoValidado;
 import usuario.Opinion;
 import usuario.Resultado;
 import usuario.Usuario;
@@ -47,7 +49,6 @@ class CriterioTest {
 	
 	private Usuario us1;
 	private Usuario us2;
-	private Usuario us3;
 	private Usuario us4;
 	private Usuario us5;
 	
@@ -60,6 +61,8 @@ class CriterioTest {
 	private Resultado res3;
 	private Resultado res5;
 	
+	private RegistroDeValidaciones registro;
+	
 	@BeforeEach
 	void setUp() throws Exception {
 		
@@ -69,6 +72,8 @@ class CriterioTest {
 		fecha4 = LocalDateTime.of(2022, 3, 1, 12, 00);
 		fecha5 = LocalDateTime.of(2024, 5, 10, 10, 36);
 		
+		registro = mock(RegistroDeValidaciones.class);
+		
 		criterioFecha = new CriterioFechaCreacion(fecha1);
 		criterioUltVotacion = new CriterioFechaUltimaVotacion(fecha5);
 		criterioMuestraVerif = new CriterioPorMuestraVerificada();
@@ -77,24 +82,23 @@ class CriterioTest {
 		criterioAnd = new CriterioAND(criterioFecha, criterioUltVotacion);
 		criterioOr = new CriterioOR(criterioFecha, criterioMuestraVerif);
 		
-		us1 = mock(Usuario.class);
-		us2 = mock(Usuario.class);
-		us3 = mock(Usuario.class);
-		us4 = mock(Usuario.class);
-		us5 = mock(Usuario.class);
-				
+		us1 = new Usuario(new NivelExpertoValidado());
+		us2 = new Usuario(new NivelExpertoValidado());
+		us4 = new Usuario();
+		us5 = new Usuario(new NivelExpertoValidado());
+		
 		res2 = Resultado.CHINCHE_FOLIADA;
 		res3 = Resultado.IMAGEN_POCO_CLARA;
 		res5 = Resultado.PHTIA_CHINCE;
 		
 		op1 = new Opinion(fecha2, us1, res3);
 		op2 = new Opinion(fecha3, us2, res2);
-		op3 = new Opinion(fecha1, us3, res3);
+		op3 = new Opinion(fecha1, us2, res3);
 		op5 = new Opinion(fecha5, us5, res5);
 		
-		m1 = new Muestra(fecha1, ubi1, us1, op2);
-		m2 = new Muestra(fecha2, ubi2, us2, op3);
-		m4 = new Muestra(fecha4, ubi4, us4, op2);
+		m1 = new Muestra(fecha1, ubi1, us1, op2, registro);
+		m2 = new Muestra(fecha2, ubi2, us2, op3, registro);
+		m4 = new Muestra(fecha4, ubi4, us4, op2, registro);
 		
 	}	
 
@@ -123,6 +127,7 @@ class CriterioTest {
 	@Test
 	void testCumpleCriterioMuestraVerificada() throws Exception {
 		m2.procesarOpinion(op1);
+		verify(m2.getRegistro(), times(1)).recibirMuestraValidada(m2);
 		assertTrue(criterioMuestraVerif.cumpleMuestra(m2));
 	}
 	

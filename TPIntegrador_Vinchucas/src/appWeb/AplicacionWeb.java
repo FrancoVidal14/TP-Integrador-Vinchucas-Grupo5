@@ -64,7 +64,6 @@ public class AplicacionWeb implements IDatosUsuario, IDatosZonaCobertura, Regist
 	public void recibirMuestra(Muestra muestra, Usuario usuario, Opinion opinionUsuario) throws Exception {
 		this.muestras.add(muestra);
 		this.usuarios.add(usuario);
-		muestra.setReceptor(this);
 		muestra.procesarOpinion(opinionUsuario);
 		enviarMuestraAZonas(muestra);
 	}

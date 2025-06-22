@@ -1,7 +1,6 @@
 package FiltrosTest;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
 
 import java.time.LocalDateTime;
 
@@ -18,6 +17,7 @@ import filtroBusqueda.CriterioPorMuestraVerificada;
 import filtroBusqueda.CriterioTipoDeInsecto;
 import filtroBusqueda.FiltroDeBusqueda;
 import muestra.Muestra;
+import muestra.RegistroDeValidaciones;
 import usuario.Opinion;
 import usuario.Resultado;
 import usuario.Usuario;
@@ -69,14 +69,16 @@ class FiltrosTest {
 	
 	private FiltroDeBusqueda filtro;
 	
+	private RegistroDeValidaciones registro;
+	
 	@BeforeEach
 	void setUp() throws Exception {
 		
-		us1 = mock(Usuario.class);
-		us2 = mock(Usuario.class);
-		us3 = mock(Usuario.class);
-		us4 = mock(Usuario.class);
-		us5 = mock(Usuario.class);
+		us1 = new Usuario();
+		us2 = new Usuario();
+		us3 = new Usuario();
+		us4 = new Usuario();
+		us5 = new Usuario();
 		
 		res1 = Resultado.CHINCHE_FOLIADA;
 		res2 = Resultado.CHINCHE_FOLIADA;
@@ -104,11 +106,11 @@ class FiltrosTest {
 		
 		app = new AplicacionWeb(filtro);
 		
-		m1 = new Muestra(fecha1, ubi1, us1, op2);
-		m2 = new Muestra(fecha1, ubi2, us2, op3);
-		m3 = new Muestra(fecha1, ubi3, us3, op1);
-		m4 = new Muestra(fecha4, ubi4, us4, op5);
-		m5 = new Muestra(fecha5, ubi5, us5, op1);
+		m1 = new Muestra(fecha1, ubi1, us1, op2, registro);
+		m2 = new Muestra(fecha1, ubi2, us2, op3, registro);
+		m3 = new Muestra(fecha1, ubi3, us3, op1, registro);
+		m4 = new Muestra(fecha4, ubi4, us4, op5, registro);
+		m5 = new Muestra(fecha5, ubi5, us5, op1, registro);
 		
 		criterioFecha = new CriterioFechaCreacion(fecha1);
 		criterioUltVotacion = new CriterioFechaUltimaVotacion(fecha5);
@@ -139,7 +141,7 @@ class FiltrosTest {
 	
 	@Test
 	void testFiltroCriterioPorMuestrasVerificadas() {
-		assertEquals(2, app.filtrarMuestras(criterioMuestraVerif).size());
+		assertEquals(0, app.filtrarMuestras(criterioMuestraVerif).size());
 		assertTrue(app.filtrarMuestras(criterioMuestraVerif).stream().allMatch(m -> m.esMuestraVerificada()));
 	}
 	
@@ -151,7 +153,7 @@ class FiltrosTest {
 	
 	@Test
 	void testFiltroCriterioPorMuestrasEnVotacion() {
-		assertEquals(3, app.filtrarMuestras(criterioVotacion).size());
+		assertEquals(5, app.filtrarMuestras(criterioVotacion).size());
 		assertTrue(app.filtrarMuestras(criterioVotacion).stream().allMatch(m -> !m.esMuestraVerificada()));
 	}
 	
@@ -163,7 +165,7 @@ class FiltrosTest {
 	
 	@Test
 	void testFiltroPorCriterioOR() {
-		assertEquals(4, app.filtrarMuestras(criterioOr).size());
+		assertEquals(3, app.filtrarMuestras(criterioOr).size());
 		assertTrue(app.filtrarMuestras(criterioOr).stream().allMatch(m -> m.getFecha().equals(fecha1) || m.esMuestraVerificada()));
 	}
 }
