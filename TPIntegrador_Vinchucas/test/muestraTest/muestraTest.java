@@ -8,14 +8,12 @@ import java.time.LocalDateTime;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import Vinchucas.Ubicacion;
 import muestra.Muestra;
-import muestra.VotacionGeneral;
 import usuario.Opinion;
 import usuario.Resultado;
 import usuario.Usuario;
-import usuario.UsuarioGeneral;
-import usuario.UsuarioValidado;
+
+import zonaCobertura.Ubicacion;
 
 class muestraTest {
 	
@@ -31,9 +29,9 @@ class muestraTest {
 	void setUp() throws Exception {
 		fechaMuestra = LocalDateTime.now().minusDays(7);
 		unq = new Ubicacion(-34.7063, -58.2778);
-		dami = new UsuarioGeneral();
-		joaco = new UsuarioValidado();
-		fran = new UsuarioValidado();
+        dami = mock(Usuario.class);
+        fran = mock(Usuario.class);
+        joaco = mock(Usuario.class);
 		opinionInicial = new Opinion(fechaMuestra, dami, Resultado.CHINCHE_FOLIADA);
 		muestra = new Muestra(fechaMuestra, unq, dami, opinionInicial);
 	}

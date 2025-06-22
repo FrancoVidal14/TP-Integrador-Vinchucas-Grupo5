@@ -28,7 +28,7 @@ public class EvaluacionMuestra{
 		this.opiniones.add(opinion);
 	}
 
-	public void setEstado(EstadoEvaluacionMuestra estado) {
+	protected void setEstado(EstadoEvaluacionMuestra estado) {
 		this.estadoEvaluacion = estado;
 	}
 	
@@ -62,10 +62,6 @@ public class EvaluacionMuestra{
 	    
 	    //siempre hay al menos 1 opinion que es la del usuario enviador y por ende no hace falta corroborar si aparicionesCandidato es > 0
 	    return empate ? Resultado.NO_DEFINIDO : resultadoMasFrecuente;
-	}
-	
-	public EstadoEvaluacionMuestra getEstado() {
-		return this.estadoEvaluacion;
 	}
 	
 	public boolean esVerificada() {

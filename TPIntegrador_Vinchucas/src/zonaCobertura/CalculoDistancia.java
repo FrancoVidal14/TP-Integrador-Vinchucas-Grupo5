@@ -1,4 +1,4 @@
-package Vinchucas;
+package zonaCobertura;
 
 public class CalculoDistancia implements CalculadorDistancia {
 

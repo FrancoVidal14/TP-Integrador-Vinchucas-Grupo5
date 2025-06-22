@@ -2,9 +2,9 @@ package VinchucasTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import Vinchucas.CalculadorDistancia;
-import Vinchucas.CalculoDistancia;
-import Vinchucas.Ubicacion;
+import zonaCobertura.CalculadorDistancia;
+import zonaCobertura.CalculoDistancia;
+import zonaCobertura.Ubicacion;
 
 import static org.junit.jupiter.api.Assertions.*;
 

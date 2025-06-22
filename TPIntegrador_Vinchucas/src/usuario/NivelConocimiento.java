@@ -1,15 +1,16 @@
 package usuario;
 
-public enum NivelConocimiento {
-	BASICO,EXPERTO;
+import appWeb.Recategorizador;
 
-// pensar si vale la pena
-//	public NivelConocimiento cambiarNivel(NivelConocimiento nivelActual) {
-//		switch (nivelActual){
-//			case BASICO:
-//				return EXPERTO;
-//			default:
-//				return BASICO;
-//		}
-//	}
+public abstract class NivelConocimiento {
+	
+	public void recategorizarSiCorresponde(Recategorizador recategorizador, Usuario usuario, int cantEnviosEsperados, int cantRevisionesEsperadas, int cantDiasConsiderados) {
+		if(this.debeRecategorizarse(recategorizador, usuario, cantEnviosEsperados, cantRevisionesEsperadas, cantDiasConsiderados)) {
+			usuario.setNivelConocimiento(this.nuevoNivel());
+		}
+	}
+	
+	public abstract boolean esExperto();
+	protected abstract boolean debeRecategorizarse(Recategorizador recategorizador, Usuario usuario, int cantEnviosEsperados, int cantRevisionesEsperadas, int cantDiasConsiderados);
+	protected abstract NivelConocimiento nuevoNivel();
 }

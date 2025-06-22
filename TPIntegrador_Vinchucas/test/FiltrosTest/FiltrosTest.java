@@ -1,26 +1,27 @@
 package FiltrosTest;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
 
 import java.time.LocalDateTime;
 
 import org.junit.jupiter.api.BeforeEach; 
 import org.junit.jupiter.api.Test;
 
-import FiltrosDeBusqueda.CriterioFechaCreacion;
-import FiltrosDeBusqueda.CriterioFechaUltimaVotacion;
-import FiltrosDeBusqueda.CriterioPorMuestraVerificada;
-import FiltrosDeBusqueda.CriterioOR;
-import FiltrosDeBusqueda.CriterioPorMuestraEnVotacion;
-import FiltrosDeBusqueda.CriterioTipoDeInsecto;
-import FiltrosDeBusqueda.FiltroDeBusqueda;
-import FiltrosDeBusqueda.CriterioAND;
-import Vinchucas.AplicacionWeb;
-import Vinchucas.Ubicacion;
+import appWeb.AplicacionWeb;
+import filtroBusqueda.CriterioAND;
+import filtroBusqueda.CriterioFechaCreacion;
+import filtroBusqueda.CriterioFechaUltimaVotacion;
+import filtroBusqueda.CriterioOR;
+import filtroBusqueda.CriterioPorMuestraEnVotacion;
+import filtroBusqueda.CriterioPorMuestraVerificada;
+import filtroBusqueda.CriterioTipoDeInsecto;
+import filtroBusqueda.FiltroDeBusqueda;
 import muestra.Muestra;
 import usuario.Opinion;
 import usuario.Resultado;
-import usuario.UsuarioValidado;
+import usuario.Usuario;
+import zonaCobertura.Ubicacion;
 
 class FiltrosTest {
 
@@ -49,11 +50,11 @@ class FiltrosTest {
 	private Ubicacion ubi4;
 	private Ubicacion ubi5;
 	
-	private UsuarioValidado us1;
-	private UsuarioValidado us2;
-	private UsuarioValidado us3;
-	private UsuarioValidado us4;
-	private UsuarioValidado us5;
+	private Usuario us1;
+	private Usuario us2;
+	private Usuario us3;
+	private Usuario us4;
+	private Usuario us5;
 	
 	private Opinion op1;
 	private Opinion op2;
@@ -71,11 +72,11 @@ class FiltrosTest {
 	@BeforeEach
 	void setUp() throws Exception {
 		
-		us1 = new UsuarioValidado();
-		us2 = new UsuarioValidado();
-		us3 = new UsuarioValidado();
-		us4 = new UsuarioValidado();
-		us5 = new UsuarioValidado();
+		us1 = mock(Usuario.class);
+		us2 = mock(Usuario.class);
+		us3 = mock(Usuario.class);
+		us4 = mock(Usuario.class);
+		us5 = mock(Usuario.class);
 		
 		res1 = Resultado.CHINCHE_FOLIADA;
 		res2 = Resultado.CHINCHE_FOLIADA;

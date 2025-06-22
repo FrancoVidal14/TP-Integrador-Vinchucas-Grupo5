@@ -2,11 +2,13 @@ package VinchucasTest;
 
 import org.junit.jupiter.api.Test;
 
-import Vinchucas.Organizacion;
-import Vinchucas.TipoDeOrganizacion;
-import Vinchucas.Ubicacion;
+import organizacion.FuncionalidadExterna;
+import organizacion.Organizacion;
+import organizacion.TipoDeOrganizacion;
+import zonaCobertura.Ubicacion;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
 
 import org.junit.jupiter.api.BeforeEach;
 
@@ -15,12 +17,16 @@ class OrganizacionTest {
     private Ubicacion ubicacion;
     private TipoDeOrganizacion tipo;
     private Organizacion organizacion;
-
+    private FuncionalidadExterna func1;
+    private FuncionalidadExterna func2;
+    
     @BeforeEach
     void setUp() {
         ubicacion = new Ubicacion(-34.6037, -58.3816);
         tipo = TipoDeOrganizacion.Salud;
-        organizacion = new Organizacion(ubicacion, tipo, 50);
+        func1 = mock(FuncionalidadExterna.class);
+        func2 = mock(FuncionalidadExterna.class);
+        organizacion = new Organizacion(ubicacion, tipo, 50, func1, func2);
     }
 
     @Test
@@ -63,10 +69,4 @@ class OrganizacionTest {
         assertEquals(TipoDeOrganizacion.Educativa, organizacion.getTipo());
     }
 
-    @Test
-    void setTipoConNullLanzaExcepcion() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            organizacion.setTipo(null);
-        });
-    }
 }

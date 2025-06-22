@@ -1,6 +1,4 @@
-package Vinchucas;
-
-import muestra.Muestra;
+package muestra;
 
 public interface RegistroDeValidaciones {
 	

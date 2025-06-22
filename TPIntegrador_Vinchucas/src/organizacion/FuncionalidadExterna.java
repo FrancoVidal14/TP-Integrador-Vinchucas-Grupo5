@@ -1,6 +1,7 @@
-package Vinchucas;
+package organizacion;
 
 import muestra.Muestra;
+import zonaCobertura.ZonaDeCobertura;
 
 public interface FuncionalidadExterna {
 	

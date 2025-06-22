@@ -1,4 +1,4 @@
-package Vinchucas;
+package appWeb;
 
 import usuario.Usuario;
 
@@ -28,14 +28,6 @@ public class Recategorizador {
         .filter(m -> m.generadaEnUltimos(cantDiasConsiderados))
         .count();
     }
-    
-    /* por si las revisiones son todas las opiniones
-    private long cantidadRevisiones(Usuario usuario, int cantDiasConsiderados){
-    	return datos.getOpinionesDe(usuario).stream()
-        .filter(op -> op.generadaEnUltimos(cantDiasConsiderados))
-        .count();
-    }
-    */
     
     private int cantidadRevisionesExitosasDeEn(Usuario usuario, int dias) {
         return datos.getMuestrasEnviadasPor(usuario).stream()

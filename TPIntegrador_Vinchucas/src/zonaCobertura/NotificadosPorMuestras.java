@@ -1,8 +1,8 @@
-package Vinchucas;
+package zonaCobertura;
 
 import muestra.Muestra;
 
-public interface NotificacionesPorMuestras {
+public interface NotificadosPorMuestras {
 
 	public void recibirNotificacionDeRegistroDe(Muestra m, ZonaDeCobertura zona);
 	
