@@ -3,7 +3,7 @@ package muestra;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import Vinchucas.AplicacionWeb;
+import Vinchucas.IDatosZonaCobertura;
 import Vinchucas.RegistroDeValidaciones;
 import Vinchucas.ZonaDeCobertura;
 import Vinchucas.Ubicacion;
@@ -38,6 +38,22 @@ public class Muestra {
 		return usuarioEnviador;
 	}
 	
+	public List<Opinion> getOpiniones(){
+		return this.evaluacionMuestra.getOpiniones();
+	}
+	
+	public List<Opinion> getOpinionesDe(Usuario usuario){
+		return this.getOpiniones().stream().filter(opinion -> opinion.esUsuarioOpinador(usuario)).toList();
+	}
+	
+	public EvaluacionMuestra getEvaluacion() {
+		return this.evaluacionMuestra;
+	}
+	
+	public EstadoEvaluacionMuestra getEstadoActual() {
+		return getEvaluacion().getEstado();
+	}
+	
 	public boolean esUsuarioEnviador(Usuario usuario) {
 		return this.usuarioEnviador.equals(usuario);
 	}
@@ -60,14 +76,6 @@ public class Muestra {
 		return this.evaluacionMuestra.getResultadoActual();
 	}
 	
-	public List<Opinion> getOpiniones(){
-		return this.evaluacionMuestra.getOpiniones();
-	}
-	
-	public List<Opinion> getOpinionesDe(Usuario usuario){
-		return this.getOpiniones().stream().filter(opinion -> opinion.esUsuarioOpinador(usuario)).toList();
-	}
-	
 	public LocalDateTime buscarFechaUltimaVotacion() {
 		return evaluacionMuestra.getFechaUltimaVotacion();
 	}
@@ -86,15 +94,7 @@ public class Muestra {
 	
 	//Zonas de cobertura de la muestra
 	//falta test
-	public List<ZonaDeCobertura> zonasDeCoberturaOcupadas(AplicacionWeb appWeb){
-    	return appWeb.getZonasDeCobertura().stream().filter(z -> z.contiene(this.getUbicacion())).toList();
-	}
-	
-	public EvaluacionMuestra getEvaluacion() {
-		return this.evaluacionMuestra;
-	}
-	
-	public EstadoEvaluacionMuestra getEstadoActual() {
-		return getEvaluacion().getEstado();
+	public List<ZonaDeCobertura> zonasDeCoberturaOcupadas(IDatosZonaCobertura datosZona){
+    	return datosZona.getZonasDeCobertura().stream().filter(z -> z.contiene(this.getUbicacion())).toList();
 	}
 }

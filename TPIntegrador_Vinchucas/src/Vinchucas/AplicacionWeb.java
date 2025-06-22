@@ -9,7 +9,7 @@ import muestra.Muestra;
 import usuario.Opinion;
 import usuario.Usuario;
 
-public class AplicacionWeb implements IDatosUsuario, RegistroDeValidaciones {
+public class AplicacionWeb implements IDatosUsuario, IDatosZonaCobertura, RegistroDeValidaciones {
 	private List<Muestra> muestras = new ArrayList<>();
 	private List<Usuario> usuarios = new ArrayList<>();
 	private List<ZonaDeCobertura> zonasDeCobertura;
@@ -30,7 +30,8 @@ public class AplicacionWeb implements IDatosUsuario, RegistroDeValidaciones {
 	public List<Usuario> getUsuarios() {
 		return this.usuarios;
 	}
-
+	
+	@Override
 	public List<ZonaDeCobertura> getZonasDeCobertura() {
 		return zonasDeCobertura;
 	}
@@ -43,13 +44,6 @@ public class AplicacionWeb implements IDatosUsuario, RegistroDeValidaciones {
 	public List<Muestra> getMuestrasEnviadasPor(Usuario usuario) {
 		return this.muestras.stream()
 			.filter(m -> m.esUsuarioEnviador(usuario))
-			.toList();
-	}
-
-	@Override
-	public List<Opinion> getOpinionesDe(Usuario usuario) {
-		return this.muestras.stream()
-			.flatMap(m -> m.getOpinionesDe(usuario).stream())
 			.toList();
 	}
 
@@ -70,15 +64,6 @@ public class AplicacionWeb implements IDatosUsuario, RegistroDeValidaciones {
 		enviarMuestraAZonas(muestra);
 	}
 
-	@Override
-	public void recibirMuestraValidada(Muestra m) {
-		for (ZonaDeCobertura z : getZonasDeCobertura()) {
-			if (z.contiene(m.getUbicacion())) {
-				z.registrarValidacionDeMuestra(m);
-			}
-		}
-	}
-
 	// Funcionalidades
 	public List<Muestra> muestrasAMenosDe(Muestra muestra, double km) {
 		CalculadorDistancia calculador = new CalculoDistancia();
@@ -94,11 +79,21 @@ public class AplicacionWeb implements IDatosUsuario, RegistroDeValidaciones {
 	public void recategorizar(int cantEnviosEsperados, int cantRevisionesEsperadas, int cantDiasConsiderados) {
 		this.recategorizador.recategorizarUsuarios(cantEnviosEsperados, cantRevisionesEsperadas, cantDiasConsiderados);
 	}
-
+	
+	//notificar a zonas sobre muestras para observer
 	public void enviarMuestraAZonas(Muestra muestra) {
 		for (ZonaDeCobertura z : getZonasDeCobertura()) {
 			if (z.contiene(muestra.getUbicacion())) {
 				z.registrarMuestra(muestra);
+			}
+		}
+	}
+	
+	@Override
+	public void recibirMuestraValidada(Muestra m) {
+		for (ZonaDeCobertura z : getZonasDeCobertura()) {
+			if (z.contiene(m.getUbicacion())) {
+				z.registrarValidacionDeMuestra(m);
 			}
 		}
 	}
