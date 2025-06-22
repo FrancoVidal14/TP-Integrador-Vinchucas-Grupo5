@@ -28,7 +28,7 @@ public class EvaluacionMuestra{
 		this.opiniones.add(opinion);
 	}
 
-	public void setEstado(EstadoEvaluacionMuestra estado) {
+	protected void setEstado(EstadoEvaluacionMuestra estado) {
 		this.estadoEvaluacion = estado;
 	}
 	

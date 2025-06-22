@@ -72,10 +72,12 @@ public class AplicacionWeb implements IDatosUsuario, IDatosZonaCobertura, Regist
 	// Funcionalidades
 	public List<Muestra> muestrasAMenosDe(Muestra muestra, double km) {
 		CalculadorDistancia calculador = new CalculoDistancia();
-    	return muestras.stream()
+		return muestras.stream()
+			.filter(m -> !m.equals(muestra)) // evitar compararse a sí misma
 			.filter(m -> calculador.calcular(muestra.getUbicacion(), m.getUbicacion()) < km)
 			.toList();
 	}
+
 
 	public List<Muestra> filtrarMuestras(Criterio criterio) {
 		 return filtro.filtrarMuestras(muestras, criterio);
