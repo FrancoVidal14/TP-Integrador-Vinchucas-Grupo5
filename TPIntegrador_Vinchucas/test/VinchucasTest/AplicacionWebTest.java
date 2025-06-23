@@ -3,7 +3,9 @@ package VinchucasTest;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+import java.lang.reflect.Field;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -18,19 +20,20 @@ import usuario.Usuario;
 import zonaCobertura.CalculadorDistancia;
 import zonaCobertura.CalculoDistancia;
 import zonaCobertura.Ubicacion;
+import zonaCobertura.ZonaDeCobertura;
 import usuario.Opinion;
 
 class AplicacionWebTest {
 
     // Variables de instancia accesibles desde todos los tests
-    private AplicacionWeb appVinchucas;
-    private Muestra muestraEnLaUnq, muestraEnLDA;
-    private Usuario dami, fran, joaco;
-    private Opinion opinionMock;
-    private FiltroDeBusqueda filtro;
-    private Ubicacion unq, estadioIndependiente, estadioBoca;
-    private CalculadorDistancia calculador;
-    private RegistroDeValidaciones reg;
+	    private AplicacionWeb appVinchucas;
+	    private Usuario dami, fran, joaco;
+	    private Opinion opinionMock;
+	    private FiltroDeBusqueda filtro;
+	    private Ubicacion unq, estadioIndependiente, estadioBoca;
+	    private Muestra muestraEnLaUnq, muestraEnLDA;
+	    private RegistroDeValidaciones reg;
+	    
 
     @BeforeEach
     public void setUp() throws Exception {
@@ -41,7 +44,6 @@ class AplicacionWebTest {
         opinionMock = mock(Opinion.class);
         filtro = mock(FiltroDeBusqueda.class);
         
-        calculador = new CalculoDistancia();
         reg = mock(RegistroDeValidaciones.class);
         
         unq = new Ubicacion(-34.7063, -58.2778);
@@ -53,7 +55,50 @@ class AplicacionWebTest {
 
         appVinchucas = new AplicacionWeb(filtro);
     }
+    
+    @Test
+    void testRegistrarUsuarioAndGetUsuarios() throws Exception {
+        // Verificamos que inicialmente la lista de usuarios esté vacía
+        List<Usuario> usuariosInicial = appVinchucas.getUsuarios();
+        assertNotNull(usuariosInicial, "La lista de usuarios no debería ser nula");
+        assertEquals(0, usuariosInicial.size(), "Inicialmente la lista de usuarios debería estar vacía");
+        
+        // Registramos usuarios y verificamos que se agreguen correctamente
+        appVinchucas.registrarUsuario(dami);
+        appVinchucas.registrarUsuario(fran);
+        
+        List<Usuario> usuariosDespues = appVinchucas.getUsuarios();
+        assertEquals(2, usuariosDespues.size(), "La lista de usuarios debería tener 2 elementos");
+        assertTrue(usuariosDespues.contains(dami));
+        assertTrue(usuariosDespues.contains(fran));
+    }
 
+    
+    @Test
+    void testGetFiltro() {
+        // Se verifica que el filtro inyectado en el constructor se retorne correctamente
+        FiltroDeBusqueda filtroObtenido = appVinchucas.getFiltro();
+        assertNotNull(filtroObtenido, "El filtro no puede ser nulo");
+        assertEquals(filtro, filtroObtenido, "El filtro devuelto debe ser el mismo pasado en el constructor");
+    }
+
+
+
+    @Test
+    void testGetZonasDeCobertura() throws Exception {
+        // Se crea una zona de cobertura simulada (mock) y se agrega a la lista obtenida del getter
+        List<ZonaDeCobertura> zonas = appVinchucas.getZonasDeCobertura();
+        ZonaDeCobertura zonaMock = mock(ZonaDeCobertura.class);
+        zonas.add(zonaMock);
+        
+        List<ZonaDeCobertura> zonasObtenidas = appVinchucas.getZonasDeCobertura();
+        assertNotNull(zonasObtenidas, "La lista de zonas no debería ser nula");
+        assertEquals(1, zonasObtenidas.size(), "Debe haber 1 zona de cobertura agregada");
+        assertTrue(zonasObtenidas.contains(zonaMock));
+    }
+    
+
+    
     @Test
     void testCorrectoDeMuestrasCercaDeLaUNQ() throws Exception {
     	appVinchucas.recibirMuestra(muestraEnLaUnq, dami, opinionMock);

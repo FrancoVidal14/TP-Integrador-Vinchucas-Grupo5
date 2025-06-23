@@ -15,8 +15,8 @@ import zonaCobertura.IDatosZonaCobertura;
 import zonaCobertura.ZonaDeCobertura;
 
 public class AplicacionWeb implements IDatosUsuario, IDatosZonaCobertura, RegistroDeValidaciones {
-	private List<Muestra> muestras = new ArrayList<>();
-	private List<Usuario> usuarios = new ArrayList<>();
+	private List<Muestra> muestras;
+	private List<Usuario> usuarios;
 	private List<ZonaDeCobertura> zonasDeCobertura;
 	private FiltroDeBusqueda filtro;
 	private Recategorizador recategorizador = new Recategorizador(this); 
@@ -24,6 +24,8 @@ public class AplicacionWeb implements IDatosUsuario, IDatosZonaCobertura, Regist
 	// Constructor
 	public AplicacionWeb(FiltroDeBusqueda filtro) {
 		this.zonasDeCobertura = new ArrayList<>();
+		this.usuarios = new ArrayList<>();
+		this.muestras = new ArrayList<>();
 		this.filtro = filtro;
 	}
 
