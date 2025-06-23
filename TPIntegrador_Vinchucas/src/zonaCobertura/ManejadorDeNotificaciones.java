@@ -8,9 +8,13 @@ import java.util.ArrayList;
 
 public class ManejadorDeNotificaciones {
 	
-	private List<NotificadosPorMuestras> notificados = new ArrayList<>();
+	private List<NotificadosPorMuestras> notificados;
 	
-	public void registrarOrganizacionEnZonas(NotificadosPorMuestras n) {
+	public ManejadorDeNotificaciones() {
+		this.notificados = new ArrayList<>();
+	}
+	
+	public void registrarOrganizacionEnZona(NotificadosPorMuestras n) {
 		getNotificados().add(n);
 	}
 	
