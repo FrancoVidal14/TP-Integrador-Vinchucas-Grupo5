@@ -13,6 +13,7 @@ import org.mockito.Mockito;
 import appWeb.AplicacionWeb;
 import filtroBusqueda.FiltroDeBusqueda;
 import muestra.Muestra;
+import muestra.RegistroDeValidaciones;
 import usuario.Usuario;
 import zonaCobertura.CalculadorDistancia;
 import zonaCobertura.CalculoDistancia;
@@ -29,7 +30,7 @@ class AplicacionWebTest {
     private FiltroDeBusqueda filtro;
     private Ubicacion unq, estadioIndependiente, estadioBoca;
     private CalculadorDistancia calculador;
-
+    private RegistroDeValidaciones reg;
 
     @BeforeEach
     public void setUp() throws Exception {
@@ -41,10 +42,11 @@ class AplicacionWebTest {
         filtro = mock(FiltroDeBusqueda.class);
         
         calculador = new CalculoDistancia();
+        reg = mock(RegistroDeValidaciones.class);
         
         unq = new Ubicacion(-34.7063, -58.2778);
-        muestraEnLaUnq = new Muestra(LocalDateTime.of(2025, 6, 20, 12, 23), unq, dami, opinionMock);
-        muestraEnLDA = new Muestra(LocalDateTime.of(2023, 6, 19, 02, 13), unq, dami, opinionMock);
+        muestraEnLaUnq = new Muestra(LocalDateTime.of(2025, 6, 20, 12, 23), unq, dami, opinionMock,reg);
+        muestraEnLDA = new Muestra(LocalDateTime.of(2023, 6, 19, 02, 13), unq, dami, opinionMock,reg);
 
         estadioIndependiente = new Ubicacion(-34.6703, -58.3710);
         estadioBoca = new Ubicacion(-34.6356, -58.3643);
@@ -66,8 +68,8 @@ class AplicacionWebTest {
     
     @Test
     void testGetMuestrasEnviadasPorFiltraBien() throws Exception {
-        Muestra m1 = new Muestra(LocalDateTime.now(), unq, fran, opinionMock);
-        Muestra m2 = new Muestra(LocalDateTime.now(), unq, dami, opinionMock);
+        Muestra m1 = new Muestra(LocalDateTime.now(), unq, fran, opinionMock,reg);
+        Muestra m2 = new Muestra(LocalDateTime.now(), unq, dami, opinionMock,reg);
 
         appVinchucas.recibirMuestra(m1, fran, opinionMock);
         appVinchucas.recibirMuestra(m2, dami, opinionMock);
@@ -80,8 +82,8 @@ class AplicacionWebTest {
     
     @Test
     void testGetMuestrasEnviadasPor() throws Exception {
-    	Muestra m1 = new Muestra(LocalDateTime.now(), unq, dami, opinionMock);
-    	Muestra m2 = new Muestra(LocalDateTime.now(), estadioBoca, joaco, opinionMock);
+    	Muestra m1 = new Muestra(LocalDateTime.now(), unq, dami, opinionMock,reg);
+    	Muestra m2 = new Muestra(LocalDateTime.now(), estadioBoca, joaco, opinionMock,reg);
 
     	appVinchucas.recibirMuestra(m1, dami, opinionMock);
     	appVinchucas.recibirMuestra(m2, joaco, opinionMock);
