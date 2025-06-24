@@ -28,6 +28,19 @@ class OrganizacionTest {
         func2 = mock(FuncionalidadExterna.class);
         organizacion = new Organizacion(ubicacion, tipo, 50, func1, func2);
     }
+    
+    @Test
+    void testGetFuncionalidadRegistro() {
+        assertEquals(func1, organizacion.getFuncionalidadRegistro(),
+            "Debería devolver la funcionalidad de registro proporcionada al constructor");
+    }
+
+    @Test
+    void testGetFuncionalidadValidacion() {
+        assertEquals(func2, organizacion.getFuncionalidadValidacion(),
+            "Debería devolver la funcionalidad de validación proporcionada al constructor");
+    }
+
 
     @Test
     void constructorInicializaCorrectamente() {
