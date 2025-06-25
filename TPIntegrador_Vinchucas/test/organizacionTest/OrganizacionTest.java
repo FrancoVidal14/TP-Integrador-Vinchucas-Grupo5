@@ -1,4 +1,4 @@
-package VinchucasTest;
+package organizacionTest;
 
 import org.junit.jupiter.api.Test;
 

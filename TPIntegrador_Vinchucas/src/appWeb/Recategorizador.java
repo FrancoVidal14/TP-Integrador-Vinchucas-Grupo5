@@ -19,7 +19,7 @@ public class Recategorizador {
 		}
 	}
 
-    public boolean cumpleCondiciones(Usuario usuario, int cantDiasConsiderados, int cantEnviosEsperados, int cantRevisionesEsperadas) {
+    public boolean cumpleCondiciones(Usuario usuario, int cantEnviosEsperados, int cantRevisionesEsperadas, int cantDiasConsiderados) {
         return this.cantidadEnviosDeEn(usuario, cantDiasConsiderados) >= cantEnviosEsperados && this.cantidadRevisionesExitosasDeEn(usuario,cantDiasConsiderados) >= cantRevisionesEsperadas;
     }
     

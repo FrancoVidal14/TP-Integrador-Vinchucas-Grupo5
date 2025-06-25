@@ -1,24 +1,18 @@
-package VinchucasTest;
+package appWebTest;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-import java.lang.reflect.Field;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
-
 import appWeb.AplicacionWeb;
+import appWeb.Recategorizador;
 import filtroBusqueda.FiltroDeBusqueda;
 import muestra.Muestra;
 import muestra.RegistroDeValidaciones;
 import usuario.Usuario;
-import zonaCobertura.CalculadorDistancia;
-import zonaCobertura.CalculoDistancia;
 import zonaCobertura.Ubicacion;
 import zonaCobertura.ZonaDeCobertura;
 import usuario.Opinion;
@@ -140,5 +134,12 @@ class AplicacionWebTest {
     	assertFalse(deDami.contains(m2));
     }
     
-    
+    @Test
+    void testRecategorizar() {
+        appVinchucas.registrarUsuario(dami);
+        // recategorizamos con datos del enunciado
+        appVinchucas.recategorizar(10, 20, 30);
+        // Verificamos que se le haya pedido al usuario que se recategorice con los mismos parámetros
+        verify(dami).recategorizarSiCorresponde(any(Recategorizador.class), eq(10), eq(20), eq(30));
+    }
 }
