@@ -117,7 +117,7 @@ class FiltrosTest {
 		criterioMuestraVerif = new CriterioPorMuestraVerificada();
 		criterioInsecto = new CriterioTipoDeInsecto(Resultado.CHINCHE_FOLIADA);
 		criterioVotacion = new CriterioPorMuestraEnVotacion();
-		criterioAnd = new CriterioAND(criterioFecha, criterioInsecto);
+		criterioAnd = new CriterioAND(criterioFecha, criterioVotacion);
 		criterioOr = new CriterioOR(criterioFecha, criterioMuestraVerif);
 		
 		app.recibirMuestra(m1, us1, op3);
@@ -159,8 +159,8 @@ class FiltrosTest {
 	
 	@Test
 	void testFiltroPorCriterioAND() {
-		assertEquals(0, app.filtrarMuestras(criterioAnd).size());
-		assertTrue(app.filtrarMuestras(criterioAnd).stream().allMatch(m -> m.getFecha().equals(fecha1) && m.resultadoActual().equals(Resultado.CHINCHE_FOLIADA)));
+		assertEquals(3, app.filtrarMuestras(criterioAnd).size());
+		assertTrue(app.filtrarMuestras(criterioAnd).stream().allMatch(m -> m.getFecha().equals(fecha1) && !m.esMuestraVerificada()));
 	}
 	
 	@Test

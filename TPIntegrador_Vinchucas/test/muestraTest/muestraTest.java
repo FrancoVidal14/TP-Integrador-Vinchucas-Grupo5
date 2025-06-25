@@ -9,6 +9,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import muestra.Muestra;
+import muestra.RegistroDeValidaciones;
 import usuario.Opinion;
 import usuario.Resultado;
 import usuario.Usuario;
@@ -24,6 +25,7 @@ class muestraTest {
 	Usuario fran;
 	Opinion opinionInicial;
 	Muestra muestra;
+	private RegistroDeValidaciones reg;
 
 	@BeforeEach
 	void setUp() throws Exception {
@@ -33,7 +35,8 @@ class muestraTest {
         fran = mock(Usuario.class);
         joaco = mock(Usuario.class);
 		opinionInicial = new Opinion(fechaMuestra, dami, Resultado.CHINCHE_FOLIADA);
-		muestra = new Muestra(fechaMuestra, unq, dami, opinionInicial);
+		muestra = new Muestra(fechaMuestra, unq, dami, opinionInicial,reg);
+		reg = mock(RegistroDeValidaciones.class);
 	}
 
 	@Test

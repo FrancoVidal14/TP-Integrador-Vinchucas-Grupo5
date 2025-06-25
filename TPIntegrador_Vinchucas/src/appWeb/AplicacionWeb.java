@@ -15,14 +15,26 @@ import zonaCobertura.IDatosZonaCobertura;
 import zonaCobertura.ZonaDeCobertura;
 
 public class AplicacionWeb implements IDatosUsuario, IDatosZonaCobertura, RegistroDeValidaciones {
+<<<<<<< HEAD
 	private List<Muestra> muestras = new ArrayList<>();
 	private List<Usuario> usuarios = new ArrayList<>();
 	private List<ZonaDeCobertura> zonasDeCobertura= new ArrayList<>();
+=======
+	private List<Muestra> muestras;
+	private List<Usuario> usuarios;
+	private List<ZonaDeCobertura> zonasDeCobertura;
+>>>>>>> 65909bc1560a3645fdebb865c1f8cc8d04b39939
 	private FiltroDeBusqueda filtro;
 	private Recategorizador recategorizador = new Recategorizador(this); 
 
 	// Constructor
 	public AplicacionWeb(FiltroDeBusqueda filtro) {
+<<<<<<< HEAD
+=======
+		this.zonasDeCobertura = new ArrayList<>();
+		this.usuarios = new ArrayList<>();
+		this.muestras = new ArrayList<>();
+>>>>>>> 65909bc1560a3645fdebb865c1f8cc8d04b39939
 		this.filtro = filtro;
 	}
 
