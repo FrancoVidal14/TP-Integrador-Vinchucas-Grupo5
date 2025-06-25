@@ -177,4 +177,27 @@ class CriterioTest {
 	void testNoCumpleCriterioOR() {
 		assertFalse(criterioOr.cumpleMuestra(m2));
 	}
+	
+	@Test
+	void testGetCriterio1DeCriterioBinario() {
+		assertEquals(criterioAnd.getC1(), criterioFecha);
+	}
+	
+	@Test
+	void testGetCriterio2DeCriterioBinario() {
+		assertEquals(criterioAnd.getC2(), criterioUltVotacion);
+	}
+	
+	@Test
+	void testSetCriterio1DeCriterioBinario() {
+		criterioAnd.setC1(criterioUltVotacion);
+		assertEquals(criterioAnd.getC1(), criterioUltVotacion);
+	}
+	
+	@Test
+	void testSetCriterio2DeCriterioBinario() {
+		criterioAnd.setC2(criterioFecha);
+		assertEquals(criterioAnd.getC2(), criterioFecha);
+	}
+	
 }
