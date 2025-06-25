@@ -31,6 +31,7 @@ class muestraTest {
 	Resultado resultadoOpFran;
 	Opinion opinionJoaco;
 	Opinion opinionFran;
+	Opinion opinionAlan;
 	private RegistroDeValidaciones reg;
 
 	@BeforeEach
@@ -42,15 +43,17 @@ class muestraTest {
         joaco = mock(Usuario.class);
         alan = mock(Usuario.class);
         when(dami.esExperto()).thenReturn(false);
+        when(alan.esExperto()).thenReturn(false); //usuario con conocimiento basico para corroborar votacion experto y validacion muestra
         when(fran.esExperto()).thenReturn(true);
         when(joaco.esExperto()).thenReturn(true);
-        when(alan.esExperto()).thenReturn(false); //opina cuando se verifique la muestra
         resultadoOpDami =  Resultado.CHINCHE_FOLIADA;
         resultadoOpJoaco =  Resultado.VINCHUCA_INFESTANS;
         resultadoOpFran =  Resultado.VINCHUCA_INFESTANS;
 		opinionDami = new Opinion(fecha, dami, resultadoOpDami);
 		opinionJoaco = new Opinion(fecha, joaco, resultadoOpJoaco);
 		opinionFran = new Opinion(fecha, fran, resultadoOpFran);
+		opinionAlan = mock(Opinion.class);
+		when(opinionAlan.getUsuario()).thenReturn(alan);
 		reg = mock(RegistroDeValidaciones.class);
 		muestra = new Muestra(fecha, unq, dami, opinionDami, reg);
 	}
@@ -121,7 +124,56 @@ class muestraTest {
 	}
 	
 	@Test
-	void muestraTestProcesarOpinion(){
-		
+	void muestraNoPuedeOpinarUsuarioEnviadorNuevamenteTest() throws Exception{
+		assertThrows(
+	            Exception.class,
+	            () -> muestra.procesarOpinion(opinionDami),
+	            "El usuario que envio la muestra no puede volver a opinar sobre ella"
+	        );
+	}
+	
+	@Test
+	void muestraNoPuedeOpinarUsuarioNuevamenteTest() throws Exception{
+		muestra.procesarOpinion(opinionJoaco);
+		assertThrows(
+	            Exception.class,
+	            () -> muestra.procesarOpinion(opinionJoaco),
+	            "El usuario no puede volver a opinar sobre esta muestra"
+	        );
+	}
+	
+	@Test
+	void muestraResultadoEmpate() throws Exception{
+		muestra.procesarOpinion(opinionJoaco);
+		assertEquals(Resultado.NO_DEFINIDO, muestra.resultadoActual());
+	}
+	
+	@Test
+	void muestraPasaAVotacionExperto() throws Exception{
+		assertFalse(muestra.esMuestraVerificada());
+		muestra.procesarOpinion(opinionJoaco);
+		assertFalse(muestra.esMuestraVerificada()); //sigue sin estar verificada pese a estar en votacion experto
+		//ya se encuentra en votacion experto por lo que no puede procesar opiniones de basico
+		assertThrows(
+	            Exception.class,
+	            () -> muestra.procesarOpinion(opinionAlan),
+	            "Solo pueden votar expertos en la evaluacion actual de la muestra"
+	        );
+	}
+	
+	@Test
+	void muestraPasaAVotacionVerificada() throws Exception{
+		assertFalse(muestra.esMuestraVerificada());
+		//opinan dos expertos igual y verifican la muestra
+		muestra.procesarOpinion(opinionJoaco);
+		muestra.procesarOpinion(opinionFran);
+		assertTrue(muestra.esMuestraVerificada());
+		verify(reg, times(1)).recibirMuestraValidada(muestra); //al validarse la muestra, se envia al receptor
+		//ya se encuentra validada por lo que no puede procesar opiniones
+		assertThrows(
+	            Exception.class,
+	            () -> muestra.procesarOpinion(opinionAlan),
+	            "No se puede opinar en la muestra porque esta verificada"
+	        );
 	}
 }
