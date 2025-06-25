@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,6 +20,7 @@ import usuario.Resultado;
 import usuario.Usuario;
 import zonaCobertura.CalculadorDistancia;
 import zonaCobertura.ManejadorDeNotificaciones;
+import zonaCobertura.NotificadosPorMuestras;
 import zonaCobertura.Ubicacion;
 import zonaCobertura.ZonaDeCobertura;
 
@@ -68,6 +71,8 @@ class NotificadosPorMuestraTest {
 	
 	private FiltroDeBusqueda filtro;
 	
+	private List<NotificadosPorMuestras> observadores;
+	
 	@BeforeEach
 	void setUp() throws Exception {
 		
@@ -113,6 +118,11 @@ class NotificadosPorMuestraTest {
 		org2 = mock(Organizacion.class);
 		org3 = mock(Organizacion.class);
 		
+		observadores = new ArrayList<>();
+		
+		observadores.add(org1);
+		observadores.add(org2);
+		observadores.add(org3);
 	}
 	
 	@Test
@@ -185,4 +195,20 @@ class NotificadosPorMuestraTest {
         app.recibirMuestra(m1, us1, op1);
         verifyNoInteractions(org1, org2, org3);
     }
+    
+    @Test
+    void testSetObservadoresEnManejador() {
+    	manejadorQuilmes.setNotificados(observadores);
+    	assertEquals(3, manejadorQuilmes.getNotificados().size());
+    }
+    
+    @Test
+    void testOrganizacionRecibeNotificacionPorMuestraResgistrada() {
+    	
+	}
+
+	@Test
+	void testOrganizacionRecibeNotificacionPorMuestraValidada() {
+	
+	}
 }
