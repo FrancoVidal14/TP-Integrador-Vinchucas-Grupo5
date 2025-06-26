@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import appWeb.AplicacionWeb;
 import appWeb.Recategorizador;
 import filtroBusqueda.FiltroDeBusqueda;
+import filtroBusqueda.Criterio;
 import muestra.Muestra;
 import muestra.RegistroDeValidaciones;
 import usuario.Usuario;
@@ -24,7 +25,7 @@ class AplicacionWebTest {
 	    private Usuario dami, fran, joaco;
 	    private Opinion opinionMock;
 	    private FiltroDeBusqueda filtro;
-	    private Ubicacion unq, estadioIndependiente, estadioBoca;
+	    private Ubicacion unq, estadioBoca;
 	    private Muestra muestraEnLaUnq, muestraEnLDA;
 	    private RegistroDeValidaciones reg;
 	    
@@ -43,8 +44,7 @@ class AplicacionWebTest {
         unq = new Ubicacion(-34.7063, -58.2778);
         muestraEnLaUnq = new Muestra(LocalDateTime.of(2025, 6, 20, 12, 23), unq, dami, opinionMock,reg);
         muestraEnLDA = new Muestra(LocalDateTime.of(2023, 6, 19, 02, 13), unq, dami, opinionMock,reg);
-
-        estadioIndependiente = new Ubicacion(-34.6703, -58.3710);
+        
         estadioBoca = new Ubicacion(-34.6356, -58.3643);
 
         appVinchucas = new AplicacionWeb(filtro);
@@ -141,5 +141,47 @@ class AplicacionWebTest {
         appVinchucas.recategorizar(10, 20, 30);
         // Verificamos que se le haya pedido al usuario que se recategorice con los mismos parámetros
         verify(dami).recategorizarSiCorresponde(any(Recategorizador.class), eq(10), eq(20), eq(30));
+    }
+    
+    @Test
+    void testGetMuestras() throws Exception {
+    	appVinchucas.recibirMuestra(muestraEnLaUnq, dami, opinionMock);
+    	assertEquals(1, appVinchucas.getMuestras().size());
+    	assertEquals(muestraEnLaUnq, appVinchucas.getMuestras().get(0));
+    }
+    
+    @Test
+    void testAgregarZonaCobertura() {
+    	ZonaDeCobertura zonaMock = mock(ZonaDeCobertura.class);
+    	appVinchucas.añadirZonaDeCobertura(zonaMock);
+    	assertEquals(1, appVinchucas.getZonasDeCobertura().size());
+    	assertEquals(zonaMock, appVinchucas.getZonasDeCobertura().get(0));
+    }
+    
+    @Test
+    void testFiltrarMuestras() {
+    	Criterio criterioMock = mock(Criterio.class);
+    	appVinchucas.filtrarMuestras(criterioMock);
+    	verify(filtro, times(1)).filtrarMuestras(appVinchucas.getMuestras(), criterioMock);
+    }
+    
+    @Test
+    void testEnviarMuestraAZonas() {
+    	ZonaDeCobertura zonaMock = mock(ZonaDeCobertura.class);
+    	when(zonaMock.contiene(muestraEnLDA.getUbicacion())).thenReturn(true);
+    	appVinchucas.añadirZonaDeCobertura(zonaMock);
+    	appVinchucas.enviarMuestraAZonas(muestraEnLDA);
+    	verify(zonaMock, times(1)).contiene(muestraEnLDA.getUbicacion());
+    	verify(zonaMock, times(1)).registrarMuestra(muestraEnLDA);
+    }
+    
+    @Test
+    void testRecibirMuestraValidada() {
+    	ZonaDeCobertura zonaMock = mock(ZonaDeCobertura.class);
+    	when(zonaMock.contiene(muestraEnLDA.getUbicacion())).thenReturn(true);
+    	appVinchucas.añadirZonaDeCobertura(zonaMock);
+    	appVinchucas.recibirMuestraValidada(muestraEnLDA);
+    	verify(zonaMock, times(1)).contiene(muestraEnLDA.getUbicacion());
+    	verify(zonaMock, times(1)).registrarValidacionDeMuestra(muestraEnLDA);
     }
 }
