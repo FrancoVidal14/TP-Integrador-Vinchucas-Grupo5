@@ -3,6 +3,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import appWeb.AplicacionWeb;
+import muestra.Muestra;
 import zonaCobertura.CalculadorDistancia;
 import zonaCobertura.CalculoDistancia;
 import zonaCobertura.ManejadorDeNotificaciones;
@@ -10,8 +11,7 @@ import zonaCobertura.Ubicacion;
 import zonaCobertura.ZonaDeCobertura;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 import java.util.List;
 
@@ -138,6 +138,22 @@ public class ZonaCoberturaTest {
         // Verificación
         assertEquals(1, zonasSolapadas.size());
         assertEquals("La Bombonera", zonasSolapadas.get(0).getNombre());
+    }
+    
+    @Test
+    void testRegistrarMuestra() {
+    	Muestra muestraMock = mock(Muestra.class);
+    	ZonaDeCobertura zonaBoca = new ZonaDeCobertura("La bombonera",estadioBoca, 5.00 , calculador, notificador);
+    	zonaBoca.registrarMuestra(muestraMock);
+    	verify(notificador, times(1)).recibirInformacionDeMuestraRegistrada(muestraMock, zonaBoca);
+    }
+    
+    @Test
+    void testRegistrarValidacionDeMuestra() {
+    	Muestra muestraMock = mock(Muestra.class);
+    	ZonaDeCobertura zonaBoca = new ZonaDeCobertura("La bombonera",estadioBoca, 5.00 , calculador, notificador);
+    	zonaBoca.registrarValidacionDeMuestra(muestraMock);
+    	verify(notificador, times(1)).recibirInformacionDeMuestraValidada(muestraMock, zonaBoca);
     }
     
 }
