@@ -1,5 +1,5 @@
 package organizacion;
 
 public enum TipoDeOrganizacion {
-	Salud, Educativa, Cultural, Asistencia;
+	SALUD, EDUCATIVA, CULTURAL, ASISTENCIA;
 }

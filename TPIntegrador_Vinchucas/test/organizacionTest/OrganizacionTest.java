@@ -23,7 +23,7 @@ class OrganizacionTest {
     @BeforeEach
     void setUp() {
         ubicacion = new Ubicacion(-34.6037, -58.3816);
-        tipo = TipoDeOrganizacion.Salud;
+        tipo = TipoDeOrganizacion.SALUD;
         func1 = mock(FuncionalidadExterna.class);
         func2 = mock(FuncionalidadExterna.class);
         organizacion = new Organizacion(ubicacion, tipo, 50, func1, func2);
@@ -78,8 +78,8 @@ class OrganizacionTest {
 
     @Test
     void getYSetTipo() {
-        organizacion.setTipo(TipoDeOrganizacion.Educativa);
-        assertEquals(TipoDeOrganizacion.Educativa, organizacion.getTipo());
+        organizacion.setTipo(TipoDeOrganizacion.EDUCATIVA);
+        assertEquals(TipoDeOrganizacion.EDUCATIVA, organizacion.getTipo());
     }
 
 }
