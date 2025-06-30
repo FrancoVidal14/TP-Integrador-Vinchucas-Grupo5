@@ -1,8 +1,11 @@
 package FiltrosTest;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach; 
 import org.junit.jupiter.api.Test;
@@ -22,10 +25,16 @@ import usuario.Opinion;
 import usuario.Resultado;
 import usuario.Usuario;
 import zonaCobertura.Ubicacion;
+import zonaCobertura.ZonaDeCobertura;
 
 class FiltrosTest {
 
 	private AplicacionWeb app;
+	private ArrayList<Muestra> muestras;
+	private ArrayList<ZonaDeCobertura> zonasDeCobertura;
+	private ArrayList<Usuario> usuarios;
+	
+	private ZonaDeCobertura zonaMock1, zonaMock2;
 	private Muestra m1;
 	private Muestra m2;
 	private Muestra m3;
@@ -104,7 +113,8 @@ class FiltrosTest {
 		
 		filtro = new FiltroDeBusqueda();
 		
-		app = new AplicacionWeb(filtro);
+        zonaMock1 = mock(ZonaDeCobertura.class);
+        zonaMock2 = mock(ZonaDeCobertura.class);
 		
 		m1 = new Muestra(fecha1, ubi1, us1, op2, registro);
 		m2 = new Muestra(fecha1, ubi2, us2, op3, registro);
@@ -120,11 +130,11 @@ class FiltrosTest {
 		criterioAnd = new CriterioAND(criterioFecha, criterioVotacion);
 		criterioOr = new CriterioOR(criterioFecha, criterioMuestraVerif);
 		
-		app.recibirMuestra(m1, us1, op3);
-		app.recibirMuestra(m2, us2, op4);
-		app.recibirMuestra(m3, us3, op5);
-		app.recibirMuestra(m4, us4, op1);
-		app.recibirMuestra(m5, us5, op2);
+		muestras = new ArrayList<>(List.of(m1, m2, m3, m4, m5));
+        zonasDeCobertura = new ArrayList<>(List.of(zonaMock1, zonaMock2));
+        usuarios = new ArrayList<>(List.of(us1, us2, us3, us4, us5));
+        
+        app = new AplicacionWeb(muestras, zonasDeCobertura, usuarios, filtro);
 	}
 	
 	@Test

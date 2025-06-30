@@ -38,30 +38,7 @@ public class EvaluacionMuestra{
 	}
 
 	public Resultado getResultadoActual() {
-	    Resultado resultadoMasFrecuente = null;
-	    int maxApariciones = 0;
-	    boolean empate = false;
-	    
-	    //itero sobre los resultados posibles para ver la cantidad de apariciones
-	    for (Resultado resultadoCandidato : Resultado.values()) {
-	        int aparicionesCandidato = 0;
-	        for (Opinion op : this.opiniones) {
-	            if (op.esMismoResultado(resultadoCandidato)) {
-	            	aparicionesCandidato++;
-	            }
-	        }
-
-	        if (aparicionesCandidato > maxApariciones) {
-	        	maxApariciones = aparicionesCandidato;
-	            resultadoMasFrecuente = resultadoCandidato;
-	            empate = false;
-	        } else if (aparicionesCandidato == maxApariciones) {
-	            empate = true;
-	        }
-	    }
-	    
-	    //siempre hay al menos 1 opinion que es la del usuario enviador y por ende no hace falta corroborar si aparicionesCandidato es > 0
-	    return empate ? Resultado.NO_DEFINIDO : resultadoMasFrecuente;
+		return this.estadoEvaluacion.resultadoActual(this.opiniones);
 	}
 	
 	public boolean esVerificada() {

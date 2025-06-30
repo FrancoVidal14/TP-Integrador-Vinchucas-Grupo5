@@ -52,6 +52,10 @@ public class Muestra {
 		return this.usuarioEnviador.equals(usuario);
 	}
 	
+	public boolean esMismaMuestra(Muestra muestra) {
+		return muestra.equals(this);
+	}
+	
 	public boolean generadaEnUltimos(int ultimosDias) {
 		LocalDateTime fechaComienzoValidez = LocalDateTime.now().minusDays(ultimosDias);
 		return this.fechaCreacion.isAfter(fechaComienzoValidez);
