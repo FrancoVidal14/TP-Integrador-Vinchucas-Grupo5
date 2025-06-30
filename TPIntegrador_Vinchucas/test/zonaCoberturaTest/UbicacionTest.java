@@ -1,12 +1,9 @@
-package VinchucasTest;
+package zonaCoberturaTest;
 
 import static org.junit.jupiter.api.Assertions.*;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import zonaCobertura.CalculadorDistancia;
-import zonaCobertura.CalculoDistancia;
 import zonaCobertura.Ubicacion;
 
 public class UbicacionTest {
@@ -16,7 +13,6 @@ public class UbicacionTest {
     private Ubicacion estadioRiver;
     private Ubicacion estadioLiverpool;
     private Ubicacion estadioManchester;
-    private CalculadorDistancia calculador;
 
     @BeforeEach
     public void setup() {
@@ -25,8 +21,6 @@ public class UbicacionTest {
         estadioRiver = new Ubicacion(-34.5456, -58.4497);      // Monumental
         estadioLiverpool = new Ubicacion(53.4308, -2.9609);    // Anfield
         estadioManchester = new Ubicacion(53.4635, -2.2923);   // Old Trafford
-        
-        calculador = new CalculoDistancia();
     }
 
     @Test

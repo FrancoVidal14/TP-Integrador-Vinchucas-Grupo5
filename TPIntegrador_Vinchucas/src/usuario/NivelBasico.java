@@ -12,7 +12,7 @@ public class NivelBasico extends NivelConocimiento {
 	@Override
 	protected boolean debeRecategorizarse(Recategorizador recategorizador, Usuario usuario, int cantEnviosEsperados,
 			int cantRevisionesEsperadas, int cantDiasConsiderados) {
-		return recategorizador.cumpleCondiciones(usuario, cantDiasConsiderados, cantEnviosEsperados, cantRevisionesEsperadas);
+		return recategorizador.cumpleCondiciones(usuario, cantEnviosEsperados, cantRevisionesEsperadas, cantDiasConsiderados);
 	}
 
 	@Override

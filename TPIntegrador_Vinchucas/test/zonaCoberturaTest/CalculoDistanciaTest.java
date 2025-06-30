@@ -1,4 +1,4 @@
-package VinchucasTest;
+package zonaCoberturaTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -14,17 +14,11 @@ public class CalculoDistanciaTest {
 
     private Ubicacion estadioIndependiente;
     private Ubicacion estadioBoca;
-    private Ubicacion estadioLiverpool;
-    private Ubicacion estadioManchester;
-    private Ubicacion estadioMilan;
 
     @BeforeEach
     public void setup() {
         estadioIndependiente = new Ubicacion(-34.6703, -58.3710);  // Libertadores de América
         estadioBoca = new Ubicacion(-34.6356, -58.3643);          // La Bombonera
-        estadioLiverpool = new Ubicacion(53.4308, -2.9609);      // Anfield
-        estadioManchester = new Ubicacion(53.4635, -2.2923);    // Old Trafford
-        estadioMilan = new Ubicacion(45.4785, 9.1222);         // San Siro
 
         calculador = new CalculoDistancia();
     }

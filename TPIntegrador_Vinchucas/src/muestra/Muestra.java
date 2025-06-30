@@ -15,11 +15,12 @@ public class Muestra {
 	private EvaluacionMuestra evaluacionMuestra = new EvaluacionMuestra();
 	private RegistroDeValidaciones receptor;
 	
-	public Muestra(LocalDateTime fechaCreacion, Ubicacion ubicacionOrigen, Usuario usuarioEnviador, Opinion opinionUsuarioEnviador) throws Exception {
+	public Muestra(LocalDateTime fechaCreacion, Ubicacion ubicacionOrigen, Usuario usuarioEnviador, Opinion opinionUsuarioEnviador, RegistroDeValidaciones reg) throws Exception {
 		this.fechaCreacion = fechaCreacion;
 		this.ubicacionOrigen = ubicacionOrigen;
 		this.usuarioEnviador = usuarioEnviador;
 		this.evaluacionMuestra.procesarOpinion(this, opinionUsuarioEnviador);
+		this.receptor = reg;
 	}
 	
 	//getters y equals
@@ -43,8 +44,16 @@ public class Muestra {
 		return this.getOpiniones().stream().filter(opinion -> opinion.esUsuarioOpinador(usuario)).toList();
 	}
 	
+	public RegistroDeValidaciones getRegistro() {
+		return this.receptor;
+	}
+	
 	public boolean esUsuarioEnviador(Usuario usuario) {
 		return this.usuarioEnviador.equals(usuario);
+	}
+	
+	public boolean esMismaMuestra(Muestra muestra) {
+		return muestra.equals(this);
 	}
 	
 	public boolean generadaEnUltimos(int ultimosDias) {
