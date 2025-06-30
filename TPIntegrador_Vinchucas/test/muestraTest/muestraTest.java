@@ -41,9 +41,9 @@ class muestraTest {
         dami = mock(Usuario.class);
         fran = mock(Usuario.class);
         joaco = mock(Usuario.class);
-        alan = mock(Usuario.class);
+        alan = mock(Usuario.class); //usuario comodin para varios test
         when(dami.esExperto()).thenReturn(false);
-        when(alan.esExperto()).thenReturn(false); //usuario con conocimiento basico para corroborar votacion experto y validacion muestra
+        when(alan.esExperto()).thenReturn(false);
         when(fran.esExperto()).thenReturn(true);
         when(joaco.esExperto()).thenReturn(true);
         resultadoOpDami =  Resultado.CHINCHE_FOLIADA;
@@ -144,7 +144,10 @@ class muestraTest {
 	
 	@Test
 	void muestraResultadoEmpate() throws Exception{
-		muestra.procesarOpinion(opinionJoaco);
+		assertEquals(resultadoOpDami, muestra.resultadoActual());
+		Resultado resultadoAlan = Resultado.IMAGEN_POCO_CLARA;
+		when(opinionAlan.esMismoResultado(resultadoAlan)).thenReturn(true);
+		muestra.procesarOpinion(opinionAlan);
 		assertEquals(Resultado.NO_DEFINIDO, muestra.resultadoActual());
 	}
 	
@@ -162,12 +165,33 @@ class muestraTest {
 	}
 	
 	@Test
+	void muestraResultadoExperto() throws Exception{
+		assertEquals(resultadoOpDami, muestra.resultadoActual());
+		muestra.procesarOpinion(opinionJoaco);
+		//deja de importar la opinion de basicos por lo que solo vale la de Joaco que es experto
+		assertEquals(resultadoOpJoaco, muestra.resultadoActual());
+	}
+	
+	@Test
+	void muestraResultadoExpertoEmpate() throws Exception{
+		assertEquals(resultadoOpDami, muestra.resultadoActual());
+		muestra.procesarOpinion(opinionJoaco);
+		Resultado resultadoAlan = Resultado.IMAGEN_POCO_CLARA;
+		when(opinionAlan.esMismoResultado(resultadoAlan)).thenReturn(true);
+		when(opinionAlan.fueEmitidaPorExperto()).thenReturn(true);
+		muestra.procesarOpinion(opinionAlan);
+		assertEquals(Resultado.NO_DEFINIDO, muestra.resultadoActual());
+	}
+	
+	@Test
 	void muestraPasaAVotacionVerificada() throws Exception{
 		assertFalse(muestra.esMuestraVerificada());
 		//opinan dos expertos igual y verifican la muestra
 		muestra.procesarOpinion(opinionJoaco);
 		muestra.procesarOpinion(opinionFran);
 		assertTrue(muestra.esMuestraVerificada());
+		assertEquals(resultadoOpJoaco, muestra.resultadoActual()); //como ambos opinan lo mismo, 
+		//el resultado define el resultado de la muestra
 		verify(reg, times(1)).recibirMuestraValidada(muestra); //al validarse la muestra, se envia al receptor
 		//ya se encuentra validada por lo que no puede procesar opiniones
 		assertThrows(
