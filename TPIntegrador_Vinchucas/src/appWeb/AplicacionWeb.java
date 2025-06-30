@@ -1,6 +1,5 @@
 package appWeb;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import filtroBusqueda.Criterio;
@@ -21,7 +20,7 @@ public class AplicacionWeb implements IDatosUsuario, IDatosZonaCobertura, Regist
 	private Recategorizador recategorizador = new Recategorizador(this); 
 
 	// Constructor
-	public AplicacionWeb(ArrayList<Muestra> muestrasRegistradas, ArrayList<ZonaDeCobertura> zonasDeCoberturaRegistradas, ArrayList<Usuario> usuariosRegistrados, FiltroDeBusqueda filtro) {
+	public AplicacionWeb(List<Muestra> muestrasRegistradas, List<ZonaDeCobertura> zonasDeCoberturaRegistradas, List<Usuario> usuariosRegistrados, FiltroDeBusqueda filtro) {
 		//informacion del sistema que debe existir para poder mantener la cohesion del enunciado segun
 		//lo dicho en app movil
 		this.muestras = muestrasRegistradas;

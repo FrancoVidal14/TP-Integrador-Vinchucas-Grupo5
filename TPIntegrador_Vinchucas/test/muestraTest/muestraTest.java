@@ -191,7 +191,7 @@ class muestraTest {
 		muestra.procesarOpinion(opinionFran);
 		assertTrue(muestra.esMuestraVerificada());
 		assertEquals(resultadoOpJoaco, muestra.resultadoActual()); //como ambos opinan lo mismo, 
-		//el resultado define el resultado de la muestra
+		//el resultado de cualquiera de los dos define el resultado de la muestra verificada
 		verify(reg, times(1)).recibirMuestraValidada(muestra); //al validarse la muestra, se envia al receptor
 		//ya se encuentra validada por lo que no puede procesar opiniones
 		assertThrows(
