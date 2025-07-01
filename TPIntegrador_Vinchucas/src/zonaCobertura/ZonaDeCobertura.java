@@ -3,9 +3,10 @@ package zonaCobertura;
 import java.util.List;
 
 import muestra.Muestra;
+import muestra.IObserverMuestra;
 
 
-public class ZonaDeCobertura {
+public class ZonaDeCobertura implements IObserverMuestra{
     private String nombre;
     private Ubicacion epicentro;
     private double radioKm;
@@ -24,12 +25,12 @@ public class ZonaDeCobertura {
     	return this.radioKm;
     }
 
-    public ZonaDeCobertura(String nombre, Ubicacion epicentro, double radioKm, CalculadorDistancia calculador, ManejadorDeNotificaciones manejador) {
+    public ZonaDeCobertura(String nombre, Ubicacion epicentro, double radioKm, CalculadorDistancia calculador) {
     	this.nombre = nombre;
     	this.epicentro = epicentro;
     	this.radioKm = radioKm;
     	this.calculadorDist = calculador;
-    	this.manejador = manejador;
+    	this.manejador = new ManejadorDeNotificaciones();
     }
 
     public boolean contiene(Ubicacion ubicacion){
@@ -45,11 +46,15 @@ public class ZonaDeCobertura {
 		return datosZona.getZonasDeCobertura().stream().filter(z -> this.seSolapaConLaZona(z)).toList();
     }
     
-    public void registrarMuestra(Muestra m) {
-    	manejador.recibirInformacionDeMuestraRegistrada(m, this);
+    public void registrarMuestraSiCorresponde(Muestra m) {
+    	if(this.contiene(m.getUbicacion())) {
+    		manejador.recibirInformacionDeMuestraRegistrada(m, this);
+    		m.agregarObservador(this);
+    	}
     }
     
-    public void registrarValidacionDeMuestra(Muestra m) {
-    	manejador.recibirInformacionDeMuestraValidada(m, this);
-    }
+	@Override
+	public void recibirMuestraValidada(Muestra m) {
+		manejador.recibirInformacionDeMuestraValidada(m, this);
+	}
 }

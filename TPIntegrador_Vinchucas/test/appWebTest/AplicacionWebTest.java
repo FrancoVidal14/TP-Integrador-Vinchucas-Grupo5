@@ -13,7 +13,7 @@ import appWeb.Recategorizador;
 import filtroBusqueda.FiltroDeBusqueda;
 import filtroBusqueda.Criterio;
 import muestra.Muestra;
-import muestra.RegistroDeValidaciones;
+import muestra.IObserverMuestra;
 import usuario.Usuario;
 import zonaCobertura.Ubicacion;
 import zonaCobertura.ZonaDeCobertura;
@@ -29,7 +29,7 @@ class AplicacionWebTest {
 	    private Ubicacion unq;
 	    private Muestra muestraEnLaUnq, muestraEnLDA;
 	    private ZonaDeCobertura zonaMock1, zonaMock2;
-	    private RegistroDeValidaciones reg;
+	    private IObserverMuestra reg;
 		private ArrayList<Muestra> muestras;
 		private ArrayList<ZonaDeCobertura> zonasDeCobertura;
 		private ArrayList<Usuario> usuarios;
@@ -46,7 +46,7 @@ class AplicacionWebTest {
         zonaMock1 = mock(ZonaDeCobertura.class);
         zonaMock2 = mock(ZonaDeCobertura.class);
         
-        reg = mock(RegistroDeValidaciones.class);
+        reg = mock(IObserverMuestra.class);
         
         unq = new Ubicacion(-34.7063, -58.2778);
         muestraEnLaUnq = new Muestra(LocalDateTime.of(2025, 6, 20, 12, 23), unq, dami, opinionMock,reg);

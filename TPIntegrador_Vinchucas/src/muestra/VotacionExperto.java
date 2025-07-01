@@ -23,8 +23,7 @@ public class VotacionExperto extends EstadoEvaluacionMuestra {
 
 		if (cantOpinionesIguales >= 2) {
 			this.cambiarEstado(evMuestra);
-			//notifica al sistema que se valido la muestra
-			muestra.enviarMuestraVerificada();
+			muestra.enviarMuestraValidada();
 		}
 	}
 

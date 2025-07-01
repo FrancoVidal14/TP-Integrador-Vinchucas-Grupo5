@@ -1,6 +1,6 @@
 package muestra;
 
-public interface RegistroDeValidaciones {
+public interface IObserverMuestra {
 	
 	public void recibirMuestraValidada(Muestra m);
 	
