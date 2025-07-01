@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 import appWeb.AplicacionWeb;
 import filtroBusqueda.FiltroDeBusqueda;
 import muestra.Muestra;
-import muestra.RegistroDeValidaciones;
+import muestra.IObserverMuestra;
 import organizacion.Organizacion;
 import usuario.Opinion;
 import usuario.Resultado;
@@ -51,7 +51,7 @@ class NotificadosPorMuestraTest {
 	private Resultado res2;
 	private Resultado res4;
 	
-	private RegistroDeValidaciones registro;
+	private IObserverMuestra registro;
 	
 	private ZonaDeCobertura zonaBernal;
 	private ZonaDeCobertura zonaQuilmes;
@@ -76,7 +76,7 @@ class NotificadosPorMuestraTest {
 	@BeforeEach
 	void setUp() throws Exception {
 		
-		registro = mock(RegistroDeValidaciones.class);
+		registro = mock(IObserverMuestra.class);
 		calculador1 = mock(CalculadorDistancia.class);
 		calculador2 = mock(CalculadorDistancia.class);
 		calculador3 = mock(CalculadorDistancia.class);

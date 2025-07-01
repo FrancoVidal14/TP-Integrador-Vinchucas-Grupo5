@@ -9,7 +9,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import muestra.Muestra;
-import muestra.RegistroDeValidaciones;
+import muestra.IObserverMuestra;
 import usuario.Opinion;
 import usuario.Resultado;
 import usuario.Usuario;
@@ -32,7 +32,7 @@ class muestraTest {
 	Opinion opinionJoaco;
 	Opinion opinionFran;
 	Opinion opinionAlan;
-	private RegistroDeValidaciones reg;
+	private IObserverMuestra reg;
 
 	@BeforeEach
 	void setUp() throws Exception {
@@ -54,7 +54,7 @@ class muestraTest {
 		opinionFran = new Opinion(fecha, fran, resultadoOpFran);
 		opinionAlan = mock(Opinion.class);
 		when(opinionAlan.getUsuario()).thenReturn(alan);
-		reg = mock(RegistroDeValidaciones.class);
+		reg = mock(IObserverMuestra.class);
 		muestra = new Muestra(fecha, unq, dami, opinionDami, reg);
 	}
 
@@ -80,7 +80,7 @@ class muestraTest {
 	
 	@Test
 	void setReceptorTest() {
-		RegistroDeValidaciones regTest = mock(RegistroDeValidaciones.class);
+		IObserverMuestra regTest = mock(IObserverMuestra.class);
 		muestra.setReceptor(regTest);
 	    assertEquals(regTest, muestra.getRegistro());
 	}

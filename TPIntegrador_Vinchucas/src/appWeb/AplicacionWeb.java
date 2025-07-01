@@ -1,18 +1,20 @@
 package appWeb;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import filtroBusqueda.Criterio;
 import filtroBusqueda.FiltroDeBusqueda;
+import muestra.ManejadorDeMuestras;
 import muestra.Muestra;
-import muestra.RegistroDeValidaciones;
+import muestra.IObserverMuestra;
 import usuario.Usuario;
 import zonaCobertura.CalculadorDistancia;
 import zonaCobertura.CalculoDistancia;
 import zonaCobertura.IDatosZonaCobertura;
 import zonaCobertura.ZonaDeCobertura;
 
-public class AplicacionWeb implements IDatosUsuario, IDatosZonaCobertura, RegistroDeValidaciones {
+public class AplicacionWeb implements IDatosUsuario, IDatosZonaCobertura {
 	private List<Muestra> muestras;
 	private List<ZonaDeCobertura> zonasDeCobertura;
 	private List<Usuario> usuarios;
@@ -26,7 +28,6 @@ public class AplicacionWeb implements IDatosUsuario, IDatosZonaCobertura, Regist
 		this.muestras = muestrasRegistradas;
 		this.zonasDeCobertura = zonasDeCoberturaRegistradas;
 		this.usuarios = usuariosRegistrados;
-		
 		this.filtro = filtro;
 	}
 
@@ -60,15 +61,22 @@ public class AplicacionWeb implements IDatosUsuario, IDatosZonaCobertura, Regist
 	// Registro y recepción
 	public void recibirMuestra(Muestra muestra) {
 		this.muestras.add(muestra);
-		enviarMuestraAZonas(muestra); //cambiar por observer
+		enviarRegistroDeMuestraAZonas(muestra);
 	}
-	
+
 	public void registrarUsuario(Usuario u) {
 		this.usuarios.add(u);
 	}
 	
 	public void añadirZonaDeCobertura(ZonaDeCobertura zona) {
 		this.zonasDeCobertura.add(zona);
+		registrarMuestrasDeLaAplicacionALaZonaEntrante(zona);
+	}
+	
+	public void registrarMuestrasDeLaAplicacionALaZonaEntrante(ZonaDeCobertura z) {
+		for(Muestra m : this.muestras) {
+			z.registrarMuestraSiCorresponde(m);
+		}
 	}
 
 	// Funcionalidades
@@ -90,20 +98,9 @@ public class AplicacionWeb implements IDatosUsuario, IDatosZonaCobertura, Regist
 	}
 	
 	//notificar a zonas sobre muestras para observer
-	public void enviarMuestraAZonas(Muestra muestra) {
-		for (ZonaDeCobertura z : getZonasDeCobertura()) {
-			if (z.contiene(muestra.getUbicacion())) {
-				z.registrarMuestra(muestra);
-			}
-		}
-	}
-	
-	@Override
-	public void recibirMuestraValidada(Muestra m) {
-		for (ZonaDeCobertura z : getZonasDeCobertura()) {
-			if (z.contiene(m.getUbicacion())) {
-				z.registrarValidacionDeMuestra(m);
-			}
+	public void enviarRegistroDeMuestraAZonas(Muestra muestra) {
+		for(ZonaDeCobertura z : this.zonasDeCobertura) {
+			z.registrarMuestraSiCorresponde(muestra);
 		}
 	}
 }
