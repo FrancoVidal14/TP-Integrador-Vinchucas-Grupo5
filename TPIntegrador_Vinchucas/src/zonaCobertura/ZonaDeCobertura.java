@@ -24,6 +24,14 @@ public class ZonaDeCobertura implements IObserverMuestra{
     public double getRadio(){
     	return this.radioKm;
     }
+    
+    public ManejadorDeNotificaciones getManejador() {
+    	return this.manejador;
+    }
+    
+    public void setManejador(ManejadorDeNotificaciones m) {
+    	this.manejador = m;
+    }
 
     public ZonaDeCobertura(String nombre, Ubicacion epicentro, double radioKm, CalculadorDistancia calculador) {
     	this.nombre = nombre;
