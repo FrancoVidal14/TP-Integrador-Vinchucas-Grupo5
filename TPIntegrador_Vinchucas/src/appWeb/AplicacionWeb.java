@@ -1,13 +1,13 @@
 package appWeb;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import filtroBusqueda.Criterio;
 import filtroBusqueda.FiltroDeBusqueda;
-import muestra.ManejadorDeMuestras;
 import muestra.Muestra;
-import muestra.IObserverMuestra;
 import usuario.Usuario;
 import zonaCobertura.CalculadorDistancia;
 import zonaCobertura.CalculoDistancia;
@@ -15,19 +15,14 @@ import zonaCobertura.IDatosZonaCobertura;
 import zonaCobertura.ZonaDeCobertura;
 
 public class AplicacionWeb implements IDatosUsuario, IDatosZonaCobertura {
-	private List<Muestra> muestras;
-	private List<ZonaDeCobertura> zonasDeCobertura;
-	private List<Usuario> usuarios;
+	private List<Muestra> muestras = new ArrayList<>();
+	private List<ZonaDeCobertura> zonasDeCobertura = new ArrayList<>();
+	private Set<Usuario> usuarios = new HashSet<>();
 	private FiltroDeBusqueda filtro;
 	private Recategorizador recategorizador = new Recategorizador(this); 
 
 	// Constructor
-	public AplicacionWeb(List<Muestra> muestrasRegistradas, List<ZonaDeCobertura> zonasDeCoberturaRegistradas, List<Usuario> usuariosRegistrados, FiltroDeBusqueda filtro) {
-		//informacion del sistema que debe existir para poder mantener la cohesion del enunciado segun
-		//lo dicho en app movil
-		this.muestras = muestrasRegistradas;
-		this.zonasDeCobertura = zonasDeCoberturaRegistradas;
-		this.usuarios = usuariosRegistrados;
+	public AplicacionWeb( FiltroDeBusqueda filtro) {
 		this.filtro = filtro;
 	}
 
@@ -38,8 +33,25 @@ public class AplicacionWeb implements IDatosUsuario, IDatosZonaCobertura {
 	
 	@Override
 	//necesario para la recategorizacion
-	public List<Usuario> getUsuarios() {
+	public Set<Usuario> getUsuarios() {
+		this.actualizarUsuarios();
 		return this.usuarios;
+	}
+	
+	//funcion que se encarga de traer los usuarios opinadores y agregarlos 
+	//al set de usuarios, garantizando que no haya repetidos
+	//ya que no tenemos forma de garantizarlos en mediante app web
+	//y es necesario para recategorizarlos
+	private void actualizarUsuarios() {
+		this.usuarios.addAll(this.getUsuariosOpinadores());
+	}
+	
+	private Set<Usuario> getUsuariosOpinadores(){
+		Set<Usuario> usuariosOpinadores = new HashSet<>();
+		for (Muestra muestra : this.muestras) {
+			usuariosOpinadores.addAll(muestra.getOpiniones().stream().map(o -> o.getUsuario()).toList());
+		}
+		return usuariosOpinadores;
 	}
 	
 	@Override
@@ -61,9 +73,10 @@ public class AplicacionWeb implements IDatosUsuario, IDatosZonaCobertura {
 	// Registro y recepción
 	public void recibirMuestra(Muestra muestra) {
 		this.muestras.add(muestra);
+		this.registrarUsuario(muestra.getUsuario());
 		enviarRegistroDeMuestraAZonas(muestra);
 	}
-
+	
 	public void registrarUsuario(Usuario u) {
 		this.usuarios.add(u);
 	}
