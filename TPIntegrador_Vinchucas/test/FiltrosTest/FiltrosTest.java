@@ -20,7 +20,7 @@ import filtroBusqueda.CriterioPorMuestraVerificada;
 import filtroBusqueda.CriterioTipoDeInsecto;
 import filtroBusqueda.FiltroDeBusqueda;
 import muestra.Muestra;
-import muestra.RegistroDeValidaciones;
+import muestra.IObserverMuestra;
 import usuario.Opinion;
 import usuario.Resultado;
 import usuario.Usuario;
@@ -78,7 +78,7 @@ class FiltrosTest {
 	
 	private FiltroDeBusqueda filtro;
 	
-	private RegistroDeValidaciones registro;
+	private IObserverMuestra registro;
 	
 	@BeforeEach
 	void setUp() throws Exception {

@@ -16,7 +16,7 @@ import filtroBusqueda.CriterioPorMuestraEnVotacion;
 import filtroBusqueda.CriterioPorMuestraVerificada;
 import filtroBusqueda.CriterioTipoDeInsecto;
 import muestra.Muestra;
-import muestra.RegistroDeValidaciones;
+import muestra.IObserverMuestra;
 import usuario.NivelExpertoValidado;
 import usuario.Opinion;
 import usuario.Resultado;
@@ -61,7 +61,7 @@ class CriterioTest {
 	private Resultado res3;
 	private Resultado res5;
 	
-	private RegistroDeValidaciones registro;
+	private IObserverMuestra registro;
 	
 	@BeforeEach
 	void setUp() throws Exception {
@@ -72,7 +72,7 @@ class CriterioTest {
 		fecha4 = LocalDateTime.of(2022, 3, 1, 12, 00);
 		fecha5 = LocalDateTime.of(2024, 5, 10, 10, 36);
 		
-		registro = mock(RegistroDeValidaciones.class);
+		registro = mock(IObserverMuestra.class);
 		
 		criterioFecha = new CriterioFechaCreacion(fecha1);
 		criterioUltVotacion = new CriterioFechaUltimaVotacion(fecha5);
