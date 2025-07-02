@@ -1,6 +1,9 @@
 package muestra;
 
+import java.util.List;
+
 import usuario.Opinion;
+import usuario.Resultado;
 
 public class VotacionExperto extends EstadoEvaluacionMuestra {
 
@@ -20,8 +23,7 @@ public class VotacionExperto extends EstadoEvaluacionMuestra {
 
 		if (cantOpinionesIguales >= 2) {
 			this.cambiarEstado(evMuestra);
-			//notifica al sistema que se valido la muestra
-			muestra.enviarMuestraVerificada();
+			muestra.enviarMuestraValidada();
 		}
 	}
 
@@ -33,5 +35,14 @@ public class VotacionExperto extends EstadoEvaluacionMuestra {
 	@Override
 	protected boolean esVerificado() {
 		return false;
+	}
+	
+	//envio la lista filtrada para solo calcular con la votacion de los expertos
+	@Override
+	protected Resultado resultadoActual(List<Opinion> opiniones) {
+	    List<Opinion> expertas = opiniones.stream()
+	        .filter(Opinion::fueEmitidaPorExperto)
+	        .toList();
+	    return super.resultadoActual(expertas);
 	}
 }

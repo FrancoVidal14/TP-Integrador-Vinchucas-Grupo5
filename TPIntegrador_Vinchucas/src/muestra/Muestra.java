@@ -13,14 +13,14 @@ public class Muestra {
 	private Ubicacion ubicacionOrigen;
 	private Usuario usuarioEnviador;
 	private EvaluacionMuestra evaluacionMuestra = new EvaluacionMuestra();
-	private RegistroDeValidaciones receptor;
+	private ManejadorDeMuestras manejador;
 	
-	public Muestra(LocalDateTime fechaCreacion, Ubicacion ubicacionOrigen, Usuario usuarioEnviador, Opinion opinionUsuarioEnviador, RegistroDeValidaciones reg) throws Exception {
+	public Muestra(LocalDateTime fechaCreacion, Ubicacion ubicacionOrigen, Usuario usuarioEnviador, Opinion opinionUsuarioEnviador) throws Exception {
 		this.fechaCreacion = fechaCreacion;
 		this.ubicacionOrigen = ubicacionOrigen;
 		this.usuarioEnviador = usuarioEnviador;
 		this.evaluacionMuestra.procesarOpinion(this, opinionUsuarioEnviador);
-		this.receptor = reg;
+		this.manejador = new ManejadorDeMuestras();
 	}
 	
 	//getters y equals
@@ -44,21 +44,25 @@ public class Muestra {
 		return this.getOpiniones().stream().filter(opinion -> opinion.esUsuarioOpinador(usuario)).toList();
 	}
 	
-	public RegistroDeValidaciones getRegistro() {
-		return this.receptor;
+	public ManejadorDeMuestras getManejador() {
+		return this.manejador;
+	}
+	
+	public void setManejador(ManejadorDeMuestras manejador) {
+		this.manejador = manejador;
 	}
 	
 	public boolean esUsuarioEnviador(Usuario usuario) {
 		return this.usuarioEnviador.equals(usuario);
 	}
 	
+	public boolean esMismaMuestra(Muestra muestra) {
+		return muestra.equals(this);
+	}
+	
 	public boolean generadaEnUltimos(int ultimosDias) {
 		LocalDateTime fechaComienzoValidez = LocalDateTime.now().minusDays(ultimosDias);
 		return this.fechaCreacion.isAfter(fechaComienzoValidez);
-	}
-	
-	public void setReceptor(RegistroDeValidaciones receptor) {
-		this.receptor = receptor;
 	}
 	
 	//Evaluacion de muestra
@@ -82,7 +86,11 @@ public class Muestra {
 		return this.evaluacionMuestra.esVerificada();
 	}
 	
-	protected void enviarMuestraVerificada() {
-		this.receptor.recibirMuestraValidada(this);
+	public void enviarMuestraValidada() {
+		manejador.notificarValidacion(this);
+	}
+	
+	public void agregarObservador(IObserverMuestra io) {
+		manejador.suscribirObservador(io);
 	}
 }
