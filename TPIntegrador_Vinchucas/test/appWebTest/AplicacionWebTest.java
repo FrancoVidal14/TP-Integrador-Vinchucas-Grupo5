@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -15,7 +14,6 @@ import appWeb.Recategorizador;
 import filtroBusqueda.FiltroDeBusqueda;
 import filtroBusqueda.Criterio;
 import muestra.Muestra;
-import muestra.IObserverMuestra;
 import usuario.Usuario;
 import zonaCobertura.Ubicacion;
 import zonaCobertura.ZonaDeCobertura;
@@ -31,10 +29,6 @@ class AplicacionWebTest {
 	    private Ubicacion unq;
 	    private Muestra muestraEnLaUnq, muestraEnLDA;
 	    private ZonaDeCobertura zonaMock1, zonaMock2;
-	    private IObserverMuestra reg;
-		private ArrayList<Muestra> muestras;
-		private ArrayList<ZonaDeCobertura> zonasDeCobertura;
-		private ArrayList<Usuario> usuarios;
 	    
 
     @BeforeEach
@@ -109,6 +103,25 @@ class AplicacionWebTest {
         assertEquals(1, cercanas.size());
         assertTrue(cercanas.contains(muestraEnLDA));
     }
+    
+    @Test
+    void testIncorrectoDeMuestrasCercaDeLaUNQ() {
+    	//creo una muestra fuera del alcance de la muestra en la unq
+    	Muestra muestraMock = mock(Muestra.class);
+    	Ubicacion ubicacionFueraAlcanceUNQ = new Ubicacion(-10.7063, -80.2778);
+    	when(muestraMock.getUbicacion()).thenReturn(ubicacionFueraAlcanceUNQ);
+    	
+        // Registramos ambas muestras en la app
+        appVinchucas.recibirMuestra(muestraEnLaUnq);
+        appVinchucas.recibirMuestra(muestraMock);
+        
+        //guardo la lista de muestras cercanas a la muestra de la unq
+        List<Muestra> cercanas = appVinchucas.muestrasAMenosDe(muestraEnLaUnq, 1);
+
+        // No hay muestras cercanas 
+        assertEquals(0, cercanas.size());
+    }
+    
     @Test
     void testGetMuestrasEnviadasPorFiltraBien() throws Exception {
         Muestra m1 = new Muestra(LocalDateTime.now(), unq, fran, opinionMock);
@@ -156,13 +169,30 @@ class AplicacionWebTest {
     }
     
     @Test
-    void testAgregarZonaCobertura() {
+    void testAñadirZonaCoberturaConMuestrasParaRegistrar() {
+    	appVinchucas.recibirMuestra(muestraEnLaUnq);
         ZonaDeCobertura zonaMock = mock(ZonaDeCobertura.class);
         appVinchucas.añadirZonaDeCobertura(zonaMock);
-
+        //Verificamos que la nueva zona fue añadida
         List<ZonaDeCobertura> zonas = appVinchucas.getZonasDeCobertura();
         assertEquals(3, zonas.size());
         assertTrue(zonas.contains(zonaMock));
+        //Verificamos que recibe el mensaje de registrar a la unica muestra recibida en la appweb
+        verify(zonaMock).registrarMuestraSiCorresponde(muestraEnLaUnq);
+
+    }
+    
+    @Test
+    void testAñadirZonaDeCoberturaSinMuestrasParaRegistrar() {
+        ZonaDeCobertura zonaMock = mock(ZonaDeCobertura.class);
+        appVinchucas.añadirZonaDeCobertura(zonaMock);
+        //Verificamos que la nueva zona fue añadida
+        List<ZonaDeCobertura> zonasActuales = appVinchucas.getZonasDeCobertura();
+        assertEquals(3, zonasActuales.size());
+        assertTrue(zonasActuales.contains(zonaMock));
+
+        // Verificamos que nunca se le llamo porque no hay muestras
+        verify(zonaMock, never()).registrarMuestraSiCorresponde(any(Muestra.class));
     }
     
     @Test
@@ -197,4 +227,22 @@ class AplicacionWebTest {
 
         verify(zonaMock).registrarMuestraSiCorresponde(muestraEnLDA);
     }
+    
+	@Test
+	public void testActualizarUsuariosIncluyeOpinadores() {
+		Muestra muestra = mock(Muestra.class);
+	    Opinion opinion = mock(Opinion.class);
+	    when(opinion.getUsuario()).thenReturn(fran);
+	    when(muestra.getOpiniones()).thenReturn(List.of(opinion));
+	    when(muestra.getUsuario()).thenReturn(dami);
+
+	    appVinchucas.recibirMuestra(muestra);
+	    Set<Usuario> usuarios = appVinchucas.getUsuarios();
+	    
+	    //usuario opinador de la muestra
+	    assertTrue(usuarios.contains(fran));
+	    //usuario enviador de la muestra, registrado cuando se recibe la muestra
+	    assertTrue(usuarios.contains(dami));
+
+	}
 }

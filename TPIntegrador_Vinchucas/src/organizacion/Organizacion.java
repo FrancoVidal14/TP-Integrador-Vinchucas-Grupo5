@@ -45,9 +45,6 @@ public class Organizacion implements NotificadosPorMuestras {
 
 	// Setters
 	public void setUbicacion(Ubicacion ubicacion) {
-		if (ubicacion == null) {
-			throw new IllegalArgumentException("La ubicación no puede ser nula");
-		}
 		this.ubicacion = ubicacion;
 	}
 
@@ -56,9 +53,6 @@ public class Organizacion implements NotificadosPorMuestras {
 	}
 
 	public void setCantEmpleados(int cantEmpleados) {
-		if (cantEmpleados < 0) {
-			throw new IllegalArgumentException("La cantidad de empleados no puede ser negativa");
-		}
 		this.cantEmpleados = cantEmpleados;
 	}
 

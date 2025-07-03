@@ -9,7 +9,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import muestra.Muestra;
-import muestra.IObserverMuestra;
 import usuario.Opinion;
 import usuario.Resultado;
 import usuario.Usuario;
@@ -32,7 +31,6 @@ class muestraTest {
 	Opinion opinionJoaco;
 	Opinion opinionFran;
 	Opinion opinionAlan;
-	private IObserverMuestra reg;
 
 	@BeforeEach
 	void setUp() throws Exception {
@@ -54,8 +52,7 @@ class muestraTest {
 		opinionFran = new Opinion(fecha, fran, resultadoOpFran);
 		opinionAlan = mock(Opinion.class);
 		when(opinionAlan.getUsuario()).thenReturn(alan);
-		reg = mock(IObserverMuestra.class);
-		muestra = new Muestra(fecha, unq, dami, opinionDami, reg);
+		muestra = new Muestra(fecha, unq, dami, opinionDami);
 	}
 
 	@Test
@@ -71,18 +68,6 @@ class muestraTest {
 	@Test
 	void getUbicacionTest() {
 	    assertEquals(unq, muestra.getUbicacion());
-	}
-	
-	@Test
-	void getReceptorTest() {
-	    assertEquals(reg, muestra.getRegistro());
-	}
-	
-	@Test
-	void setReceptorTest() {
-		IObserverMuestra regTest = mock(IObserverMuestra.class);
-		muestra.setReceptor(regTest);
-	    assertEquals(regTest, muestra.getRegistro());
 	}
 	
 	@Test
@@ -192,7 +177,6 @@ class muestraTest {
 		assertTrue(muestra.esMuestraVerificada());
 		assertEquals(resultadoOpJoaco, muestra.resultadoActual()); //como ambos opinan lo mismo, 
 		//el resultado de cualquiera de los dos define el resultado de la muestra verificada
-		verify(reg, times(1)).recibirMuestraValidada(muestra); //al validarse la muestra, se envia al receptor
 		//ya se encuentra validada por lo que no puede procesar opiniones
 		assertThrows(
 	            Exception.class,

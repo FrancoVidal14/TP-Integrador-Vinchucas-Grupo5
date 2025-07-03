@@ -59,23 +59,9 @@ class OrganizacionTest {
     }
 
     @Test
-    void setUbicacionConNullLanzaExcepcion() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            organizacion.setUbicacion(null);
-        });
-    }
-
-    @Test
     void getYSetCantEmpleados() {
         organizacion.setCantEmpleados(100);
         assertEquals(100, organizacion.getCantEmpleados());
-    }
-
-    @Test
-    void setCantEmpleadosNegativoLanzaExcepcion() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            organizacion.setCantEmpleados(-5);
-        });
     }
 
     @Test

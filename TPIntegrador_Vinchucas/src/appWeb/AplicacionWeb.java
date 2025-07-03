@@ -86,7 +86,7 @@ public class AplicacionWeb implements IDatosUsuario, IDatosZonaCobertura {
 		registrarMuestrasDeLaAplicacionALaZonaEntrante(zona);
 	}
 	
-	public void registrarMuestrasDeLaAplicacionALaZonaEntrante(ZonaDeCobertura z) {
+	private void registrarMuestrasDeLaAplicacionALaZonaEntrante(ZonaDeCobertura z) {
 		for(Muestra m : this.muestras) {
 			z.registrarMuestraSiCorresponde(m);
 		}
