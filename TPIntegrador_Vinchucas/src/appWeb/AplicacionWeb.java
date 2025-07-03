@@ -22,7 +22,7 @@ public class AplicacionWeb implements IDatosUsuario, IDatosZonaCobertura {
 	private Recategorizador recategorizador = new Recategorizador(this); 
 
 	// Constructor
-	public AplicacionWeb( FiltroDeBusqueda filtro) {
+	public AplicacionWeb(FiltroDeBusqueda filtro) {
 		this.filtro = filtro;
 	}
 
