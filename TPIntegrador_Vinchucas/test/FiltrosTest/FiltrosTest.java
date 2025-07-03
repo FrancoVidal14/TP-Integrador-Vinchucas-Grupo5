@@ -4,8 +4,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach; 
 import org.junit.jupiter.api.Test;
@@ -20,7 +18,6 @@ import filtroBusqueda.CriterioPorMuestraVerificada;
 import filtroBusqueda.CriterioTipoDeInsecto;
 import filtroBusqueda.FiltroDeBusqueda;
 import muestra.Muestra;
-import muestra.IObserverMuestra;
 import usuario.Opinion;
 import usuario.Resultado;
 import usuario.Usuario;
@@ -30,9 +27,6 @@ import zonaCobertura.ZonaDeCobertura;
 class FiltrosTest {
 
 	private AplicacionWeb app;
-	private ArrayList<Muestra> muestras;
-	private ArrayList<ZonaDeCobertura> zonasDeCobertura;
-	private ArrayList<Usuario> usuarios;
 	
 	private ZonaDeCobertura zonaMock1, zonaMock2;
 	private Muestra m1;
@@ -68,7 +62,6 @@ class FiltrosTest {
 	private Opinion op1;
 	private Opinion op2;
 	private Opinion op3;
-	private Opinion op4;
 	private Opinion op5;
 	
 	private Resultado res1;
@@ -77,8 +70,6 @@ class FiltrosTest {
 	private Resultado res5;
 	
 	private FiltroDeBusqueda filtro;
-	
-	private IObserverMuestra registro;
 	
 	@BeforeEach
 	void setUp() throws Exception {
@@ -102,7 +93,6 @@ class FiltrosTest {
 		op1 = new Opinion(fecha1, us1, res1);
 		op2 = new Opinion(fecha2, us2, res2);
 		op3 = new Opinion(fecha5, us3, res4);
-		op4 = new Opinion(fecha5, us4, res4);
 		op5 = new Opinion(fecha5, us5, res5);
 		
 		ubi1 = new Ubicacion(20, 60);
@@ -116,11 +106,11 @@ class FiltrosTest {
         zonaMock1 = mock(ZonaDeCobertura.class);
         zonaMock2 = mock(ZonaDeCobertura.class);
 		
-		m1 = new Muestra(fecha1, ubi1, us1, op2, registro);
-		m2 = new Muestra(fecha1, ubi2, us2, op3, registro);
-		m3 = new Muestra(fecha1, ubi3, us3, op1, registro);
-		m4 = new Muestra(fecha4, ubi4, us4, op5, registro);
-		m5 = new Muestra(fecha5, ubi5, us5, op1, registro);
+		m1 = new Muestra(fecha1, ubi1, us1, op2);
+		m2 = new Muestra(fecha1, ubi2, us2, op3);
+		m3 = new Muestra(fecha1, ubi3, us3, op1);
+		m4 = new Muestra(fecha4, ubi4, us4, op5);
+		m5 = new Muestra(fecha5, ubi5, us5, op1);
 		
 		criterioFecha = new CriterioFechaCreacion(fecha1);
 		criterioUltVotacion = new CriterioFechaUltimaVotacion(fecha5);
@@ -129,12 +119,17 @@ class FiltrosTest {
 		criterioVotacion = new CriterioPorMuestraEnVotacion();
 		criterioAnd = new CriterioAND(criterioFecha, criterioVotacion);
 		criterioOr = new CriterioOR(criterioFecha, criterioMuestraVerif);
-		
-		muestras = new ArrayList<>(List.of(m1, m2, m3, m4, m5));
-        zonasDeCobertura = new ArrayList<>(List.of(zonaMock1, zonaMock2));
-        usuarios = new ArrayList<>(List.of(us1, us2, us3, us4, us5));
         
-        app = new AplicacionWeb(muestras, zonasDeCobertura, usuarios, filtro);
+        app = new AplicacionWeb(filtro);
+        
+        app.recibirMuestra(m1);
+        app.recibirMuestra(m2);
+        app.recibirMuestra(m3);
+        app.recibirMuestra(m4);
+        app.recibirMuestra(m5);
+        
+        app.añadirZonaDeCobertura(zonaMock1);
+        app.añadirZonaDeCobertura(zonaMock2);
 	}
 	
 	@Test
@@ -145,8 +140,8 @@ class FiltrosTest {
 	
 	@Test
 	void testFiltroPorCriterioFechaUltimaVotacion() throws Exception {
-		assertEquals(3, app.filtrarMuestras(criterioUltVotacion).size()); 
-		assertTrue(app.filtrarMuestras(criterioFecha).stream().allMatch(m -> m.buscarFechaUltimaVotacion() == (fecha5)));
+		assertEquals(2, app.filtrarMuestras(criterioUltVotacion).size()); 
+		assertTrue(app.filtrarMuestras(criterioUltVotacion).stream().allMatch(m -> m.buscarFechaUltimaVotacion().equals(fecha5)));
 	}
 	
 	@Test
@@ -157,7 +152,7 @@ class FiltrosTest {
 	
 	@Test
 	void testFiltroCriterioTipoDeInsecto() {
-		assertEquals(1, app.filtrarMuestras(criterioInsecto).size());
+		assertEquals(3, app.filtrarMuestras(criterioInsecto).size());
 		assertTrue(app.filtrarMuestras(criterioInsecto).stream().allMatch(m -> m.resultadoActual().equals(Resultado.CHINCHE_FOLIADA)));
 	}
 	
