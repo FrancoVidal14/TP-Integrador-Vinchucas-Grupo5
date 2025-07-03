@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 import java.util.List;
+import java.util.Set;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,7 +26,7 @@ class RecategorizadorTest {
 		datos = mock(IDatosUsuario.class);
 		joaco = mock(Usuario.class);
 		fran = mock(Usuario.class);
-		List<Usuario> usuarios = List.of(joaco, fran);
+		Set<Usuario> usuarios = Set.of(joaco, fran);
 		when(datos.getUsuarios()).thenReturn(usuarios);
 		recategorizador = new Recategorizador(datos);
 	}
@@ -43,7 +44,7 @@ class RecategorizadorTest {
 	}
 
 	@Test
-	void testCumpleCondiciones() {
+	void testCumpleTodasLasCondiciones() {
 		Muestra muestraPrueba = mock(Muestra.class);
 
 		// Simula que joaco envió una muestra reciente
@@ -55,5 +56,42 @@ class RecategorizadorTest {
 		// Simula que joaco hizo una revisión exitosa en esa muestra dentro de los 30 días
 		when(muestraPrueba.usuarioHizoRevisionExitosa(joaco, 30)).thenReturn(true);
 		assertTrue(recategorizador.cumpleCondiciones(joaco, 1, 1, 30));
+	}
+	
+	@Test
+	void testNoCumpleNingunaCondiciones() {
+		Muestra muestraPrueba = mock(Muestra.class);
+
+		// Simula que joaco envió una muestra reciente
+		when(datos.getMuestrasEnviadasPor(joaco)).thenReturn(List.of(muestraPrueba));
+
+		// Simula que esa muestra no fue creada recientemente (ej. hace 30 días)
+		when(muestraPrueba.generadaEnUltimos(30)).thenReturn(false);
+
+		// Simula que joaco no hizo una revisión exitosa en esa muestra dentro de los 30 días
+		when(muestraPrueba.usuarioHizoRevisionExitosa(joaco, 30)).thenReturn(false);
+		assertFalse(recategorizador.cumpleCondiciones(joaco, 1, 1, 30));
+	}
+	
+	@Test
+	void testCumpleSoloMuestrasCreadas() {
+		Muestra muestraPrueba = mock(Muestra.class);
+
+		// Simula que joaco envió una muestra reciente
+		when(datos.getMuestrasEnviadasPor(joaco)).thenReturn(List.of(muestraPrueba));
+
+		// Simula que esa muestra fue creada recientemente (ej. hace 30 días)
+		when(muestraPrueba.generadaEnUltimos(30)).thenReturn(true);
+
+		assertFalse(recategorizador.cumpleCondiciones(joaco, 1, 1, 30));
+	}
+	
+	@Test
+	void testCumpleSoloOpinionesExitosas() {
+		Muestra muestraPrueba = mock(Muestra.class);
+
+		// Simula que joaco no hizo una revisión exitosa en esa muestra dentro de los 30 días
+		when(muestraPrueba.usuarioHizoRevisionExitosa(joaco, 30)).thenReturn(false);
+		assertFalse(recategorizador.cumpleCondiciones(joaco, 1, 1, 30));
 	}
 }
