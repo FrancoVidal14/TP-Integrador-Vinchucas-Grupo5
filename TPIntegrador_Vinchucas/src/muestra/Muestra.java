@@ -44,14 +44,6 @@ public class Muestra {
 		return this.getOpiniones().stream().filter(opinion -> opinion.esUsuarioOpinador(usuario)).toList();
 	}
 	
-	public ManejadorDeMuestras getManejador() {
-		return this.manejador;
-	}
-	
-	public void setManejador(ManejadorDeMuestras manejador) {
-		this.manejador = manejador;
-	}
-	
 	public boolean esUsuarioEnviador(Usuario usuario) {
 		return this.usuarioEnviador.equals(usuario);
 	}

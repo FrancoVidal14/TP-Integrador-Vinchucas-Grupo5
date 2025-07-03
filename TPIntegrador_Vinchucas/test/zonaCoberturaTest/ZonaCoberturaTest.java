@@ -36,15 +36,14 @@ public class ZonaCoberturaTest {
         estadioMilan = new Ubicacion(45.4785, 9.1222);           // San Siro
 
         calculador = new CalculoDistancia();
-        notificador = mock(ManejadorDeNotificaciones.class);
         appWebMock = mock(AplicacionWeb.class);
     }
 
     @Test 
     public void testZonasSeSolapanIndependienteYBocaEn5KMCadaUna(){
         // Configuración
-        ZonaDeCobertura zonaIndep = new ZonaDeCobertura("Libertadores de America",estadioIndependiente,5.00, calculador, notificador);
-        ZonaDeCobertura zonaBoca = new ZonaDeCobertura("La bombonera",estadioBoca, 5.00 , calculador, notificador);
+        ZonaDeCobertura zonaIndep = new ZonaDeCobertura("Libertadores de America",estadioIndependiente,5.00, calculador);
+        ZonaDeCobertura zonaBoca = new ZonaDeCobertura("La bombonera",estadioBoca, 5.00 , calculador);
         
         // Ejecución
         double distancia = calculador.calcular(estadioIndependiente, estadioBoca);
@@ -62,7 +61,7 @@ public class ZonaCoberturaTest {
     @Test
     public void testBomboneraDentroDeZonaIndependienteDe8Km(){
         // Configuración
-    	ZonaDeCobertura zonaIndep = new ZonaDeCobertura("Libertadores de America",estadioIndependiente,9, calculador, notificador);
+    	ZonaDeCobertura zonaIndep = new ZonaDeCobertura("Libertadores de America",estadioIndependiente,9, calculador);
         
         //Verificación
         assertTrue(zonaIndep.contiene(estadioBoca));
@@ -71,7 +70,7 @@ public class ZonaCoberturaTest {
     @Test
     public void testEstadioLiverpoolNoEstaDentroDeZonaManchester1KM(){
         // Configuración
-        ZonaDeCobertura zonaManchester = new ZonaDeCobertura("Old Trafford", estadioManchester, 1, calculador, notificador);
+        ZonaDeCobertura zonaManchester = new ZonaDeCobertura("Old Trafford", estadioManchester, 1, calculador);
         
         //Verificación
         assertFalse(zonaManchester.contiene(estadioLiverpool));
@@ -83,7 +82,7 @@ public class ZonaCoberturaTest {
         String nombreEsperado = "San Siro";
         
         // Ejecución
-        ZonaDeCobertura zona = new ZonaDeCobertura(nombreEsperado, estadioMilan, 5.0, calculador, notificador);
+        ZonaDeCobertura zona = new ZonaDeCobertura(nombreEsperado, estadioMilan, 5.0, calculador);
         
         // Verificación
         assertEquals(nombreEsperado, zona.getNombre());
@@ -92,8 +91,8 @@ public class ZonaCoberturaTest {
     @Test
     public void testZonasQueLaSolapanCuandoHaySolapamiento() {
         // Configuración
-        ZonaDeCobertura zonaIndep = new ZonaDeCobertura("Libertadores de America", estadioIndependiente, 5.0, calculador, notificador);
-        ZonaDeCobertura zonaBoca = new ZonaDeCobertura("La Bombonera", estadioBoca, 5.0, calculador, notificador);
+        ZonaDeCobertura zonaIndep = new ZonaDeCobertura("Libertadores de America", estadioIndependiente, 5.0, calculador);
+        ZonaDeCobertura zonaBoca = new ZonaDeCobertura("La Bombonera", estadioBoca, 5.0, calculador);
         
         // Configurar el mock para devolver la lista con la zona de Boca
         when(appWebMock.getZonasDeCobertura()).thenReturn(List.of(zonaBoca));
@@ -109,8 +108,8 @@ public class ZonaCoberturaTest {
     @Test
     public void testZonasQueLaSolapanCuandoNoHaySolapamiento() {
         // Configuración
-        ZonaDeCobertura zonaIndep = new ZonaDeCobertura("Libertadores de America", estadioIndependiente, 5.0, calculador, notificador);
-        ZonaDeCobertura zonaMilan = new ZonaDeCobertura("San Siro", estadioMilan, 5.0, calculador, notificador);
+        ZonaDeCobertura zonaIndep = new ZonaDeCobertura("Libertadores de America", estadioIndependiente, 5.0, calculador);
+        ZonaDeCobertura zonaMilan = new ZonaDeCobertura("San Siro", estadioMilan, 5.0, calculador);
         
         // Configurar el mock para devolver la lista con la zona de Milán
         when(appWebMock.getZonasDeCobertura()).thenReturn(List.of(zonaMilan));
@@ -125,9 +124,9 @@ public class ZonaCoberturaTest {
     @Test
     public void testZonasQueLaSolapanConMultiplesZonas() {
         // Configuración
-        ZonaDeCobertura zonaIndep = new ZonaDeCobertura("Libertadores de America", estadioIndependiente, 10.0, calculador, notificador);
-        ZonaDeCobertura zonaBoca = new ZonaDeCobertura("La Bombonera", estadioBoca, 5.0, calculador, notificador);
-        ZonaDeCobertura zonaManchester = new ZonaDeCobertura("Old Trafford", estadioManchester, 5.0, calculador, notificador);
+        ZonaDeCobertura zonaIndep = new ZonaDeCobertura("Libertadores de America", estadioIndependiente, 10.0, calculador);
+        ZonaDeCobertura zonaBoca = new ZonaDeCobertura("La Bombonera", estadioBoca, 5.0, calculador);
+        ZonaDeCobertura zonaManchester = new ZonaDeCobertura("Old Trafford", estadioManchester, 5.0, calculador);
         
         // Configurar el mock para devolver múltiples zonas
         when(appWebMock.getZonasDeCobertura()).thenReturn(List.of(zonaBoca, zonaManchester));
@@ -142,18 +141,32 @@ public class ZonaCoberturaTest {
     
     @Test
     void testRegistrarMuestra() {
-    	Muestra muestraMock = mock(Muestra.class);
-    	ZonaDeCobertura zonaBoca = new ZonaDeCobertura("La bombonera",estadioBoca, 5.00 , calculador, notificador);
-    	zonaBoca.registrarMuestra(muestraMock);
-    	verify(notificador, times(1)).recibirInformacionDeMuestraRegistrada(muestraMock, zonaBoca);
+        Muestra muestraMock = mock(Muestra.class);
+        notificador = mock(ManejadorDeNotificaciones.class);
+
+        ZonaDeCobertura zonaBoca = new ZonaDeCobertura("La bombonera", estadioBoca, 5.00, calculador);
+        zonaBoca.setManejador(notificador);
+
+        // La muestra está ubicada cerca del estadio, dentro del radio
+        when(muestraMock.getUbicacion()).thenReturn(estadioIndependiente); // a ~4.3km
+
+        zonaBoca.registrarMuestraSiCorresponde(muestraMock);
+
+        verify(notificador).recibirInformacionDeMuestraRegistrada(muestraMock, zonaBoca);
+        verify(muestraMock).agregarObservador(zonaBoca);
     }
     
     @Test
     void testRegistrarValidacionDeMuestra() {
-    	Muestra muestraMock = mock(Muestra.class);
-    	ZonaDeCobertura zonaBoca = new ZonaDeCobertura("La bombonera",estadioBoca, 5.00 , calculador, notificador);
-    	zonaBoca.registrarValidacionDeMuestra(muestraMock);
-    	verify(notificador, times(1)).recibirInformacionDeMuestraValidada(muestraMock, zonaBoca);
+        Muestra muestraMock = mock(Muestra.class);
+        notificador = mock(ManejadorDeNotificaciones.class);
+
+        ZonaDeCobertura zonaBoca = new ZonaDeCobertura("La bombonera", estadioBoca, 5.00, calculador);
+        zonaBoca.setManejador(notificador);
+
+        zonaBoca.recibirMuestraValidada(muestraMock);
+
+        verify(notificador).recibirInformacionDeMuestraValidada(muestraMock, zonaBoca);
     }
     
 }

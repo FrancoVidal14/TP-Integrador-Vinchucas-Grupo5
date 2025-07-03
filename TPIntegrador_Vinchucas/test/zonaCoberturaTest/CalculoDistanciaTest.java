@@ -22,18 +22,19 @@ public class CalculoDistanciaTest {
 
         calculador = new CalculoDistancia();
     }
-
+    
     @Test
-    public void testDistanciaDeIndependienteABoca() {
-        double distancia = calculador.calcular(estadioIndependiente, estadioBoca);
-        assertTrue(distancia > 3.8 && distancia < 4.2);
+    public void testDistanciaDeIndependienteABocaEsAproximadamenteCorrecta() {
+        double distanciaCalculada = calculador.calcular(estadioIndependiente, estadioBoca);
+        double distanciaEsperada = 3.96; // Valor aproximado
+
+        // Usamos assertEquals con un decimal para comparar doubles
+        assertEquals(distanciaEsperada, distanciaCalculada, 0.05);
     }
 
     @Test
     public void testDistanciaEntreMismasUbicacionesEsCero() {
         double distancia = calculador.calcular(estadioIndependiente, estadioIndependiente);
-        assertTrue(distancia == 0.00);
+        assertEquals(0.0, distancia, 0.0001);
     }
-
-
 }

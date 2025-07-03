@@ -72,4 +72,12 @@ class UsuarioTest {
 		dami.recategorizarSiCorresponde(recategorizador, 0, 0, 0); 
 		assertFalse(dami.esExperto()); //pasa a ser basico
 	}
+	
+	@Test
+	void testUsuarioSeMantieneExperto() {
+		assertTrue(dami.esExperto());
+		when(recategorizador.cumpleCondiciones(dami, 0, 0, 0)).thenReturn(true); //dejo 0 porque mockeo
+		dami.recategorizarSiCorresponde(recategorizador, 0, 0, 0); 
+		assertTrue(dami.esExperto()); //sigue siendo experto ya que no incumplio las condiciones
+	}
 }

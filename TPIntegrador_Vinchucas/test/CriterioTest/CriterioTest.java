@@ -1,7 +1,6 @@
 package CriterioTest;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
 
 import java.time.LocalDateTime;
 
@@ -16,7 +15,6 @@ import filtroBusqueda.CriterioPorMuestraEnVotacion;
 import filtroBusqueda.CriterioPorMuestraVerificada;
 import filtroBusqueda.CriterioTipoDeInsecto;
 import muestra.Muestra;
-import muestra.IObserverMuestra;
 import usuario.NivelExpertoValidado;
 import usuario.Opinion;
 import usuario.Resultado;
@@ -61,8 +59,6 @@ class CriterioTest {
 	private Resultado res3;
 	private Resultado res5;
 	
-	private IObserverMuestra registro;
-	
 	@BeforeEach
 	void setUp() throws Exception {
 		
@@ -71,8 +67,6 @@ class CriterioTest {
 		fecha3 = LocalDateTime.of(2022, 6, 8, 8, 15);
 		fecha4 = LocalDateTime.of(2022, 3, 1, 12, 00);
 		fecha5 = LocalDateTime.of(2024, 5, 10, 10, 36);
-		
-		registro = mock(IObserverMuestra.class);
 		
 		criterioFecha = new CriterioFechaCreacion(fecha1);
 		criterioUltVotacion = new CriterioFechaUltimaVotacion(fecha5);
@@ -96,9 +90,9 @@ class CriterioTest {
 		op3 = new Opinion(fecha1, us2, res3);
 		op5 = new Opinion(fecha5, us5, res5);
 		
-		m1 = new Muestra(fecha1, ubi1, us1, op2, registro);
-		m2 = new Muestra(fecha2, ubi2, us2, op3, registro);
-		m4 = new Muestra(fecha4, ubi4, us4, op2, registro);
+		m1 = new Muestra(fecha1, ubi1, us1, op2);
+		m2 = new Muestra(fecha2, ubi2, us2, op3);
+		m4 = new Muestra(fecha4, ubi4, us4, op2);
 		
 	}	
 
@@ -127,7 +121,6 @@ class CriterioTest {
 	@Test
 	void testCumpleCriterioMuestraVerificada() throws Exception {
 		m2.procesarOpinion(op1);
-		verify(m2.getRegistro(), times(1)).recibirMuestraValidada(m2);
 		assertTrue(criterioMuestraVerif.cumpleMuestra(m2));
 	}
 	
